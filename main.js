@@ -208,10 +208,24 @@ function armarFiltros() {
   filtros.replaceChildren();
   ["Todos", ...new Set(PROYECTOS.flatMap((p) => p.categorias))].forEach(
     (c, i) => {
-      const b = Object.assign(document.createElement("button"), {
+      const cantidad =
+        c === "Todos"
+          ? PROYECTOS.length
+          : PROYECTOS.filter((p) => p.categorias.includes(c)).length;
+      const b = document.createElement("button");
+      b.type = "button";
+      b.dataset.category = c;
+      b.setAttribute("aria-label", `${c}: ${cantidad} proyectos`);
+      const nombre = Object.assign(document.createElement("span"), {
+        className: "filter-name",
         textContent: c,
-        type: "button",
       });
+      const cuenta = Object.assign(document.createElement("span"), {
+        className: "filter-count",
+        textContent: cantidad,
+      });
+      cuenta.setAttribute("aria-hidden", "true");
+      b.append(nombre, cuenta);
       b.setAttribute("aria-pressed", i === 0);
       b.addEventListener("click", () => {
         filtros
@@ -313,7 +327,7 @@ function restaurar() {
       const g = JSON.parse(localStorage.getItem(KEY) || "{}");
       if (g.cat && g.cat !== "Todos")
         [...filtros.querySelectorAll("button")]
-          .find((b) => b.textContent === g.cat)
+          .find((b) => b.dataset.category === g.cat)
           ?.click();
       requestAnimationFrame(() =>
         scrollTo({ top: g.y || 0, behavior: "instant" }),

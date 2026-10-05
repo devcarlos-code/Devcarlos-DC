@@ -978,3 +978,105 @@ section { scroll-margin-top: 105px; }
   .xp-bar-wrap { padding: 3px 16px 5px; }
   section { scroll-margin-top: 88px; }
 }
+
+/* Project filters — readable, countable and touch-friendly */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  max-width: 100%;
+  padding: 7px;
+  margin-bottom: 28px;
+  border: 1px solid rgba(0, 170, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(2, 10, 28, 0.62);
+  -webkit-backdrop-filter: blur(14px) saturate(135%);
+  backdrop-filter: blur(14px) saturate(135%);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18), inset 0 1px rgba(255, 255, 255, 0.035);
+}
+
+.filters button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 40px;
+  padding: 7px 13px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background: transparent;
+  color: #82a9c3;
+  font: 600 0.72rem var(--f-hud);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition:
+    color 0.22s ease,
+    border-color 0.22s ease,
+    background 0.22s ease,
+    box-shadow 0.22s ease,
+    transform 0.22s var(--ease);
+}
+
+.filters button:hover {
+  color: var(--text-bright);
+  border-color: rgba(0, 200, 255, 0.28);
+  background: rgba(0, 170, 255, 0.08);
+  box-shadow: inset 0 0 16px rgba(0, 170, 255, 0.06);
+  transform: translateY(-1px);
+}
+
+.filters button[aria-pressed="true"] {
+  color: #fff;
+  border-color: rgba(80, 220, 255, 0.68);
+  background: linear-gradient(135deg, rgba(0, 120, 205, 0.76), rgba(0, 190, 245, 0.38));
+  box-shadow:
+    0 0 16px rgba(0, 170, 255, 0.2),
+    inset 0 0 12px rgba(100, 230, 255, 0.09);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.45);
+}
+
+.filter-count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 5px;
+  border: 1px solid rgba(130, 185, 220, 0.18);
+  border-radius: 4px;
+  background: rgba(0, 7, 18, 0.55);
+  color: #9abbd0;
+  font: 600 0.62rem var(--f-hud);
+  letter-spacing: 0;
+  transition:
+    color 0.22s ease,
+    border-color 0.22s ease,
+    background 0.22s ease;
+}
+
+.filters button[aria-pressed="true"] .filter-count {
+  border-color: rgba(151, 239, 255, 0.42);
+  background: rgba(0, 13, 28, 0.4);
+  color: #dffbff;
+}
+
+@media (max-width: 480px) {
+  .filters {
+    width: 100%;
+    gap: 5px;
+    padding: 6px;
+  }
+
+  .filters button {
+    flex: 1 1 auto;
+    gap: 7px;
+    min-height: 42px;
+    padding-inline: 10px;
+    font-size: 0.66rem;
+    letter-spacing: 0.07em;
+  }
+}
