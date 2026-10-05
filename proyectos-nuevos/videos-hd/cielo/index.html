@@ -1,28 +1,51 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Goku X Dragón Ball </title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <!-- Pantalla de inicio -->
-  <div id="inicio">
-    <h1>Bienvenido</h1>
-    <button id="btnEntrar">Entrar</button>
-  </div>
-
-  <!-- Contenedor del video -->
-  <div id="videoContainer">
-    <video id="miVideo" autoplay muted loop>
-      <source src="item5.mp4" type="video/mp4">
-    </video>
-    <!-- Audio aparte -->
-    <audio id="miAudio" loop>
-      <source src="item5.mp4" type="audio/mp3">
-    </audio>
-  </div>
-
-  <script src="main.js"></script>
-</body>
-</html> 
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Un clip de anime de ambiente sereno, con cielos cálidos y paisajes llenos de color."
+    />
+    <meta name="theme-color" content="#080b12" />
+    <title>Cielo — Anime edit | DevCarlos</title>
+    <link rel="stylesheet" href="../video-pages.css" />
+  </head>
+  <body data-theme="cielo">
+    <header class="site-header">
+      <a class="brand" href="../../../index.html#proyectos" aria-label="DevCarlos, volver a proyectos">
+        <span class="brand-mark" aria-hidden="true">DC</span>
+        <span>DEVCARLOS</span>
+      </a>
+      <a class="back-link" href="../../../index.html#proyectos">Volver al portafolio</a>
+    </header>
+    <main>
+      <section class="welcome" id="welcome" aria-labelledby="page-title">
+        <p class="eyebrow">Video destacado · 02</p>
+        <h1 id="page-title">Cielo</h1>
+        <p class="description">
+          Un clip de anime de ambiente sereno, con cielos cálidos y paisajes llenos de color.
+        </p>
+        <div class="welcome-footer">
+          <button class="play-button" id="play-video" type="button">
+            <span class="play-icon" aria-hidden="true">▶</span>
+            <span>Ver video</span>
+          </button>
+          <span class="hint">Activa el sonido y disfruta el clip.</span>
+        </div>
+      </section>
+      <section class="player-panel" id="player-panel" aria-label="Reproductor de Cielo" hidden>
+        <div class="player-topline">
+          <h2 class="player-title">Cielo</h2>
+          <span class="live-label" id="playback-label">Listo para reproducir</span>
+        </div>
+        <video id="video" controls playsinline preload="metadata" loop>
+          <source src="item5.mp4" type="video/mp4" />
+          Tu navegador no admite la reproducción de video HTML5.
+        </video>
+        <p class="playback-status" id="playback-status" role="status" aria-live="polite"></p>
+      </section>
+    </main>
+    <script src="../video-player.js" defer></script>
+  </body>
+</html>

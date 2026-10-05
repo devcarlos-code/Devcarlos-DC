@@ -76,8 +76,8 @@
     ]
   },
   {
-    "titulo": "Anime: Abusadora",
-    "descripcion": "Página de videos de anime en HD.",
+    "titulo": "Abusadora",
+    "descripcion": "Edición de anime con ritmo intenso, una escena impactante y toda la acción en formato vertical.",
     "imagen": "assets/img/4.jpg",
     "ruta": "proyectos-nuevos/videos-hd/abusadora/index.html",
     "categorias": [
@@ -85,8 +85,8 @@
     ]
   },
   {
-    "titulo": "Anime: Cielo",
-    "descripcion": "Página de videos de anime en HD.",
+    "titulo": "Cielo",
+    "descripcion": "Clip de anime de ambiente sereno, con cielos cálidos y paisajes llenos de color.",
     "imagen": "assets/img/5.jpg",
     "ruta": "proyectos-nuevos/videos-hd/cielo/index.html",
     "categorias": [
@@ -94,8 +94,8 @@
     ]
   },
   {
-    "titulo": "Anime: Cuervos",
-    "descripcion": "Página de videos de anime en HD.",
+    "titulo": "Cuervos",
+    "descripcion": "Edición de anime de acción con energía, tensión y una puesta en escena vibrante.",
     "imagen": "assets/img/6.jpg",
     "ruta": "proyectos-nuevos/videos-hd/cuervos/index.html",
     "categorias": [
@@ -103,8 +103,8 @@
     ]
   },
   {
-    "titulo": "Anime: Dragon",
-    "descripcion": "Página de videos de anime en HD.",
+    "titulo": "Dragón",
+    "descripcion": "Clip de anime de tono oscuro y cinematográfico, presentado en formato vertical.",
     "imagen": "assets/img/7.jpg",
     "ruta": "proyectos-nuevos/videos-hd/dragon/index.html",
     "categorias": [
@@ -112,8 +112,8 @@
     ]
   },
   {
-    "titulo": "Anime: Itachi",
-    "descripcion": "Página de videos de anime en HD.",
+    "titulo": "Itachi bajo las estrellas",
+    "descripcion": "Retrato visual de Itachi en una escena serena y nocturna, bajo un cielo estrellado.",
     "imagen": "assets/img/8.jpg",
     "ruta": "proyectos-nuevos/videos-hd/itachi/index.html",
     "categorias": [
