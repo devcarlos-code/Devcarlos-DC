@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Para ti</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;height:100%;background:#000;overflow:hidden}
+canvas{display:block;width:100%;height:100%}
+#go{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);padding:12px 28px;border:0;border-radius:30px;background:#e0485f;color:#fff;font:700 15px system-ui,sans-serif;letter-spacing:1px;cursor:pointer;box-shadow:0 0 25px #e0485f99;transition:opacity .6s}
+#msg{position:fixed;left:0;right:0;bottom:calc(10% + env(safe-area-inset-bottom,0px));text-align:center;color:#ff8fa3;font:italic 300 clamp(20px,5.5vw,34px) Georgia,serif;padding:0 24px;opacity:0;transition:opacity 2.5s;text-shadow:0 0 12px #e0485f}
+#msg.show{opacity:1}
+#open{position:fixed;left:50%;bottom:calc(3% + env(safe-area-inset-bottom,0px));transform:translateX(-50%);padding:10px 24px;border:1px solid #ff8fa3;border-radius:30px;background:#0008;color:#ff8fa3;font:600 14px system-ui,sans-serif;letter-spacing:1px;cursor:pointer;opacity:0;pointer-events:none;transition:opacity 2s}
+#open.show{opacity:1;pointer-events:auto}
+#letter{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 50% 40%,#3a0a18cc,#000000ee);backdrop-filter:blur(6px);opacity:0;pointer-events:none;transition:opacity 1s;padding:calc(20px + env(safe-area-inset-top,0px)) 20px calc(20px + env(safe-area-inset-bottom,0px));box-sizing:border-box;overflow-y:auto}
+#letter.show{opacity:1;pointer-events:auto}
+#letter .in{position:relative;width:100%;max-width:400px;margin:auto;padding:44px 30px 30px;text-align:center;border-radius:22px;border:1px solid #ff8fa355;background:linear-gradient(160deg,#2a0a14,#12040a);box-shadow:0 0 50px #e0485f44,inset 0 0 30px #e0485f12;color:#ffe3e8;font:400 clamp(19px,5vw,22px)/1.6 'Cormorant Garamond',Georgia,serif;transform:scale(.94);transition:transform 1s}
+#letter.show .in{transform:none}
+#letter .in:before{content:"♥";position:absolute;top:-20px;left:50%;transform:translateX(-50%);width:40px;height:40px;line-height:40px;border-radius:50%;background:#e0485f;color:#fff;font-size:18px;box-shadow:0 0 20px #e0485f}
+#letter p{margin:0 0 16px;opacity:0;transform:translateY(8px);transition:opacity 1.5s,transform 1.5s}
+#letter p.v{opacity:1;transform:none}
+#letter .h{font:700 1.7em 'Dancing Script',cursive;color:#ff8fa3}
+#letter .f{font:700 1.5em 'Dancing Script',cursive;color:#ff8fa3;margin-bottom:0}
+#close{margin:22px auto 0;padding:8px 22px;border:1px solid #ff8fa366;border-radius:30px;background:none;color:#ff8fa3;font:600 12px system-ui,sans-serif;letter-spacing:1px;cursor:pointer}
+#go.hide{opacity:0;pointer-events:none}
+</style></head><body>
+<canvas id="c"></canvas>
+<div id="msg">Y entre todas las estrellas, te escogí a ti.</div>
+<button id="open">✉ ABRIR CARTA</button>
+<div id="letter"><div class="in" id="paper"></div></div>
+<button id="go">♥ INICIAR</button>
+<script>
+const FRASES=["Eres mi calma","Mi persona favorita","Contigo es mi hogar","Mi razón de sonreír"];
+const c=document.getElementById('c'),x=c.getContext('2d'),N=2600,R=Math.random;
+let W,H,P=[],F=0,pulse=false,started=false,shock=null;
+function size(){const d=devicePixelRatio||1;W=innerWidth;H=innerHeight;c.width=W*d;c.height=H*d;x.setTransform(d,0,0,d,0,0)}
+addEventListener('resize',size);size();
+for(let i=0;i<N;i++)P.push({x:R()*W,y:R()*H,vx:(R()-.5)*.2,vy:(R()-.5)*.2,tx:null,ty:null,bx:0,by:0,r:R()*1.2+.4,k:0,ph:R()*6.28,red:0,g:0,ax:0,rot:0,grow:1,drag:.985,ease:.07,st:0,spin:false});
+function textPts(t){
+  const o=document.createElement('canvas');o.width=W;o.height=H;const g=o.getContext('2d');
+  const fs=Math.min(150,Math.max(W*0.09,52));g.font='800 '+fs+'px system-ui,sans-serif';
+  g.textAlign='center';g.textBaseline='middle';g.fillStyle='#fff';
+  const L=[];let ln='';for(const w of t.split(' ')){const tt=ln?ln+' '+w:w;if(g.measureText(tt).width>W*.9&&ln){L.push(ln);ln=w}else ln=tt}L.push(ln);
+  L.forEach((l,i)=>g.fillText(l,W/2,H/2+(i-(L.length-1)/2)*fs*1.15));
+  const d=g.getImageData(0,0,W,H).data,pts=[],st=3;
+  for(let j=0;j<H;j+=st)for(let i=0;i<W;i+=st)if(d[(j*W+i)*4+3]>128)pts.push([i,j]);
+  return pts}
+function heartPts(){
+  const s=Math.min(W,H)/38,ks=[1,.72,.47,.24],pts=[];
+  for(let i=0;i<N;i++){const k=ks[i%4],t=Math.random()*6.2832;
+    pts.push([W/2+16*Math.pow(Math.sin(t),3)*s*k,H/2-(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t))*s*k-s*2])}
+  return pts}
+const CARTA=[
+ ["h","Mi niña,"],
+ ["","Contigo descubrí que la calma existe y que el hogar a veces es una persona."],
+ ["","Gracias por ser mi lugar favorito. Te elijo hoy y todos los días."],
+ ["f","Tuyo siempre ♥"]];
+const paper=document.getElementById('paper'),letter=document.getElementById('letter'),openB=document.getElementById('open');
+paper.innerHTML=CARTA.map(([c,t])=>`<p class="${c}">${t}</p>`).join('')+'<button id="close">Cerrar</button>';
+openB.onclick=()=>{openB.classList.remove('show');letter.classList.add('show');letter.scrollTop=0;
+ [...paper.querySelectorAll('p')].forEach((p,i)=>{p.classList.remove('v');setTimeout(()=>p.classList.add('v'),500+i*1500)})};
+document.getElementById('close').onclick=()=>{letter.classList.remove('show');openB.classList.add('show')};
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+function setT(pts){pulse=false;P.forEach(p=>{const q=pts[Math.floor(R()*pts.length)];p.bx=q[0];p.by=q[1];p.tx=q[0];p.ty=q[1];p.red=1;p.g=0;p.ax=0;p.rot=0;p.grow=1;p.drag=.985;p.ease=.05+R()*.06;p.spin=false;p.st=F})}
+function toText(t,mode){setT(textPts(t));
+ P.forEach(p=>{
+  if(mode==='spiral'){p.spin=true;p.ease=.025+R()*.035}
+  else if(mode==='burst'){p.x=W/2+(R()-.5)*10;p.y=H/2+(R()-.5)*10;const a=R()*6.283,s=10+R()*26;p.vx=Math.cos(a)*s;p.vy=Math.sin(a)*s;p.ease=.04+R()*.05}
+  else if(mode==='left'){p.x=-R()*W*.5-30;p.y=p.by+(R()-.5)*60;p.vx=0;p.vy=0;p.st=F+p.bx/W*45;p.ease=.07+R()*.05}
+  else if(mode==='heart'){p.ease=.035+R()*.03}})}
+function explode(sp){shock={r:0,a:1};P.forEach(p=>{p.tx=null;p.bx=p.by=0;const a=Math.atan2(p.y-H/2,p.x-W/2)+(R()-.5)*.5,s=(sp*.25)+R()*sp;p.vx=Math.cos(a)*s;p.vy=Math.sin(a)*s;p.drag=.962;p.g=0;p.ax=0;p.rot=0;p.grow=1})}
+function exit(t){
+ if(t==='swirl')P.forEach(p=>{p.tx=null;p.bx=p.by=0;p.vx=p.vy=0;p.rot=.05+R()*.05;p.grow=1.003;p.drag=.99});
+ else if(t==='implode')P.forEach(p=>{p.bx=p.by=0;p.tx=W/2;p.ty=H/2;p.ease=.09+R()*.05;p.spin=true;p.st=F});
+ else if(t==='sweep')P.forEach(p=>{p.tx=null;p.bx=p.by=0;p.vx=0;p.vy=0;p.ax=.5+R()*.9;p.drag=1;p.rot=0;p.grow=1})}
+async function run(){
+ explode(18);await wait(900);
+ toText(FRASES[0],'spiral');await wait(3600);
+ exit('swirl');await wait(1000);
+ toText(FRASES[1],'spiral');await wait(3600);
+ exit('implode');await wait(850);
+ toText(FRASES[2],'burst');await wait(3600);
+ exit('sweep');await wait(650);
+ toText(FRASES[3],'left');await wait(3600);
+ explode(36);await wait(750);
+ setT(heartPts());P.forEach(p=>p.ease=.035+R()*.03);pulse=true;await wait(2200);
+ document.getElementById('msg').classList.add('show');await wait(2500);openB.classList.add('show')}
+document.getElementById('go').onclick=function(){this.classList.add('hide');started=true;run()};
+let T=0;
+(function loop(){
+  T+=.03;F++;x.globalCompositeOperation='source-over';x.fillStyle='rgba(0,0,0,.22)';x.fillRect(0,0,W,H);
+  if(shock){x.strokeStyle=`rgba(255,90,120,${shock.a})`;x.lineWidth=3;x.beginPath();x.arc(W/2,H/2,shock.r,0,6.283);x.stroke();shock.r+=28;shock.a-=.025;if(shock.a<=0)shock=null}
+  const sc=pulse?1+.045*Math.pow(Math.max(0,Math.sin(T*4)),3):1,cx=W/2,cy=H/2;
+  x.globalCompositeOperation='lighter';
+  for(const p of P){
+    if(p.tx!==null){
+      if(p.bx||p.by){p.tx=cx+(p.bx-cx)*sc;p.ty=cy+(p.by-cy)*sc}
+      if(F>=p.st){
+        if(p.spin){const dx=p.x-p.tx,dy=p.y-p.ty,d=Math.hypot(dx,dy),a=.05*Math.min(1,d/250),co=Math.cos(a),si=Math.sin(a);p.x=p.tx+dx*co-dy*si;p.y=p.ty+dx*si+dy*co}
+        p.x+=(p.tx-p.x)*p.ease+p.vx+(R()-.5)*.6;p.y+=(p.ty-p.y)*p.ease+p.vy+(R()-.5)*.6;p.vx*=.9;p.vy*=.9}}
+    else{
+      if(p.rot){const dx=p.x-cx,dy=p.y-cy,co=Math.cos(p.rot),si=Math.sin(p.rot);p.x=cx+(dx*co-dy*si)*p.grow;p.y=cy+(dx*si+dy*co)*p.grow}
+      p.vy+=p.g;p.vx+=p.ax;p.x+=p.vx;p.y+=p.vy;p.vx*=p.drag;p.vy*=p.drag;
+      if(!started){if(Math.abs(p.vx)<.2)p.vx+=(R()-.5)*.05;if(Math.abs(p.vy)<.2)p.vy+=(R()-.5)*.05;
+        if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0}}
+    p.k+=(p.red-p.k)*.05;
+    const a=p.tx!==null?1:(started?.9:.4+.6*Math.abs(Math.sin(T+p.ph)));
+    x.fillStyle=`rgba(255,${255-p.k*190|0},${255-p.k*170|0},${a})`;
+    x.fillRect(p.x,p.y,p.r+p.k*.6,p.r+p.k*.6)}
+  requestAnimationFrame(loop)})();
+</script></body></html>
