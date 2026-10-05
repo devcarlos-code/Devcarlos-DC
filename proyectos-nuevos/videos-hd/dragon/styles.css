@@ -1,0 +1,46 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  font-family: Arial, sans-serif;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Pantalla de inicio */
+#inicio {
+  text-align: center;
+  color: white;
+}
+
+#inicio button {
+  padding: 15px 30px;
+  font-size: 20px;
+  border: none;
+  border-radius: 8px;
+  background: orange;
+  color: black;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#inicio button:hover {
+  background: gold;
+}
+
+/* Video fullscreen */
+#videoContainer {
+  display: none; /* oculto al inicio */
+}
+
+video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

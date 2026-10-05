@@ -1,0 +1,123 @@
+[
+  {
+    "titulo": "Sistema solar 3D",
+    "descripcion": "Planetas animados, estrellas, música y controles para explorar el espacio.",
+    "imagen": "assets/img/3.jpg",
+    "ruta": "proyectos-nuevos/sistema-solar/index.html",
+    "categorias": [
+      "Interactivos"
+    ]
+  },
+  {
+    "titulo": "love-you",
+    "descripcion": "Frases de neón que aparecen al hacer scroll, con música.",
+    "imagen": "assets/img/2.jpg",
+    "ruta": "proyectos-nuevos/love-you/index.html",
+    "categorias": [
+      "Románticos"
+    ]
+  },
+  {
+    "titulo": "Para ti",
+    "descripcion": "Un corazón que se dibuja poco a poco y termina con una frase, entre estrellas y cometas.",
+    "imagen": "assets/img/1.jpg",
+    "ruta": "proyectos-nuevos/para-ti/index.html",
+    "categorias": [
+      "Románticos"
+    ]
+  },
+  {
+    "titulo": "Carta sellada",
+    "descripcion": "Carta de amor medieval: sobre con sello de cera, texto escrito letra por letra y sonidos generados por código.",
+    "imagen": "assets/img/9.jpg",
+    "ruta": "proyectos-nuevos/cartav1/index.html",
+    "categorias": [
+      "Interactivos",
+      "Románticos"
+    ]
+  },
+  {
+    "titulo": "Un mensaje especial",
+    "descripcion": "Carta interactiva para descubrir y leer un mensaje especial.",
+    "imagen": "assets/img/carta-especial.svg",
+    "ruta": "proyectos-nuevos/Cartav2/index.html",
+    "categorias": [
+      "Interactivos",
+      "Románticos"
+    ]
+  },
+  {
+    "titulo": "Mi galaxia",
+    "descripcion": "Galaxia interactiva en 3D con frases de cariño y música.",
+    "imagen": "assets/img/mi-galaxia.svg",
+    "ruta": "proyectos-nuevos/feliz primavera/index.html",
+    "categorias": [
+      "Interactivos",
+      "Románticos"
+    ]
+  },
+  {
+    "titulo": "Feliz día de las flores amarillas",
+    "descripcion": "Galaxia 3D animada para celebrar el Día de las Flores Amarillas.",
+    "imagen": "assets/img/flores-amarillas.svg",
+    "ruta": "proyectos-nuevos/universo-de-flores-amarillas/index.html",
+    "categorias": [
+      "Interactivos",
+      "Románticos"
+    ]
+  },
+  {
+    "titulo": "1 de octubre",
+    "descripcion": "Experiencia interactiva con pantalla de bienvenida y audio antes de entrar.",
+    "imagen": "assets/img/octubre.svg",
+    "ruta": "proyectos-nuevos/videos-hd/1-de-octubre/index.html",
+    "categorias": [
+      "Interactivos"
+    ]
+  },
+  {
+    "titulo": "Anime: Abusadora",
+    "descripcion": "Página de videos de anime en HD.",
+    "imagen": "assets/img/4.jpg",
+    "ruta": "proyectos-nuevos/videos-hd/abusadora/index.html",
+    "categorias": [
+      "Videos"
+    ]
+  },
+  {
+    "titulo": "Anime: Cielo",
+    "descripcion": "Página de videos de anime en HD.",
+    "imagen": "assets/img/5.jpg",
+    "ruta": "proyectos-nuevos/videos-hd/cielo/index.html",
+    "categorias": [
+      "Videos"
+    ]
+  },
+  {
+    "titulo": "Anime: Cuervos",
+    "descripcion": "Página de videos de anime en HD.",
+    "imagen": "assets/img/6.jpg",
+    "ruta": "proyectos-nuevos/videos-hd/cuervos/index.html",
+    "categorias": [
+      "Videos"
+    ]
+  },
+  {
+    "titulo": "Anime: Dragon",
+    "descripcion": "Página de videos de anime en HD.",
+    "imagen": "assets/img/7.jpg",
+    "ruta": "proyectos-nuevos/videos-hd/dragon/index.html",
+    "categorias": [
+      "Videos"
+    ]
+  },
+  {
+    "titulo": "Anime: Itachi",
+    "descripcion": "Página de videos de anime en HD.",
+    "imagen": "assets/img/8.jpg",
+    "ruta": "proyectos-nuevos/videos-hd/itachi/index.html",
+    "categorias": [
+      "Videos"
+    ]
+  }
+]

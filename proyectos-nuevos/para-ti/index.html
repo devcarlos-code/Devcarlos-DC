@@ -1,0 +1,1447 @@
+<!doctype html>
+<html lang="es">
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>✨ Para Ti ✨</title>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link
+         href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Great+Vibes&display=swap"
+         rel="stylesheet"
+      />
+      <style>
+         /* ══════════════════════════════════════════════
+           RESET & BASE
+           ══════════════════════════════════════════════ */
+         *,
+         *::before,
+         *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+         }
+
+         html,
+         body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            cursor: default;
+         }
+
+         body {
+            background: radial-gradient(
+               ellipse at bottom,
+               #1b2735 0%,
+               #090a0f 100%
+            );
+            font-family: "Dancing Script", cursive;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+         }
+
+         /* ══════════════════════════════════════════════
+           CANVAS — STAR FIELD
+           ══════════════════════════════════════════════ */
+         #starCanvas {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+         }
+
+         /* ══════════════════════════════════════════════
+           CONSTELLATION CANVAS
+           ══════════════════════════════════════════════ */
+         #constellationCanvas {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+         }
+
+         /* ══════════════════════════════════════════════
+           CURSOR PARTICLES CANVAS
+           ══════════════════════════════════════════════ */
+         #particleCanvas {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 4;
+            pointer-events: none;
+         }
+
+         /* ══════════════════════════════════════════════
+           SHOOTING STAR
+           ══════════════════════════════════════════════ */
+         .shooting-star {
+            position: fixed;
+            width: 4px;
+            height: 4px;
+            background: #fff;
+            border-radius: 50%;
+            box-shadow:
+               0 0 6px 2px rgba(255, 255, 255, 0.9),
+               0 0 12px 4px rgba(105, 155, 255, 0.6),
+               0 0 20px 8px rgba(105, 155, 255, 0.3);
+            z-index: 2;
+            opacity: 0;
+            pointer-events: none;
+         }
+
+         .shooting-star.active {
+            animation: shootingStar 1.2s ease-in forwards;
+         }
+
+         .shooting-star::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            right: 100%;
+            transform: translateY(-50%);
+            width: 120px;
+            height: 2px;
+            background: linear-gradient(
+               to left,
+               rgba(255, 255, 255, 0.8),
+               transparent
+            );
+            border-radius: 50%;
+         }
+
+         @keyframes shootingStar {
+            0% {
+               opacity: 1;
+               transform: translate(0, 0) rotate(-35deg);
+            }
+
+            70% {
+               opacity: 1;
+            }
+
+            100% {
+               opacity: 0;
+               transform: translate(-600px, 350px) rotate(-35deg);
+            }
+         }
+
+         /* ══════════════════════════════════════════════
+           TYPEWRITER MESSAGE (inside heart)
+           ══════════════════════════════════════════════ */
+         .typewriter-container {
+            position: fixed;
+            z-index: 3;
+            top: calc(50% - 30px);
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            max-width: min(230px, 58vw);
+            padding: 0.5rem;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 1.5s ease;
+         }
+
+         .typewriter-container.visible {
+            opacity: 1;
+         }
+
+         .typewriter-text {
+            font-family: "Great Vibes", cursive;
+            font-size: clamp(0.95rem, 3.1vw, 1.5rem);
+            line-height: 1.35;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow:
+               0 0 10px rgba(255, 180, 220, 0.6),
+               0 0 25px rgba(255, 150, 200, 0.3),
+               0 0 40px rgba(200, 150, 255, 0.15);
+         }
+
+         .typewriter-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.2em;
+            background: rgba(255, 200, 220, 0.9);
+            margin-left: 3px;
+            vertical-align: text-bottom;
+            animation: blink 0.7s step-end infinite;
+         }
+
+         .typewriter-cursor.hidden {
+            display: none;
+         }
+
+         @keyframes blink {
+            0%,
+            100% {
+               opacity: 1;
+            }
+
+            50% {
+               opacity: 0;
+            }
+         }
+
+         /* ══════════════════════════════════════════════
+           NEBULOSAS DE FONDO (más profundidad y color)
+           ══════════════════════════════════════════════ */
+         .nebula {
+            position: fixed;
+            border-radius: 50%;
+            z-index: 0;
+            pointer-events: none;
+            filter: blur(40px);
+            mix-blend-mode: screen;
+            opacity: 0.55;
+         }
+
+         .nebula-1 {
+            width: 60vw;
+            height: 60vw;
+            max-width: 500px;
+            max-height: 500px;
+            top: 8%;
+            left: -15%;
+            background: radial-gradient(
+               circle,
+               rgba(150, 90, 220, 0.35) 0%,
+               transparent 70%
+            );
+            animation: nebulaDrift1 22s ease-in-out infinite;
+         }
+
+         .nebula-2 {
+            width: 70vw;
+            height: 70vw;
+            max-width: 600px;
+            max-height: 600px;
+            bottom: -10%;
+            right: -20%;
+            background: radial-gradient(
+               circle,
+               rgba(255, 120, 170, 0.3) 0%,
+               transparent 70%
+            );
+            animation: nebulaDrift2 26s ease-in-out infinite;
+         }
+
+         .nebula-3 {
+            width: 45vw;
+            height: 45vw;
+            max-width: 380px;
+            max-height: 380px;
+            top: 55%;
+            left: 60%;
+            background: radial-gradient(
+               circle,
+               rgba(90, 150, 255, 0.25) 0%,
+               transparent 70%
+            );
+            animation: nebulaDrift3 18s ease-in-out infinite;
+         }
+
+         @keyframes nebulaDrift1 {
+            0%,
+            100% {
+               transform: translate(0, 0) scale(1);
+            }
+
+            50% {
+               transform: translate(4%, 6%) scale(1.15);
+            }
+         }
+
+         @keyframes nebulaDrift2 {
+            0%,
+            100% {
+               transform: translate(0, 0) scale(1);
+            }
+
+            50% {
+               transform: translate(-5%, -4%) scale(1.1);
+            }
+         }
+
+         @keyframes nebulaDrift3 {
+            0%,
+            100% {
+               transform: translate(0, 0) scale(1);
+            }
+
+            50% {
+               transform: translate(-6%, 5%) scale(1.2);
+            }
+         }
+
+         /* ══════════════════════════════════════════════
+           INTRO HEADER (título antes de Ingresar)
+           ══════════════════════════════════════════════ */
+         .intro-header {
+            position: fixed;
+            top: 22%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 5;
+            text-align: center;
+            transition:
+               opacity 0.8s ease,
+               transform 0.8s ease;
+         }
+
+         .intro-header.hidden {
+            opacity: 0;
+            transform: translate(-50%, -50%) translateY(-10px);
+            pointer-events: none;
+         }
+
+         .intro-title {
+            font-family: "Great Vibes", cursive;
+            font-size: clamp(2.2rem, 8vw, 3rem);
+            color: #fff;
+            text-shadow:
+               0 0 12px rgba(255, 180, 220, 0.7),
+               0 0 28px rgba(200, 150, 255, 0.35);
+            animation: introGlow 3s ease-in-out infinite;
+         }
+
+         .intro-subtitle {
+            margin-top: 0.4rem;
+            font-family: "Dancing Script", cursive;
+            font-size: 1.05rem;
+            color: rgba(255, 255, 255, 0.55);
+            letter-spacing: 0.5px;
+         }
+
+         @keyframes introGlow {
+            0%,
+            100% {
+               text-shadow:
+                  0 0 12px rgba(255, 180, 220, 0.6),
+                  0 0 28px rgba(200, 150, 255, 0.3);
+            }
+
+            50% {
+               text-shadow:
+                  0 0 18px rgba(255, 180, 220, 0.9),
+                  0 0 40px rgba(200, 150, 255, 0.5);
+            }
+         }
+
+         /* ══════════════════════════════════════════════
+           ENTER BUTTON (gesto de usuario para desbloquear audio)
+           ══════════════════════════════════════════════ */
+         .enter-btn {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 5;
+            font-family: "Dancing Script", cursive;
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: #fff;
+            background: rgba(255, 180, 220, 0.12);
+            border: 1px solid rgba(255, 200, 225, 0.5);
+            border-radius: 999px;
+            padding: 0.7rem 2.2rem;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            animation: pulse 2s ease-in-out infinite;
+            transition:
+               background 0.3s ease,
+               box-shadow 0.3s ease;
+         }
+
+         .enter-btn:hover {
+            background: rgba(255, 180, 220, 0.22);
+            box-shadow: 0 0 25px rgba(255, 180, 220, 0.4);
+         }
+
+         .enter-btn.hidden {
+            opacity: 0;
+            transform: translateX(-50%) scale(0.9);
+            animation: none;
+            transition:
+               opacity 0.8s ease,
+               transform 0.8s ease;
+            pointer-events: none;
+         }
+
+         @keyframes pulse {
+            0%,
+            100% {
+               opacity: 0.85;
+               transform: translateX(-50%) scale(1);
+            }
+
+            50% {
+               opacity: 1;
+               transform: translateX(-50%) scale(1.05);
+            }
+         }
+
+         /* ══════════════════════════════════════════════
+           AMBIENT GLOW
+           ══════════════════════════════════════════════ */
+         .ambient-glow {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(
+               circle,
+               rgba(100, 100, 200, 0.08) 0%,
+               transparent 70%
+            );
+            z-index: 0;
+            pointer-events: none;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: ambientPulse 6s ease-in-out infinite;
+         }
+
+         @keyframes ambientPulse {
+            0%,
+            100% {
+               transform: translate(-50%, -50%) scale(1);
+               opacity: 0.5;
+            }
+
+            50% {
+               transform: translate(-50%, -50%) scale(1.3);
+               opacity: 1;
+            }
+         }
+
+         /* ══════════════════════════════════════════════
+           MUSIC TOGGLE BUTTON
+           ══════════════════════════════════════════════ */
+         .music-btn {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.4rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(8px);
+         }
+
+         .music-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 0 20px rgba(255, 180, 220, 0.3);
+         }
+
+         .music-btn.playing {
+            color: #ffc8dd;
+            box-shadow: 0 0 15px rgba(255, 180, 220, 0.4);
+            animation: musicPulse 2s ease-in-out infinite;
+         }
+
+         @keyframes musicPulse {
+            0%,
+            100% {
+               box-shadow: 0 0 15px rgba(255, 180, 220, 0.2);
+            }
+
+            50% {
+               box-shadow: 0 0 25px rgba(255, 180, 220, 0.5);
+            }
+         }
+
+         /* ══════════════════════════════════════════════
+           STAR RAIN CANVAS
+           ══════════════════════════════════════════════ */
+         #starRainCanvas {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+         }
+      </style>
+   </head>
+
+   <body>
+      <!-- Nebulosas de fondo -->
+      <div class="nebula nebula-1"></div>
+      <div class="nebula nebula-2"></div>
+      <div class="nebula nebula-3"></div>
+
+      <!-- Star field background -->
+      <canvas id="starCanvas"></canvas>
+
+      <!-- Heart constellation -->
+      <canvas id="constellationCanvas"></canvas>
+
+      <!-- Cursor particles -->
+      <canvas id="particleCanvas"></canvas>
+
+      <!-- Ambient glow -->
+      <div class="ambient-glow"></div>
+
+      <!-- Shooting star element -->
+      <div class="shooting-star" id="shootingStar"></div>
+
+      <!-- Star rain canvas (for finale) -->
+      <canvas id="starRainCanvas"></canvas>
+
+      <!--
+      MÚSICA LOCAL:
+      Reemplaza "musica.mp3" por el nombre exacto de tu archivo de música
+      y colócalo en la misma carpeta que este HTML (o ajusta la ruta,
+      por ejemplo "audio/musica.mp3" si lo guardas en una subcarpeta).
+    -->
+      <audio id="bgMusic" loop preload="auto">
+         <source src="interestelar.mp3" type="audio/mpeg" />
+      </audio>
+
+      <!-- Music toggle button -->
+      <button class="music-btn" id="musicBtn" title="Música 🎵">🔊</button>
+
+      <!-- Typewriter message inside heart -->
+      <div class="typewriter-container" id="typewriterContainer">
+         <span class="typewriter-text" id="typewriterText"></span
+         ><span class="typewriter-cursor" id="typewriterCursor"></span>
+      </div>
+
+      <!-- Título de introducción -->
+      <div class="intro-header" id="introHeader">
+         <div class="intro-title">✨ Para ti ✨</div>
+         <div class="intro-subtitle">Toca para descubrir tu sorpresa</div>
+      </div>
+
+      <!-- Botón de entrada: primer gesto del usuario, desbloquea el autoplay de audio -->
+      <button class="enter-btn" id="enterBtn">✨ Ingresar ✨</button>
+
+      <script>
+         /* ══════════════════════════════════════════════
+           CONFIGURATION
+           ══════════════════════════════════════════════ */
+         const CONFIG = {
+            // Capas de profundidad: lejana (muchas, chicas, tenues), media y cercana
+            // (pocas, grandes, con destello). Esto da sensación real de profundidad
+            // en vez de un solo campo de puntos uniforme.
+            starLayers: [
+               {
+                  count: 220,
+                  minSize: 0.3,
+                  maxSize: 0.8,
+                  minOpacity: 0.1,
+                  maxOpacity: 0.45,
+                  twinkleSpeed: 0.006,
+                  driftSpeed: 0.004,
+                  colors: ["255,255,255", "210,220,255"],
+                  flareChance: 0,
+               },
+               {
+                  count: 110,
+                  minSize: 0.7,
+                  maxSize: 1.6,
+                  minOpacity: 0.25,
+                  maxOpacity: 0.75,
+                  twinkleSpeed: 0.012,
+                  driftSpeed: 0.01,
+                  colors: ["255,255,255", "255,235,215", "210,225,255"],
+                  flareChance: 0,
+               },
+               {
+                  count: 28,
+                  minSize: 1.4,
+                  maxSize: 2.6,
+                  minOpacity: 0.45,
+                  maxOpacity: 1,
+                  twinkleSpeed: 0.018,
+                  driftSpeed: 0.018,
+                  colors: [
+                     "255,255,255",
+                     "255,244,220",
+                     "200,225,255",
+                     "255,210,225",
+                  ],
+                  flareChance: 0.35,
+               },
+            ],
+            constellation: {
+               starSize: 3.5,
+               lineWidth: 1.2,
+               glowColor: "rgba(255, 180, 220, ",
+               drawSpeed: 40, // ms between each connection
+            },
+            shootingStar: {
+               interval: 8000, // ms between shooting stars
+            },
+         };
+
+         /* ══════════════════════════════════════════════
+           STAR FIELD (Background Canvas)
+           ══════════════════════════════════════════════ */
+         const starCanvas = document.getElementById("starCanvas");
+         const starCtx = starCanvas.getContext("2d");
+         let stars = [];
+
+         // Tamaño "lógico" en píxeles CSS, igual para todos los canvas de pantalla completa.
+         // El tamaño real del canvas (canvas.width/height) se multiplica por devicePixelRatio
+         // para que se vea nítido en pantallas retina/AMOLED en vez de borroso.
+         let logicalWidth = window.innerWidth;
+         let logicalHeight = window.innerHeight;
+
+         function resizeCanvas(canvas, ctx) {
+            const dpr = window.devicePixelRatio || 1;
+            logicalWidth = window.innerWidth;
+            logicalHeight = window.innerHeight;
+            canvas.width = Math.round(logicalWidth * dpr);
+            canvas.height = Math.round(logicalHeight * dpr);
+            canvas.style.width = logicalWidth + "px";
+            canvas.style.height = logicalHeight + "px";
+            if (ctx) ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+         }
+
+         function initStars() {
+            stars = [];
+            for (const layer of CONFIG.starLayers) {
+               for (let i = 0; i < layer.count; i++) {
+                  const angle = Math.random() * Math.PI * 2;
+                  stars.push({
+                     x: Math.random() * logicalWidth,
+                     y: Math.random() * logicalHeight,
+                     size:
+                        Math.random() * (layer.maxSize - layer.minSize) +
+                        layer.minSize,
+                     opacity:
+                        Math.random() * (layer.maxOpacity - layer.minOpacity) +
+                        layer.minOpacity,
+                     minOpacity: layer.minOpacity,
+                     maxOpacity: layer.maxOpacity,
+                     opacityDirection: Math.random() > 0.5 ? 1 : -1,
+                     speed:
+                        Math.random() * layer.twinkleSpeed +
+                        layer.twinkleSpeed * 0.3,
+                     color: layer.colors[
+                        Math.floor(Math.random() * layer.colors.length)
+                     ],
+                     // Deriva muy lenta, como si flotáramos despacio por el espacio
+                     driftX: Math.cos(angle) * layer.driftSpeed * 0.1,
+                     driftY:
+                        Math.sin(angle) * layer.driftSpeed * 0.1 +
+                        layer.driftSpeed * 0.05,
+                     flare: Math.random() < layer.flareChance,
+                  });
+               }
+            }
+         }
+
+         // Franja tenue tipo "vía láctea" en diagonal, para dar más riqueza al fondo
+         function drawMilkyWay() {
+            starCtx.save();
+            starCtx.translate(logicalWidth * 0.55, logicalHeight * 0.4);
+            starCtx.rotate(-0.4);
+            const bandLength = Math.max(logicalWidth, logicalHeight) * 1.6;
+            const bandWidth = logicalHeight * 0.5;
+            const gradient = starCtx.createLinearGradient(
+               0,
+               -bandWidth / 2,
+               0,
+               bandWidth / 2,
+            );
+            gradient.addColorStop(0, "rgba(200, 190, 255, 0)");
+            gradient.addColorStop(0.5, "rgba(210, 200, 255, 0.05)");
+            gradient.addColorStop(1, "rgba(200, 190, 255, 0)");
+            starCtx.fillStyle = gradient;
+            starCtx.fillRect(
+               -bandLength / 2,
+               -bandWidth / 2,
+               bandLength,
+               bandWidth,
+            );
+            starCtx.restore();
+         }
+
+         // Destello tipo lente para las estrellas más brillantes
+         function drawFlare(x, y, size, opacity, color) {
+            const len = size * 7;
+            const h = starCtx.createLinearGradient(x - len, y, x + len, y);
+            h.addColorStop(0, `rgba(${color}, 0)`);
+            h.addColorStop(0.5, `rgba(${color}, ${opacity * 0.45})`);
+            h.addColorStop(1, `rgba(${color}, 0)`);
+            starCtx.strokeStyle = h;
+            starCtx.lineWidth = size * 0.35;
+            starCtx.beginPath();
+            starCtx.moveTo(x - len, y);
+            starCtx.lineTo(x + len, y);
+            starCtx.stroke();
+
+            const v = starCtx.createLinearGradient(x, y - len, x, y + len);
+            v.addColorStop(0, `rgba(${color}, 0)`);
+            v.addColorStop(0.5, `rgba(${color}, ${opacity * 0.45})`);
+            v.addColorStop(1, `rgba(${color}, 0)`);
+            starCtx.strokeStyle = v;
+            starCtx.beginPath();
+            starCtx.moveTo(x, y - len);
+            starCtx.lineTo(x, y + len);
+            starCtx.stroke();
+         }
+
+         function drawStars() {
+            starCtx.clearRect(0, 0, logicalWidth, logicalHeight);
+            drawMilkyWay();
+
+            for (const star of stars) {
+               // Twinkle effect
+               star.opacity += star.speed * star.opacityDirection;
+               if (star.opacity >= star.maxOpacity) {
+                  star.opacity = star.maxOpacity;
+                  star.opacityDirection = -1;
+               } else if (star.opacity <= star.minOpacity) {
+                  star.opacity = star.minOpacity;
+                  star.opacityDirection = 1;
+               }
+
+               // Deriva lenta y continua, con reaparición del otro lado de la pantalla
+               star.x += star.driftX;
+               star.y += star.driftY;
+               if (star.x < -5) star.x = logicalWidth + 5;
+               if (star.x > logicalWidth + 5) star.x = -5;
+               if (star.y < -5) star.y = logicalHeight + 5;
+               if (star.y > logicalHeight + 5) star.y = -5;
+
+               starCtx.beginPath();
+               starCtx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
+               starCtx.fillStyle = `rgba(${star.color}, ${star.opacity})`;
+               starCtx.fill();
+
+               // Glow suave en las estrellas más grandes
+               if (star.size > 1.3) {
+                  starCtx.beginPath();
+                  starCtx.arc(star.x, star.y, star.size * 3.2, 0, Math.PI * 2);
+                  starCtx.fillStyle = `rgba(${star.color}, ${star.opacity * 0.12})`;
+                  starCtx.fill();
+               }
+
+               // Destello tipo lente en algunas estrellas destacadas
+               if (star.flare && star.opacity > star.maxOpacity * 0.7) {
+                  drawFlare(
+                     star.x,
+                     star.y,
+                     star.size,
+                     star.opacity,
+                     star.color,
+                  );
+               }
+            }
+
+            requestAnimationFrame(drawStars);
+         }
+
+         /* ══════════════════════════════════════════════
+           HEART CONSTELLATION
+           ══════════════════════════════════════════════ */
+         const constCanvas = document.getElementById("constellationCanvas");
+         const constCtx = constCanvas.getContext("2d");
+
+         // Heart shape using parametric equations
+         function generateHeartPoints(cx, cy, scale, count) {
+            const points = [];
+            for (let i = 0; i < count; i++) {
+               const t = (i / count) * Math.PI * 2;
+               // Parametric heart curve
+               const x = 16 * Math.pow(Math.sin(t), 3);
+               const y = -(
+                  13 * Math.cos(t) -
+                  5 * Math.cos(2 * t) -
+                  2 * Math.cos(3 * t) -
+                  Math.cos(4 * t)
+               );
+               points.push({
+                  x: cx + x * scale,
+                  y: cy + y * scale,
+                  size: CONFIG.constellation.starSize,
+                  opacity: 0,
+                  glowSize: 0,
+                  revealed: false,
+               });
+            }
+            return points;
+         }
+
+         let heartPoints = [];
+         let constellationLines = [];
+         let constellationAnimating = false;
+         let constellationComplete = false;
+         // Centro del corazón — se usa para escalar los puntos en el latido
+         let heartCenter = { cx: 0, cy: 0 };
+
+         function initConstellation() {
+            const cx = logicalWidth / 2;
+            const cy = logicalHeight / 2 - 30;
+            const scale = Math.min(logicalWidth, logicalHeight) * 0.0225;
+            heartCenter = { cx, cy };
+            heartPoints = generateHeartPoints(cx, cy, scale, 28);
+         }
+
+         function animateConstellation() {
+            if (constellationAnimating) return;
+            constellationAnimating = true;
+
+            let index = 0;
+
+            function revealNext() {
+               if (index >= heartPoints.length) {
+                  constellationComplete = true;
+                  // After constellation is complete, show message
+                  setTimeout(showMessage, 800);
+                  return;
+               }
+
+               heartPoints[index].revealed = true;
+
+               // Add connection line to next point
+               if (index > 0) {
+                  constellationLines.push({
+                     from: index - 1,
+                     to: index,
+                     opacity: 0,
+                  });
+               }
+               // Close the heart shape
+               if (index === heartPoints.length - 1) {
+                  constellationLines.push({
+                     from: index,
+                     to: 0,
+                     opacity: 0,
+                  });
+               }
+
+               index++;
+               setTimeout(revealNext, CONFIG.constellation.drawSpeed);
+            }
+
+            revealNext();
+         }
+
+         // Devuelve la coordenada de un punto escalada respecto al centro del corazón
+         function getScaledPoint(point, scale) {
+            return {
+               x: heartCenter.cx + (point.x - heartCenter.cx) * scale,
+               y: heartCenter.cy + (point.y - heartCenter.cy) * scale,
+            };
+         }
+
+         function drawConstellation() {
+            constCtx.clearRect(0, 0, logicalWidth, logicalHeight);
+
+            // Escala del latido aplicada a todo el corazón en este frame
+            const beatScale = getHeartbeatScale();
+
+            // Draw connecting lines
+            for (const line of constellationLines) {
+               if (line.opacity < 0.6) line.opacity += 0.02;
+               const from = getScaledPoint(heartPoints[line.from], beatScale);
+               const to = getScaledPoint(heartPoints[line.to], beatScale);
+
+               constCtx.beginPath();
+               constCtx.moveTo(from.x, from.y);
+               constCtx.lineTo(to.x, to.y);
+               constCtx.strokeStyle =
+                  CONFIG.constellation.glowColor + line.opacity + ")";
+               constCtx.lineWidth = CONFIG.constellation.lineWidth;
+               constCtx.stroke();
+
+               // Glow on lines
+               constCtx.beginPath();
+               constCtx.moveTo(from.x, from.y);
+               constCtx.lineTo(to.x, to.y);
+               constCtx.strokeStyle =
+                  CONFIG.constellation.glowColor + line.opacity * 0.3 + ")";
+               constCtx.lineWidth = CONFIG.constellation.lineWidth * 3;
+               constCtx.stroke();
+            }
+
+            // Draw constellation stars
+            for (const rawPoint of heartPoints) {
+               if (!rawPoint.revealed) continue;
+
+               if (rawPoint.opacity < 1) rawPoint.opacity += 0.05;
+               if (rawPoint.glowSize < rawPoint.size * 4)
+                  rawPoint.glowSize += 0.5;
+
+               const point = getScaledPoint(rawPoint, beatScale);
+
+               // Outer glow
+               const gradient = constCtx.createRadialGradient(
+                  point.x,
+                  point.y,
+                  0,
+                  point.x,
+                  point.y,
+                  rawPoint.glowSize,
+               );
+               gradient.addColorStop(
+                  0,
+                  `rgba(255, 200, 230, ${rawPoint.opacity * 0.8})`,
+               );
+               gradient.addColorStop(
+                  0.5,
+                  `rgba(255, 150, 200, ${rawPoint.opacity * 0.3})`,
+               );
+               gradient.addColorStop(1, "rgba(255, 150, 200, 0)");
+
+               constCtx.beginPath();
+               constCtx.arc(
+                  point.x,
+                  point.y,
+                  rawPoint.glowSize,
+                  0,
+                  Math.PI * 2,
+               );
+               constCtx.fillStyle = gradient;
+               constCtx.fill();
+
+               // Star core
+               constCtx.beginPath();
+               constCtx.arc(point.x, point.y, rawPoint.size, 0, Math.PI * 2);
+               constCtx.fillStyle = `rgba(255, 240, 245, ${rawPoint.opacity})`;
+               constCtx.fill();
+            }
+
+            // Subtle pulsing glow when complete
+            if (constellationComplete) {
+               const pulseOpacity = 0.05 + Math.sin(Date.now() * 0.002) * 0.03;
+               for (const rawPoint of heartPoints) {
+                  const point = getScaledPoint(rawPoint, beatScale);
+                  constCtx.beginPath();
+                  constCtx.arc(
+                     point.x,
+                     point.y,
+                     rawPoint.size * 6,
+                     0,
+                     Math.PI * 2,
+                  );
+                  constCtx.fillStyle = `rgba(255, 180, 220, ${pulseOpacity})`;
+                  constCtx.fill();
+               }
+            }
+
+            requestAnimationFrame(drawConstellation);
+         }
+
+         /* ══════════════════════════════════════════════
+           CURSOR PARTICLES
+           ══════════════════════════════════════════════ */
+         const particleCanvas = document.getElementById("particleCanvas");
+         const particleCtx = particleCanvas.getContext("2d");
+         let particles = [];
+         let mouseX = 0;
+         let mouseY = 0;
+
+         class Particle {
+            constructor(x, y) {
+               this.x = x;
+               this.y = y;
+               this.size = Math.random() * 3 + 1;
+               this.speedX = (Math.random() - 0.5) * 2;
+               this.speedY = (Math.random() - 0.5) * 2 - 1;
+               this.opacity = 1;
+               this.decay = Math.random() * 0.02 + 0.015;
+               this.color = [
+                  "255, 200, 220",
+                  "200, 180, 255",
+                  "255, 255, 200",
+                  "180, 220, 255",
+               ][Math.floor(Math.random() * 4)];
+            }
+
+            update() {
+               this.x += this.speedX;
+               this.y += this.speedY;
+               this.opacity -= this.decay;
+               this.size *= 0.98;
+            }
+
+            draw(ctx) {
+               ctx.beginPath();
+               ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+               ctx.fillStyle = `rgba(${this.color}, ${this.opacity})`;
+               ctx.fill();
+
+               // Tiny glow
+               ctx.beginPath();
+               ctx.arc(this.x, this.y, this.size * 2.5, 0, Math.PI * 2);
+               ctx.fillStyle = `rgba(${this.color}, ${this.opacity * 0.2})`;
+               ctx.fill();
+            }
+         }
+
+         function animateParticles() {
+            particleCtx.clearRect(0, 0, logicalWidth, logicalHeight);
+
+            for (let i = particles.length - 1; i >= 0; i--) {
+               particles[i].update();
+               particles[i].draw(particleCtx);
+               if (particles[i].opacity <= 0 || particles[i].size <= 0.1) {
+                  particles.splice(i, 1);
+               }
+            }
+
+            requestAnimationFrame(animateParticles);
+         }
+
+         document.addEventListener("mousemove", (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            // Add a few particles on mouse move
+            for (let i = 0; i < 2; i++) {
+               particles.push(new Particle(mouseX, mouseY));
+            }
+            // Limit particle count
+            if (particles.length > 150) {
+               particles.splice(0, particles.length - 150);
+            }
+         });
+
+         // Touch support
+         document.addEventListener(
+            "touchmove",
+            (e) => {
+               const touch = e.touches[0];
+               mouseX = touch.clientX;
+               mouseY = touch.clientY;
+               for (let i = 0; i < 2; i++) {
+                  particles.push(new Particle(mouseX, mouseY));
+               }
+               if (particles.length > 150) {
+                  particles.splice(0, particles.length - 150);
+               }
+            },
+            { passive: true },
+         );
+
+         /* ══════════════════════════════════════════════
+           SHOOTING STAR
+           ══════════════════════════════════════════════ */
+         const shootingStarEl = document.getElementById("shootingStar");
+
+         function triggerShootingStar() {
+            // Random position on top-right area
+            const startX =
+               Math.random() * (window.innerWidth * 0.6) +
+               window.innerWidth * 0.3;
+            const startY = Math.random() * (window.innerHeight * 0.3);
+
+            shootingStarEl.style.left = startX + "px";
+            shootingStarEl.style.top = startY + "px";
+            shootingStarEl.classList.remove("active");
+
+            // Force reflow
+            void shootingStarEl.offsetWidth;
+
+            shootingStarEl.classList.add("active");
+
+            // Remove class after animation
+            setTimeout(() => {
+               shootingStarEl.classList.remove("active");
+            }, 1200);
+         }
+
+         /* ══════════════════════════════════════════════
+           TYPEWRITER EFFECT
+           ══════════════════════════════════════════════ */
+         const ROMANTIC_PHRASE =
+            "Eres mi estrella favorita en un cielo infinito… y mi único deseo cada noche. 💫";
+         let typewriterIndex = 0;
+
+         function showMessage() {
+            const container = document.getElementById("typewriterContainer");
+            const textEl = document.getElementById("typewriterText");
+            const cursorEl = document.getElementById("typewriterCursor");
+
+            container.classList.add("visible");
+
+            function typeLetter() {
+               if (typewriterIndex < ROMANTIC_PHRASE.length) {
+                  textEl.textContent += ROMANTIC_PHRASE.charAt(typewriterIndex);
+                  typewriterIndex++;
+                  // Variable speed: pause longer on punctuation
+                  const char = ROMANTIC_PHRASE.charAt(typewriterIndex - 1);
+                  let delay = 70;
+                  if (char === "…" || char === "." || char === ",") delay = 300;
+                  else if (char === " ") delay = 50;
+                  setTimeout(typeLetter, delay);
+               } else {
+                  // Typing done — trigger finale!
+                  setTimeout(() => {
+                     cursorEl.classList.add("hidden");
+                     startHeartbeat();
+                     triggerStarRain();
+                     triggerHeartFloat();
+                  }, 1000);
+               }
+            }
+
+            typeLetter();
+         }
+
+         /* ══════════════════════════════════════════════
+           MUSIC CONTROLLER
+           ══════════════════════════════════════════════ */
+         const bgMusic = document.getElementById("bgMusic");
+         const musicBtn = document.getElementById("musicBtn");
+         let musicPlaying = false;
+
+         bgMusic.volume = 0;
+
+         function fadeInMusic(duration = 3000) {
+            bgMusic
+               .play()
+               .then(() => {
+                  musicPlaying = true;
+                  musicBtn.textContent = "🔇";
+                  musicBtn.classList.add("playing");
+                  let vol = 0;
+                  const step = 0.4 / (duration / 50); // fade to 0.4 volume
+                  const fadeInterval = setInterval(() => {
+                     vol += step;
+                     if (vol >= 0.4) {
+                        vol = 0.4;
+                        clearInterval(fadeInterval);
+                     }
+                     bgMusic.volume = vol;
+                  }, 50);
+               })
+               .catch(() => {
+                  // Autoplay bloqueado (poco probable ya que viene de un click en "Ingresar")
+                  musicBtn.textContent = "🔇";
+                  musicBtn.classList.remove("playing");
+               });
+         }
+
+         musicBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            if (musicPlaying) {
+               bgMusic.pause();
+               musicPlaying = false;
+               musicBtn.textContent = "🔇";
+               musicBtn.classList.remove("playing");
+            } else {
+               bgMusic.volume = 0.4;
+               bgMusic.play();
+               musicPlaying = true;
+               musicBtn.textContent = "🔊";
+               musicBtn.classList.add("playing");
+            }
+         });
+
+         /* ══════════════════════════════════════════════
+           HEARTBEAT EFFECT
+           ══════════════════════════════════════════════ */
+         let heartbeatActive = false;
+         let heartbeatPhase = 0;
+
+         function startHeartbeat() {
+            heartbeatActive = true;
+         }
+
+         // Devuelve el factor de escala del latido para el frame actual.
+         // Se usa dentro de drawConstellation() para escalar los puntos
+         // del corazón respecto a su centro (heartCenter).
+         function getHeartbeatScale() {
+            if (!heartbeatActive) return 1;
+            heartbeatPhase += 0.04;
+            // Double-beat pattern like a real heartbeat: thump-THUMP...pause
+            const cycle = heartbeatPhase % (Math.PI * 2);
+            if (cycle < 0.6) {
+               // First beat (smaller)
+               return 1 + Math.sin((cycle / 0.6) * Math.PI) * 0.04;
+            } else if (cycle > 0.8 && cycle < 1.6) {
+               // Second beat (bigger)
+               return 1 + Math.sin(((cycle - 0.8) / 0.8) * Math.PI) * 0.07;
+            }
+            return 1; // Rest between beats
+         }
+
+         /* ══════════════════════════════════════════════
+           STAR RAIN FINALE
+           ══════════════════════════════════════════════ */
+         const starRainCanvas = document.getElementById("starRainCanvas");
+         const starRainCtx = starRainCanvas.getContext("2d");
+         let rainStars = [];
+         let starRainActive = false;
+
+         class RainStar {
+            constructor() {
+               this.reset();
+               // Start from random Y position above screen
+               this.y = -Math.random() * logicalHeight;
+            }
+
+            reset() {
+               this.x = Math.random() * logicalWidth;
+               this.y = -10;
+               this.size = Math.random() * 3 + 1;
+               this.speed = Math.random() * 3 + 1.5;
+               this.opacity = Math.random() * 0.7 + 0.3;
+               this.drift = (Math.random() - 0.5) * 0.5;
+               this.tailLength = Math.random() * 30 + 15;
+               this.color = [
+                  "255, 255, 255",
+                  "255, 220, 240",
+                  "220, 200, 255",
+                  "200, 230, 255",
+                  "255, 240, 200",
+               ][Math.floor(Math.random() * 5)];
+            }
+
+            update() {
+               this.y += this.speed;
+               this.x += this.drift;
+               // Fade out near bottom
+               if (this.y > logicalHeight - 100) {
+                  this.opacity *= 0.97;
+               }
+               if (this.y > logicalHeight + 10 || this.opacity < 0.01) {
+                  this.reset();
+               }
+            }
+
+            draw(ctx) {
+               // Tail (line going upward)
+               const gradient = ctx.createLinearGradient(
+                  this.x,
+                  this.y,
+                  this.x - this.drift * 5,
+                  this.y - this.tailLength,
+               );
+               gradient.addColorStop(0, `rgba(${this.color}, ${this.opacity})`);
+               gradient.addColorStop(1, `rgba(${this.color}, 0)`);
+
+               ctx.beginPath();
+               ctx.moveTo(this.x, this.y);
+               ctx.lineTo(this.x - this.drift * 5, this.y - this.tailLength);
+               ctx.strokeStyle = gradient;
+               ctx.lineWidth = this.size * 0.6;
+               ctx.stroke();
+
+               // Star head (bright dot)
+               ctx.beginPath();
+               ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+               ctx.fillStyle = `rgba(${this.color}, ${this.opacity})`;
+               ctx.fill();
+
+               // Glow
+               ctx.beginPath();
+               ctx.arc(this.x, this.y, this.size * 3, 0, Math.PI * 2);
+               ctx.fillStyle = `rgba(${this.color}, ${this.opacity * 0.15})`;
+               ctx.fill();
+            }
+         }
+
+         function triggerStarRain() {
+            starRainActive = true;
+            // Create stars in waves for dramatic effect
+            let totalStars = 0;
+            const maxStars = 80;
+
+            function addWave() {
+               const waveSize = Math.min(15, maxStars - totalStars);
+               for (let i = 0; i < waveSize; i++) {
+                  rainStars.push(new RainStar());
+               }
+               totalStars += waveSize;
+               if (totalStars < maxStars) {
+                  setTimeout(addWave, 800);
+               }
+            }
+
+            addWave();
+         }
+
+         // Corazones que suben flotando en el gran final, para acompañar la lluvia de estrellas
+         class FloatingHeart {
+            constructor() {
+               this.reset();
+               this.y = logicalHeight + Math.random() * logicalHeight;
+            }
+
+            reset() {
+               this.x = Math.random() * logicalWidth;
+               this.y = logicalHeight + 20;
+               this.size = Math.random() * 14 + 12;
+               this.speed = Math.random() * 0.8 + 0.4;
+               this.sway = Math.random() * 30 + 15;
+               this.swaySpeed = Math.random() * 0.02 + 0.01;
+               this.phase = Math.random() * Math.PI * 2;
+               this.opacity = Math.random() * 0.5 + 0.4;
+               this.glyph = ["💗", "💫", "✨"][Math.floor(Math.random() * 3)];
+            }
+
+            update() {
+               this.y -= this.speed;
+               this.phase += this.swaySpeed;
+               if (this.y < -40 || this.opacity < 0.02) {
+                  this.reset();
+               }
+               if (this.y < logicalHeight * 0.2) {
+                  this.opacity *= 0.985;
+               }
+            }
+
+            draw(ctx) {
+               const x = this.x + Math.sin(this.phase) * this.sway;
+               ctx.save();
+               ctx.globalAlpha = this.opacity;
+               ctx.font = `${this.size}px sans-serif`;
+               ctx.textAlign = "center";
+               ctx.fillText(this.glyph, x, this.y);
+               ctx.restore();
+            }
+         }
+
+         let floatingHearts = [];
+         let heartFloatActive = false;
+
+         function triggerHeartFloat() {
+            heartFloatActive = true;
+            let total = 0;
+            const maxHearts = 26;
+
+            function addWave() {
+               const waveSize = Math.min(4, maxHearts - total);
+               for (let i = 0; i < waveSize; i++) {
+                  floatingHearts.push(new FloatingHeart());
+               }
+               total += waveSize;
+               if (total < maxHearts) {
+                  setTimeout(addWave, 900);
+               }
+            }
+
+            addWave();
+         }
+
+         function animateStarRain() {
+            starRainCtx.clearRect(0, 0, logicalWidth, logicalHeight);
+
+            if (starRainActive) {
+               for (const star of rainStars) {
+                  star.update();
+                  star.draw(starRainCtx);
+               }
+            }
+
+            if (heartFloatActive) {
+               for (const heart of floatingHearts) {
+                  heart.update();
+                  heart.draw(starRainCtx);
+               }
+            }
+
+            requestAnimationFrame(animateStarRain);
+         }
+
+         /* ══════════════════════════════════════════════
+           MAIN SEQUENCE
+           ══════════════════════════════════════════════ */
+         let started = false;
+
+         function startExperience() {
+            if (started) return;
+            started = true;
+
+            const enterBtn = document.getElementById("enterBtn");
+            enterBtn.classList.add("hidden");
+            document.getElementById("introHeader").classList.add("hidden");
+            setTimeout(() => enterBtn.remove(), 850);
+
+            // Start music with fade-in — llamado directamente dentro del
+            // gesto de click del botón "Ingresar" para máxima compatibilidad
+            // con las políticas de autoplay de los navegadores.
+            fadeInMusic(4000);
+
+            // Phase 1: First shooting star (1s)
+            setTimeout(() => {
+               triggerShootingStar();
+            }, 1000);
+
+            // Phase 2: Second shooting star (2.5s)
+            setTimeout(() => {
+               triggerShootingStar();
+            }, 2500);
+
+            // Phase 3: Begin constellation (3.5s)
+            setTimeout(() => {
+               animateConstellation();
+            }, 3500);
+
+            // Phase 4: Recurring shooting stars
+            setTimeout(() => {
+               setInterval(triggerShootingStar, CONFIG.shootingStar.interval);
+            }, 6000);
+         }
+
+         // Iniciar solo con el botón "Ingresar" (gesto explícito del usuario)
+         document
+            .getElementById("enterBtn")
+            .addEventListener("click", startExperience);
+
+         /* ══════════════════════════════════════════════
+           INITIALIZATION
+           ══════════════════════════════════════════════ */
+         function init() {
+            [
+               [starCanvas, starCtx],
+               [constCanvas, constCtx],
+               [particleCanvas, particleCtx],
+               [starRainCanvas, starRainCtx],
+            ].forEach(([canvas, ctx]) => resizeCanvas(canvas, ctx));
+            initStars();
+            initConstellation();
+            drawStars();
+            drawConstellation();
+            animateParticles();
+            animateStarRain();
+         }
+
+         window.addEventListener("resize", () => {
+            [
+               [starCanvas, starCtx],
+               [constCanvas, constCtx],
+               [particleCanvas, particleCtx],
+               [starRainCanvas, starRainCtx],
+            ].forEach(([canvas, ctx]) => resizeCanvas(canvas, ctx));
+            initStars();
+            initConstellation();
+            constellationLines = [];
+            // Reset constellation state on resize if not animating
+            if (!constellationAnimating) {
+               heartPoints.forEach((p) => {
+                  p.revealed = false;
+                  p.opacity = 0;
+                  p.glowSize = 0;
+               });
+            }
+         });
+
+         // Start everything
+         init();
+      </script>
+   </body>
+</html>

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="50" y1="20" x2="590" y2="390" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#321d45"/>
+      <stop offset="1" stop-color="#11182c"/>
+    </linearGradient>
+    <linearGradient id="paper" x1="236" y1="98" x2="416" y2="320" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff1df"/>
+      <stop offset="1" stop-color="#e9c6d1"/>
+    </linearGradient>
+    <linearGradient id="seal" x1="290" y1="170" x2="370" y2="250" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fb7185"/>
+      <stop offset="1" stop-color="#a82d63"/>
+    </linearGradient>
+    <filter id="glow" x="216" y="80" width="208" height="260" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+  </defs>
+  <path fill="url(#bg)" d="M0 0h640v400H0z"/>
+  <circle cx="322" cy="205" r="94" fill="#dc628d" fill-opacity=".34" filter="url(#glow)"/>
+  <g fill="#ffe4f0" fill-opacity=".7">
+    <circle cx="100" cy="74" r="2"/><circle cx="525" cy="89" r="2"/><circle cx="554" cy="300" r="2"/>
+    <circle cx="125" cy="320" r="1.5"/><circle cx="466" cy="48" r="1.5"/><circle cx="82" cy="208" r="1.5"/>
+  </g>
+  <rect x="212" y="75" width="216" height="250" rx="15" fill="#080d1a" fill-opacity=".28" transform="rotate(-5 212 75)"/>
+  <path d="M246 91h148a10 10 0 0 1 10 10v197a10 10 0 0 1-10 10H246a10 10 0 0 1-10-10V101a10 10 0 0 1 10-10Z" fill="url(#paper)"/>
+  <path d="M261 126h118M261 148h96" stroke="#ad7d8d" stroke-opacity=".55" stroke-width="3" stroke-linecap="round"/>
+  <path d="M320 220c-22-20-43 8 0 42 43-34 22-62 0-42Z" fill="url(#seal)"/>
+  <path d="M261 290h118" stroke="#ad7d8d" stroke-opacity=".35" stroke-width="2" stroke-linecap="round"/>
+  <path d="M201 91 320 178l119-87v206a12 12 0 0 1-12 12H213a12 12 0 0 1-12-12V91Z" fill="#f9e3e8" fill-opacity=".4" stroke="#ffe8f0" stroke-opacity=".55" stroke-width="2"/>
+  <path d="m201 91 119 87 119-87" stroke="#fff0e9" stroke-opacity=".86" stroke-width="3"/>
+  <circle cx="320" cy="194" r="27" fill="url(#seal)"/>
+  <path d="M320 181c-8-8-18 2 0 16 18-14 8-24 0-16Z" fill="#ffe9ef"/>
+  <path d="m152 129 5 12 12 5-12 5-5 12-5-12-12-5 12-5 5-12Zm346 103 4 9 9 4-9 4-4 9-4-9-9-4 9-4 4-9Z" fill="#ffd9a1" fill-opacity=".85"/>
+</svg>

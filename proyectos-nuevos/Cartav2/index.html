@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#e0c3fc">
+<meta name="description" content="Un mensaje especial para ti">
+<title>Un Mensaje Especial para Ti</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lora:ital@0;1&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%92%8C%3C/text%3E%3C/svg%3E">
+<style>
+:root{
+  --rosa:#ffdde1; --rosa-2:#eeb7c2; --rosa-3:#fbe2e7; --sello:#cf425c; --firma:#b3122e;
+  --texto:#3a3338; --papel:#fdfbfb;
+  --env-w:clamp(260px,78vw,400px);
+  --f-titulo:'Great Vibes',cursive; --f-fecha:'Lora',Georgia,serif; --f-carta:'Cormorant Garamond',Georgia,serif;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; overflow:hidden; display:grid; place-items:center;
+  padding:max(16px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) max(16px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));
+  background:linear-gradient(135deg,#e0c3fc,#8ec5fc),url('https://drive.google.com/thumbnail?id=1uv9wOVYu8h8PbX4EDBPl4YUm0ZMYNOj1&sz=w1000') center/cover;
+  background-blend-mode:screen;
+  -webkit-tap-highlight-color:transparent; font-family:var(--f-fecha);
+}
+:focus-visible{outline:3px solid var(--sello); outline-offset:4px}
+
+/* Partículas */
+#particulas{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.particula{position:absolute;bottom:-30px;opacity:0;animation:flotar var(--dur) ease-in-out var(--delay) infinite}
+@keyframes flotar{
+  0%{opacity:0;transform:translateY(0) rotate(0) scale(.5)}
+  15%,85%{opacity:var(--op)}
+  50%{transform:translateY(calc(var(--dist)*-1)) rotate(180deg) scale(1)}
+  100%{opacity:0;transform:translateY(calc(var(--dist)*-2)) rotate(360deg) scale(.5)}
+}
+
+/* Loader */
+#loader{position:fixed;inset:0;z-index:1000;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,#f5e6f0,#e6f0f5);transition:opacity .7s,visibility .7s}
+#loader.hidden{opacity:0;visibility:hidden}
+.loader-icon{font-size:72px;animation:pulso 1.5s ease-in-out infinite}
+@keyframes pulso{50%{transform:scale(1.15)}}
+.barra{width:min(250px,70vw);height:12px;margin-top:20px;background:#e6e0e6;border-radius:10px;overflow:hidden;box-shadow:inset 0 1px 3px rgba(0,0,0,.1)}
+#barra-progreso{width:0;height:100%;border-radius:10px;background:linear-gradient(90deg,#cf425c,#e8739a,#cf425c);background-size:200% 100%;transition:width .3s;animation:brillo-barra 2s linear infinite}
+@keyframes brillo-barra{to{background-position:-200% 0}}
+#porcentaje{margin-top:10px;color:#555}
+
+/* Principal */
+main{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center}
+h1{
+  margin:0 0 clamp(24px,5vh,48px); font:400 clamp(2.6rem,9vw,5.2rem)/1.1 var(--f-titulo); padding:0 .1em .1em;
+  background:linear-gradient(120deg,#f63afd,#ff6b9d,#f63afd,#c44dff,#f63afd) 0 50%/300% 100%;
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  animation:brillo-texto 4s linear infinite; filter:drop-shadow(2px 3px 8px rgba(246,58,253,.3));
+}
+@keyframes brillo-texto{to{background-position:300% 50%}}
+
+/* Sobre */
+.sobre{
+  position:relative; width:var(--env-w); aspect-ratio:3/2; cursor:pointer; perspective:1000px;
+  animation:latido 2.5s ease-in-out infinite; transition:transform .3s;
+}
+.sobre:hover{transform:translateY(-4px)}
+.sobre.abierto{animation:none;cursor:default}
+@keyframes latido{50%{transform:scale(1.05)}}
+.cuerpo-sobre{position:absolute;inset:0;border-radius:14px;background:var(--rosa);box-shadow:0 22px 40px rgba(60,20,60,.28),inset 0 0 30px rgba(0,0,0,.06)}
+.bolsillo{position:absolute;inset:0;z-index:2;border-radius:0 0 14px 14px;clip-path:polygon(0 0,50% 50%,100% 0,100% 100%,0 100%);background:linear-gradient(180deg,#f2c4cd,var(--rosa-2))}
+.solapa{
+  position:absolute;top:0;left:0;width:100%;height:56%;z-index:3;border-radius:14px 14px 0 0;
+  background:linear-gradient(180deg,var(--rosa-3),#f6ccd5);clip-path:polygon(0 0,100% 0,50% 100%);
+  transform-origin:top;transition:transform .7s cubic-bezier(.4,0,.2,1),z-index 0s .35s;
+}
+.sobre.abierto .solapa{transform:rotateX(180deg);z-index:1}
+.sello{position:absolute;left:50%;top:56%;z-index:4;width:15%;aspect-ratio:1;transform:translate(-50%,-50%);color:var(--sello);filter:drop-shadow(0 0 8px rgba(207,66,92,.5));transition:transform .5s,opacity .5s;pointer-events:none}
+.sello svg{width:100%;height:100%;fill:currentColor;animation:latido-sello 1.4s ease-in-out infinite}
+@keyframes latido-sello{50%{transform:scale(1.15)}}
+.sobre.abierto .sello{transform:translate(-50%,-250%) scale(.4);opacity:0}
+.brillo{position:absolute;inset:0;z-index:5;border-radius:14px;overflow:hidden;pointer-events:none}
+.brillo::before{content:'';position:absolute;top:-50%;bottom:-50%;width:40%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);transform:translateX(-150%) skewX(-20deg);animation:destello 3.5s ease-in-out infinite}
+.sobre.abierto .brillo{display:none}
+@keyframes destello{60%,100%{transform:translateX(400%) skewX(-20deg)}}
+.pista{margin:26px 0 0;font-style:italic;color:#5b4a63;font-size:1rem;transition:opacity .4s}
+body.abierta .pista{opacity:0}
+
+/* Carta (capa superior) */
+.velo{position:fixed;inset:0;z-index:30;display:flex;align-items:center;justify-content:center;padding:max(12px,env(safe-area-inset-top)) 12px max(12px,env(safe-area-inset-bottom));background:rgba(40,20,60,.35);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}
+.velo.activo{opacity:1;visibility:visible}
+.carta{
+  position:relative; width:min(100%,660px); max-height:min(100%,820px); display:flex; flex-direction:column;
+  border-radius:16px; border:1px solid rgba(246,58,253,.15); box-shadow:0 30px 70px rgba(0,0,0,.3);
+  background:linear-gradient(rgba(255,255,255,.72),rgba(255,255,255,.72)),url('https://drive.google.com/thumbnail?id=1MD6SmwkJ_5hhSCON1E9oUV6CJqL2BTKb&sz=w1000') center/cover,var(--papel);
+  opacity:0; transform:translateY(60px) scale(.6); transition:transform .5s,opacity .4s;
+}
+.velo.activo .carta{opacity:1;transform:none;transition:transform 1s .6s cubic-bezier(.18,.89,.32,1.2),opacity .5s .6s}
+.contenido{overflow-y:auto;overscroll-behavior:contain;padding:clamp(24px,5vw,48px);color:var(--texto);font-family:var(--f-carta)}
+.contenido::-webkit-scrollbar{width:4px}
+.contenido::-webkit-scrollbar-thumb{background:var(--sello);border-radius:10px}
+.contenido>*{opacity:0}
+.velo.activo .contenido>*{animation:aparecer .8s both}
+.velo.activo .fecha{animation-delay:1.4s}
+.velo.activo .saludo{animation-delay:1.7s}
+.velo.activo .texto:nth-of-type(1){animation-delay:2s}
+.velo.activo .texto:nth-of-type(2){animation-delay:2.3s}
+.velo.activo .bloque-firma{animation-delay:2.7s}
+@keyframes aparecer{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:none}}
+.fecha{display:block;text-align:right;font:italic 1rem var(--f-fecha);color:#8a8088;margin-bottom:clamp(14px,3vh,24px)}
+.saludo{margin:0 0 clamp(12px,2.5vh,22px);font:400 clamp(2.1rem,6vw,3rem)/1.15 var(--f-titulo);color:var(--firma)}
+.texto{margin:0 0 1em;font-size:clamp(1.2rem,1.05rem + .7vw,1.55rem);line-height:1.65;max-width:34em}
+.bloque-firma{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:flex-end;gap:24px;margin-top:clamp(16px,4vh,32px)}
+.imagen-recuerdo{width:clamp(110px,26vw,160px);height:auto;aspect-ratio:1;object-fit:cover;border:5px solid #fff;border-radius:6px;box-shadow:0 8px 25px rgba(0,0,0,.18);transform:rotate(-3deg);transition:transform .3s}
+.imagen-recuerdo:hover{transform:rotate(1deg) scale(1.05)}
+.firma{margin:0;text-align:right;font:400 clamp(1.8rem,5vw,2.6rem)/1.2 var(--f-titulo);color:var(--firma)}
+.cerrar,.audio{position:fixed;z-index:40;width:44px;height:44px;display:grid;place-items:center;border:0;border-radius:50%;background:rgba(255,255,255,.92);color:#5b4a63;font-size:1.2rem;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.18);transition:transform .2s,opacity .4s,visibility .4s;opacity:0;visibility:hidden}
+.cerrar:hover,.audio:hover{transform:scale(1.1)}
+.cerrar{top:max(12px,env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right))}
+.audio{top:max(12px,env(safe-area-inset-top));left:max(12px,env(safe-area-inset-left))}
+body.abierta .cerrar,body.abierta .audio{opacity:1;visibility:visible;transition-delay:1.6s}
+
+/* Efectos */
+.corazon-magico{position:fixed;pointer-events:none;z-index:35;font-size:var(--fs);opacity:0;text-shadow:0 0 10px rgba(255,255,255,.7);animation:magico var(--dur) ease-out forwards}
+@keyframes magico{
+  0%{opacity:0;transform:scale(.8)}
+  25%{opacity:1;transform:translate(var(--xm),var(--ym)) scale(1.6) rotate(var(--rm))}
+  100%{opacity:0;transform:translate(var(--xe),var(--ye)) scale(var(--se)) rotate(var(--re))}
+}
+.confeti{position:fixed;z-index:50;width:var(--w);height:var(--h);background:var(--c);pointer-events:none;animation:caer var(--dur) ease-in var(--delay) forwards}
+@keyframes caer{from{opacity:1}to{opacity:0;transform:translate(var(--xf),var(--yf)) rotate(var(--rot))}}
+
+/* Tabletas y escritorio */
+@media (min-width:768px){
+  :root{--env-w:clamp(340px,42vw,460px)}
+  .pista{font-size:1.1rem}
+}
+@media (min-width:1200px){:root{--env-w:480px}}
+/* Móvil horizontal / pantallas bajas */
+@media (max-height:520px){
+  h1{font-size:2.2rem;margin-bottom:12px}
+  :root{--env-w:min(240px,40vh*1.5)}
+  .pista{margin-top:12px}
+  .carta{max-height:100%}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0s!important}
+  .particula,.confeti,.corazon-magico{display:none}
+}
+</style>
+</head>
+<body>
+<div id="particulas" aria-hidden="true"></div>
+
+<div id="loader" role="status" aria-live="polite">
+  <div class="loader-icon">💌</div>
+  <div class="barra"><div id="barra-progreso"></div></div>
+  <div id="porcentaje">0%</div>
+</div>
+
+<button class="audio" id="btn-audio" aria-label="Silenciar música">🔊</button>
+<button class="cerrar" id="btn-cerrar" aria-label="Cerrar carta">✕</button>
+
+<main>
+  <h1>Un Mensaje Especial para Ti</h1>
+  <div class="sobre" id="sobre" role="button" tabindex="0" aria-expanded="false" aria-label="Abrir el sobre">
+    <div class="cuerpo-sobre"></div>
+    <div class="bolsillo"></div>
+    <div class="solapa"></div>
+    <div class="sello"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+    <div class="brillo"></div>
+  </div>
+  <p class="pista">Toca el sobre para abrirlo</p>
+</main>
+
+<div class="velo" id="velo" role="dialog" aria-modal="true" aria-label="Carta">
+  <article class="carta">
+    <div class="contenido" id="contenido">
+      <span class="fecha">Donde el tiempo no existe</span>
+      <p class="saludo">Mi estrella guía,</p>
+      <p class="texto">Hay universos enteros en tus ojos, y he tenido la suerte de perderme en ellos. No eres un capítulo en mi historia, eres el libro entero.</p>
+      <p class="texto">Gracias por ser mi calma en medio del caos, y mi más bonita casualidad.</p>
+      <div class="bloque-firma">
+        <img class="imagen-recuerdo" src="https://drive.google.com/thumbnail?id=1SsZk-dSh2jGsS2kGgCqhZIgeD9ZUi_jM" alt="Foto de recuerdo" width="160" height="160" referrerpolicy="no-referrer" decoding="async">
+        <p class="firma">Con amor infinito,<br>DevCarlos</p>
+      </div>
+    </div>
+  </article>
+</div>
+
+<audio id="sonido" preload="none" loop src="https://dl.dropboxusercontent.com/scl/fi/esct592hxwzjyf9a2egpc/Si-supieras-lo-que-siento-con-mirarte....mp3?rlkey=xqbaohnpyd7b3mejkvvdg6dlq&st=2vagx61x&dl=1"></audio>
+
+<script>
+const $ = id => document.getElementById(id);
+const reducir = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const movil = () => innerWidth < 768;
+const rnd = (a, b) => Math.random() * (b - a) + a;
+
+/* Partículas de fondo */
+(function(){
+  const cont = $('particulas'), s = ['💖','✨','💜','⭐','💫','🤍'];
+  for (let i = 0; i < (movil() ? 12 : 22); i++) {
+    const p = document.createElement('div');
+    p.className = 'particula';
+    p.textContent = s[i % s.length];
+    p.style.left = rnd(0, 100) + '%';
+    p.style.fontSize = rnd(12, 24) + 'px';
+    p.style.setProperty('--dur', rnd(6, 14) + 's');
+    p.style.setProperty('--delay', rnd(0, 10) + 's');
+    p.style.setProperty('--dist', rnd(100, 300) + 'px');
+    p.style.setProperty('--op', rnd(.2, .6));
+    cont.appendChild(p);
+  }
+})();
+
+/* Carga de imágenes (con tiempo máximo para no quedar atascado) */
+(function(){
+  const urls = [
+    'https://drive.google.com/thumbnail?id=1uv9wOVYu8h8PbX4EDBPl4YUm0ZMYNOj1',
+    'https://drive.google.com/thumbnail?id=1MD6SmwkJ_5hhSCON1E9oUV6CJqL2BTKb',
+    'https://drive.google.com/thumbnail?id=1SsZk-dSh2jGsS2kGgCqhZIgeD9ZUi_jM'
+  ];
+  const loader = $('loader'); let hechas = 0, fin = false;
+  const terminar = () => { if (fin) return; fin = true; loader.classList.add('hidden'); setTimeout(() => loader.remove(), 900); };
+  const listo = () => {
+    hechas++;
+    const pct = Math.round(hechas / urls.length * 100);
+    $('barra-progreso').style.width = pct + '%';
+    $('porcentaje').textContent = pct + '%';
+    if (hechas === urls.length) setTimeout(terminar, 400);
+  };
+  urls.forEach(u => { const im = new Image(); im.referrerPolicy = 'no-referrer'; im.onload = im.onerror = listo; im.src = u; });
+  setTimeout(terminar, 6000);
+})();
+
+/* Efectos */
+function confeti() {
+  if (reducir) return;
+  const cols = ['#ff6b9d','#c44dff','#ff4757','#ffa502','#2ed573','#1e90ff','#ff6348'];
+  for (let i = 0; i < (movil() ? 40 : 70); i++) {
+    const c = document.createElement('div');
+    c.className = 'confeti';
+    c.style.left = innerWidth / 2 + rnd(-60, 60) + 'px';
+    c.style.top = innerHeight / 2 - 80 + 'px';
+    const v = (k, x) => c.style.setProperty(k, x);
+    v('--c', cols[i % cols.length]); v('--w', rnd(4, 11) + 'px'); v('--h', rnd(4, 15) + 'px');
+    v('--dur', rnd(1.5, 3.5) + 's'); v('--delay', rnd(0, .3) + 's');
+    v('--xf', rnd(-.5, .5) * Math.min(innerWidth, 700) + 'px'); v('--yf', rnd(200, 500) + 'px'); v('--rot', rnd(-540, 540) + 'deg');
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 4200);
+  }
+}
+function corazones() {
+  if (reducir) return;
+  const em = ['❤️','💖','💕','✨','💜','💙','💚'], r = $('sobre').getBoundingClientRect();
+  for (let i = 0; i < (movil() ? 20 : 30); i++) setTimeout(() => {
+    if (!$('velo').classList.contains('activo')) return;
+    const h = document.createElement('div'), d = rnd(3, 5);
+    h.className = 'corazon-magico'; h.textContent = em[i % em.length];
+    h.style.left = r.left + r.width / 2 + 'px'; h.style.top = r.top + r.height / 2 + 'px';
+    const v = (k, x) => h.style.setProperty(k, x);
+    v('--dur', d + 's'); v('--fs', rnd(15, 30) + 'px');
+    v('--xe', rnd(-.6, .6) * innerWidth + 'px'); v('--ye', rnd(-.6, .6) * innerHeight + 'px');
+    v('--xm', rnd(-100, 100) + 'px'); v('--ym', rnd(-100, 100) + 'px');
+    v('--se', rnd(.25, .75)); v('--re', rnd(-360, 360) + 'deg'); v('--rm', rnd(-180, 180) + 'deg');
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), d * 1000);
+  }, i * 50);
+}
+
+/* Lógica del sobre */
+const sobre = $('sobre'), velo = $('velo'), sonido = $('sonido'), btnAudio = $('btn-audio');
+let ocupado = false, abierta = false;
+
+function abrir() {
+  if (ocupado || abierta) return;
+  ocupado = true;
+  sobre.classList.add('abierto'); sobre.setAttribute('aria-expanded', 'true');
+  velo.classList.add('activo'); document.body.classList.add('abierta');
+  sonido.play().catch(() => {});
+  setTimeout(confeti, 500); setTimeout(corazones, 900);
+  setTimeout(() => { ocupado = false; abierta = true; $('btn-cerrar').focus({ preventScroll: true }); }, 1700);
+}
+function cerrar() {
+  if (ocupado || !abierta) return;
+  ocupado = true;
+  velo.classList.remove('activo'); document.body.classList.remove('abierta');
+  sonido.pause(); sonido.currentTime = 0; btnAudio.textContent = '🔊'; sonido.muted = false;
+  setTimeout(() => {
+    sobre.classList.remove('abierto'); sobre.setAttribute('aria-expanded', 'false');
+    $('contenido').scrollTop = 0; abierta = false; ocupado = false; sobre.focus({ preventScroll: true });
+  }, 700);
+}
+
+sobre.addEventListener('click', abrir);
+sobre.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); abrir(); } });
+$('btn-cerrar').addEventListener('click', cerrar);
+velo.addEventListener('click', e => { if (e.target === velo) cerrar(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') cerrar(); });
+btnAudio.addEventListener('click', () => {
+  sonido.muted = !sonido.muted;
+  btnAudio.textContent = sonido.muted ? '🔇' : '🔊';
+  btnAudio.setAttribute('aria-label', sonido.muted ? 'Activar música' : 'Silenciar música');
+});
+</script>
+</body>
+</html>

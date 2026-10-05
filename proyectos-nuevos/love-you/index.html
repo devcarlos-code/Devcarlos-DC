@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="es">
+   <head>
+      <meta charset="UTF-8" />
+      <meta
+         name="viewport"
+         content="width=device-width, initial-scale=1.0, user-scalable=no"
+      />
+
+      <title>💗 Mi Amor, Tú Eres Mi Todo ✨</title>
+
+      <script src="https://cdn.tailwindcss.com"></script>
+
+      <style>
+         * {
+            box-sizing: border-box;
+         }
+
+         html,
+         body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000;
+         }
+
+         body {
+            position: fixed;
+            inset: 0;
+         }
+
+         .terminal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            z-index: 1;
+         }
+
+         .text-container {
+            position: absolute;
+            width: 100%;
+            color: #ff1493;
+            font-family: "Courier New", monospace;
+            font-size: 24px;
+            text-shadow: 0 0 15px #ff69b4;
+            line-height: 1.2;
+            opacity: 0.9;
+            animation: matrixGlow 2s infinite;
+            mix-blend-mode: screen;
+            white-space: nowrap;
+         }
+
+         @keyframes matrixGlow {
+            0%,
+            100% {
+               opacity: 0.7;
+               text-shadow: 0 0 15px #ff69b4;
+            }
+            50% {
+               opacity: 1;
+               text-shadow: 0 0 25px #ff1493;
+            }
+         }
+
+         @keyframes scroll {
+            0% {
+               transform: translateY(100vh);
+            }
+            100% {
+               transform: translateY(-100%);
+            }
+         }
+
+         .love-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 2;
+            pointer-events: none;
+            overflow: hidden;
+         }
+
+         .love-text {
+            position: absolute;
+            color: #ffd7ff;
+            font-size: 1.8rem;
+            opacity: 0;
+            text-shadow: 0 0 25px rgba(255, 105, 180, 0.8);
+            animation: caidaHolografica 10s cubic-bezier(0.17, 0.67, 0.45, 0.99)
+               infinite;
+            mix-blend-mode: screen;
+         }
+
+         @keyframes caidaHolografica {
+            0% {
+               transform: translate3d(-50%, -120vh, 100px)
+                  rotate3d(1, 0.2, 0.5, 15deg) scale(1.2);
+               opacity: 0;
+            }
+            20% {
+               opacity: 1;
+            }
+            80% {
+               opacity: 0.8;
+            }
+            100% {
+               transform: translate3d(50%, 120vh, -200px)
+                  rotate3d(0.5, 1, 0.2, -15deg) scale(0.8);
+               opacity: 0;
+            }
+         }
+
+         .centro {
+            position: fixed;
+            text-align: center;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 1000px;
+            font-size: 6rem;
+            line-height: 1.1;
+            color: transparent;
+            background: linear-gradient(
+               45deg,
+               #ff0202 20%,
+               #ff02f2 45%,
+               #00ffd9 70%
+            );
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: brilloPerpetuo 3s ease-in-out infinite;
+            font-family: "Courier New", monospace;
+            font-weight: bold;
+            z-index: 3;
+            padding: 20px 40px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 15px;
+            backdrop-filter: blur(12px);
+         }
+
+         .centro span {
+            font-size: 3rem;
+         }
+
+         @keyframes brilloPerpetuo {
+            0%,
+            100% {
+               filter: drop-shadow(0 0 15px #ff1493);
+            }
+            50% {
+               filter: drop-shadow(0 0 40px #ff69b400);
+            }
+         }
+
+         .efecto-bloom {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(
+               circle at 50% 50%,
+               rgba(255, 105, 180, 0.1) 0%,
+               transparent 60%
+            );
+            mix-blend-mode: overlay;
+            animation: pulsacionBloom 8s infinite;
+            z-index: 1;
+            pointer-events: none;
+         }
+
+         @keyframes pulsacionBloom {
+            0%,
+            100% {
+               opacity: 0.6;
+               transform: scale(1);
+            }
+            50% {
+               opacity: 0.8;
+               transform: scale(1.2);
+            }
+         }
+
+         .hidden-image {
+            opacity: 0;
+            visibility: hidden;
+         }
+
+         .video-personalizado {
+            width: 100%;
+            max-width: 600px;
+            display: block;
+            margin: 20px auto;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(255, 192, 203, 0.8);
+            z-index: 1;
+            position: relative;
+         }
+
+         .hidden-video {
+            display: none;
+         }
+
+         /* ===== OVERLAY DE ENTRADA ===== */
+         #enter-overlay {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            transition: opacity 1s ease;
+         }
+
+         #enter-overlay.hide {
+            opacity: 0;
+            pointer-events: none;
+         }
+
+         #enter-btn {
+            font-family: "Courier New", monospace;
+            font-size: 1.3rem;
+            font-weight: bold;
+            letter-spacing: 0.08em;
+            color: transparent;
+            background: linear-gradient(
+               45deg,
+               #ff0202 20%,
+               #ff02f2 45%,
+               #00ffd9 70%
+            );
+            -webkit-background-clip: text;
+            background-clip: text;
+            border: 2px solid rgba(255, 20, 147, 0.6);
+            padding: 1rem 2.8rem;
+            border-radius: 15px;
+            backdrop-filter: blur(12px);
+            cursor: pointer;
+            animation: brilloPerpetuo 3s ease-in-out infinite;
+            transition:
+               transform 0.3s ease,
+               border-color 0.3s ease;
+         }
+
+         #enter-btn:hover {
+            transform: scale(1.05);
+            border-color: rgba(255, 105, 180, 1);
+         }
+
+         /* AJUSTE PARA CELULAR */
+
+         @media (max-width: 768px) {
+            .text-container {
+               font-size: 15px;
+               line-height: 1.3;
+            }
+
+            .love-text {
+               font-size: 1.1rem;
+            }
+
+            .centro {
+               width: 88%;
+               max-width: 360px;
+               font-size: clamp(2rem, 8vw, 3rem);
+               line-height: 1.15;
+               padding: 15px 10px;
+               border-radius: 12px;
+               border-width: 1px;
+            }
+
+            .centro span {
+               font-size: 1.5rem;
+            }
+
+            #enter-btn {
+               font-size: 1.1rem;
+               padding: 0.9rem 2rem;
+            }
+         }
+
+         @media (max-width: 380px) {
+            .centro {
+               width: 90%;
+               font-size: 1.8rem;
+               padding: 12px 8px;
+            }
+
+            .centro span {
+               font-size: 1.3rem;
+            }
+
+            .text-container {
+               font-size: 13px;
+            }
+         }
+      </style>
+   </head>
+
+   <body>
+      <!-- Reemplaza "mi-cancion.mp3" por el nombre exacto de tu archivo de audio, que debe estar en la MISMA carpeta que este HTML -->
+      <audio id="musica" loop preload="auto">
+         <source src="love.mp3" type="audio/mpeg" />
+      </audio>
+
+      <div class="efecto-bloom"></div>
+
+      <div class="terminal" id="terminal"></div>
+
+      <div class="love-container" id="loveContainer"></div>
+
+      <div class="centro">TE AMARE ETERNAMENTE <span> ❤️</span></div>
+
+      <!-- Overlay de entrada: se quita tras el primer clic -->
+      <div id="enter-overlay">
+         <button id="enter-btn">Entrar</button>
+      </div>
+
+      <script>
+         const LINE_COUNT = window.innerWidth <= 768 ? 12 : 20;
+
+         const MATRIX_TEXT = "love you";
+
+         const LOVE_CHARS = ["💗", "❤️", "💕", "✨"];
+
+         function initMatrix() {
+            const container = document.getElementById("terminal");
+
+            for (let i = 0; i < LINE_COUNT; i++) {
+               const line = document.createElement("div");
+
+               line.className = "text-container";
+
+               line.style.animation = `scroll ${5 + i / 2}s linear infinite`;
+
+               line.style.animationDelay = `${i * 0.3}s`;
+
+               line.textContent = (MATRIX_TEXT + " ").repeat(
+                  Math.ceil(window.innerWidth / 50),
+               );
+
+               container.appendChild(line);
+            }
+         }
+
+         function initLoveEffect() {
+            const container = document.getElementById("loveContainer");
+
+            setInterval(() => {
+               const love = document.createElement("div");
+
+               love.className = "love-text";
+
+               love.style.left = `${Math.random() * 95}vw`;
+
+               love.style.animationDuration = `${Math.random() * 4 + 6}s`;
+
+               love.textContent =
+                  LOVE_CHARS[Math.floor(Math.random() * LOVE_CHARS.length)];
+
+               container.appendChild(love);
+
+               setTimeout(() => love.remove(), 10000);
+            }, 150);
+         }
+
+         function handleResize() {
+            document.querySelectorAll(".text-container").forEach((line) => {
+               line.textContent = (MATRIX_TEXT + " ").repeat(
+                  Math.ceil(window.innerWidth / 50),
+               );
+            });
+         }
+
+         window.addEventListener("load", () => {
+            initMatrix();
+
+            initLoveEffect();
+
+            handleResize();
+         });
+
+         window.addEventListener("resize", handleResize);
+
+         const audio = document.getElementById("musica");
+         const overlay = document.getElementById("enter-overlay");
+         const enterBtn = document.getElementById("enter-btn");
+
+         enterBtn.addEventListener(
+            "click",
+            () => {
+               audio
+                  .play()
+                  .catch((err) => console.log("No se pudo reproducir:", err));
+
+               overlay.classList.add("hide");
+
+               setTimeout(() => overlay.remove(), 1000);
+            },
+            { once: true },
+         );
+      </script>
+   </body>
+</html>

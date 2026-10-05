@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 400" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="72" y1="14" x2="574" y2="396" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#102b38"/>
+      <stop offset=".52" stop-color="#18383a"/>
+      <stop offset="1" stop-color="#111b31"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="0" cy="0" r="1" gradientTransform="matrix(0 164 -214 0 332 164)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffe88a" stop-opacity=".76"/>
+      <stop offset="1" stop-color="#ffd84f" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="petal" x1="0" y1="-43" x2="0" y2="43" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff39b"/>
+      <stop offset="1" stop-color="#f4aa2c"/>
+    </linearGradient>
+    <filter id="blur" x="95" y="16" width="450" height="370" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="22"/>
+    </filter>
+    <g id="flower">
+      <ellipse cy="-27" rx="12" ry="28" fill="url(#petal)"/>
+      <ellipse cy="-27" rx="12" ry="28" fill="url(#petal)" transform="rotate(45)"/>
+      <ellipse cy="-27" rx="12" ry="28" fill="url(#petal)" transform="rotate(90)"/>
+      <ellipse cy="-27" rx="12" ry="28" fill="url(#petal)" transform="rotate(135)"/>
+      <circle r="16" fill="#6f3c25"/><circle r="10" fill="#bd7628"/>
+    </g>
+  </defs>
+  <path fill="url(#bg)" d="M0 0h640v400H0z"/>
+  <path fill="url(#sun)" d="M0 0h640v400H0z"/>
+  <ellipse cx="320" cy="315" rx="255" ry="54" fill="#0a171e" fill-opacity=".56" filter="url(#blur)"/>
+  <g stroke="#81b968" stroke-linecap="round" stroke-width="5">
+    <path d="M205 361c4-72 16-124 52-183M320 377c-1-96 4-161 2-222M434 361c-13-62-25-117-54-171"/>
+  </g>
+  <g fill="#67a56a">
+    <path d="M246 261c-43-31-70-24-81-14 23 30 48 35 81 14Zm82-38c38-31 69-24 81-11-21 29-49 33-81 11Zm-41 73c-31-28-57-24-68-13 18 26 42 31 68 13Zm129 11c30-23 55-19 66-8-18 23-40 26-66 8Z"/>
+  </g>
+  <g transform="translate(257 158) scale(1.05)"><use href="#flower"/></g>
+  <g transform="translate(322 111) scale(1.28)"><use href="#flower"/></g>
+  <g transform="translate(381 170) scale(.92)"><use href="#flower"/></g>
+  <g transform="translate(178 250) scale(.64)"><use href="#flower"/></g>
+  <g transform="translate(454 255) scale(.7)"><use href="#flower"/></g>
+  <g fill="#fff2b3" fill-opacity=".8">
+    <circle cx="104" cy="87" r="2"/><circle cx="510" cy="71" r="2"/><circle cx="552" cy="178" r="1.5"/>
+    <circle cx="125" cy="205" r="1.5"/><circle cx="475" cy="325" r="2"/>
+  </g>
+</svg>
