@@ -250,7 +250,7 @@
         const r = card.getBoundingClientRect();
         const x = (e.clientX - r.left) / r.width;
         const y = (e.clientY - r.top)  / r.height;
-        const mx = 6;
+        const mx = 1.8;
         card.style.setProperty("--pointer-x", `${x*100}%`);
         card.style.setProperty("--pointer-y", `${y*100}%`);
         card.style.setProperty("--tilt-x",    `${(x-0.5)*mx*2}deg`);

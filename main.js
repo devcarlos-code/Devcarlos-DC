@@ -128,7 +128,7 @@ function activarInclinacion(card) {
     const rect = card.getBoundingClientRect();
     const x = (event.clientX - rect.left) / rect.width;
     const y = (event.clientY - rect.top) / rect.height;
-    const maxTilt = 5;
+    const maxTilt = 1.8;
     card.style.setProperty("--pointer-x", `${x * 100}%`);
     card.style.setProperty("--pointer-y", `${y * 100}%`);
     card.style.setProperty("--tilt-x", `${(x - 0.5) * maxTilt * 2}deg`);

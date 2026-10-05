@@ -1080,3 +1080,63 @@ section { scroll-margin-top: 105px; }
     letter-spacing: 0.07em;
   }
 }
+
+/* Keep project previews clear while retaining a restrained hover response. */
+.grid .card:hover {
+  transform: translateY(-4px) scale(1.006);
+  border-color: rgba(51, 204, 255, 0.68);
+  box-shadow:
+    0 0 0 1px rgba(0, 200, 255, 0.08),
+    0 10px 28px rgba(0, 90, 150, 0.2),
+    0 16px 36px rgba(0, 0, 0, 0.38);
+}
+
+.grid .card.tilt-enabled:hover {
+  transform:
+    perspective(1200px)
+    rotateX(var(--tilt-y, 0deg))
+    rotateY(var(--tilt-x, 0deg))
+    translateY(-4px)
+    scale(1.006);
+}
+
+.grid .card:hover img {
+  transform: scale(1.02);
+  filter: brightness(1.03);
+}
+
+.grid .card .card-img-overlay {
+  background: linear-gradient(
+    180deg,
+    transparent 62%,
+    rgba(0, 100, 200, 0.08) 100%
+  );
+  opacity: 0;
+}
+
+.grid .card:hover .card-img-overlay {
+  opacity: 0.35;
+}
+
+.grid .card.tilt-enabled:hover .card-glow {
+  opacity: 0;
+}
+
+.grid .card-border-trace {
+  display: none;
+}
+
+.grid .card:hover .card-quest-badge {
+  opacity: 0;
+  transform: scale(0.96);
+}
+
+.grid .card:hover .card-lightning,
+.grid .card:hover h3,
+.grid .card:hover .tags {
+  animation: none;
+}
+
+.grid .card:hover .card-energy-bar {
+  width: 34%;
+}
