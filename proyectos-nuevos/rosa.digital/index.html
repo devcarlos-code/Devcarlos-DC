@@ -1,0 +1,609 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#100d18">
+    <title>Rosa Digital Interactiva</title>
+    <style>
+        :root {
+            color-scheme: dark;
+            --ink: #f5f1e8;
+            --muted: #b5c0b4;
+            --pink: #ff9db1;
+            --rose: #d54c68;
+            --deep: #273b2f;
+            --leaf: #78a982;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100svh;
+            margin: 0;
+            overflow-x: hidden;
+            color: var(--ink);
+            font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+            background:
+                repeating-linear-gradient(0deg, #e1eddf08 0 1px, transparent 1px 5px),
+                radial-gradient(ellipse at 50% 36%, #79533a26, transparent 54%),
+                linear-gradient(135deg, #111914, #1d2922 52%, #121914);
+        }
+
+        main {
+            min-height: 100svh;
+            display: grid;
+            place-items: center;
+            padding: 34px 20px;
+        }
+
+        .card {
+            width: min(100%, 700px);
+            text-align: center;
+            padding: clamp(26px, 6vw, 56px);
+            border: 1px solid #d9e7d326;
+            border-radius: 8px;
+            background: linear-gradient(145deg, #243229ed, #151e19f5);
+            box-shadow: 0 24px 80px #0006, inset 0 1px #ffffff12;
+            backdrop-filter: blur(12px);
+        }
+
+        .eyebrow {
+            margin: 0 0 10px;
+            color: #e8a9c1;
+            font-size: .72rem;
+            font-weight: 700;
+            letter-spacing: .22em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin: 0;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 3.2rem;
+            font-weight: 500;
+            letter-spacing: -.035em;
+        }
+
+        .intro {
+            margin: 12px auto 0;
+            max-width: 440px;
+            color: var(--muted);
+            line-height: 1.65;
+        }
+
+        .garden {
+            position: relative;
+            height: 320px;
+            margin: 6px auto 0;
+            display: grid;
+            place-items: center;
+            isolation: isolate;
+        }
+
+        .halo {
+            position: absolute;
+            width: 230px;
+            height: 230px;
+            border-radius: 50%;
+            background: #e4488020;
+            filter: blur(34px);
+            transition: transform 1s, opacity 1s;
+            opacity: .6;
+        }
+
+        .rose-button {
+            position: relative;
+            width: 210px;
+            height: 290px;
+            padding: 0;
+            border: 0;
+            background: transparent;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .rose-button:hover {
+            filter: brightness(1.08);
+        }
+
+        .rose-button:active {
+            filter: brightness(.94);
+        }
+
+        .rose-button:focus-visible,
+        .reset:focus-visible {
+            outline: 3px solid #ffd1e1;
+            outline-offset: 6px;
+            border-radius: 16px;
+        }
+
+        .rose {
+            position: absolute;
+            left: 50%;
+            top: 31px;
+            width: 110px;
+            height: 116px;
+            transform: translateX(-50%);
+            transition: transform 1.5s cubic-bezier(.2, .8, .2, 1), filter 1.2s ease;
+        }
+
+        .petal {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 47px;
+            height: 66px;
+            border-radius: 55% 55% 48% 48%;
+            transform-origin: 50% 88%;
+            background: linear-gradient(145deg, #ff9bbc 0%, #e8437c 52%, #a81750 100%);
+            box-shadow: inset 4px 2px 9px #ffd1df55, inset -5px -5px 10px #6a0d3444, 0 5px 16px #ce347433;
+            transition: transform 1.45s cubic-bezier(.16, 1, .3, 1), filter 1s;
+        }
+
+        .p1 {
+            transform: translate(-50%, -55%) rotate(0) scale(.76, .84);
+            z-index: 5;
+        }
+
+        .p2 {
+            transform: translate(-50%, -55%) rotate(48deg) scale(.68, .8);
+            z-index: 4;
+        }
+
+        .p3 {
+            transform: translate(-50%, -55%) rotate(-48deg) scale(.68, .8);
+            z-index: 4;
+        }
+
+        .p4 {
+            transform: translate(-50%, -55%) rotate(96deg) scale(.62, .75);
+            z-index: 3;
+        }
+
+        .p5 {
+            transform: translate(-50%, -55%) rotate(-96deg) scale(.62, .75);
+            z-index: 3;
+        }
+
+        .p6 {
+            transform: translate(-50%, -55%) rotate(145deg) scale(.57, .69);
+            z-index: 2;
+        }
+
+        .p7 {
+            transform: translate(-50%, -55%) rotate(-145deg) scale(.57, .69);
+            z-index: 2;
+        }
+
+        .center {
+            position: absolute;
+            z-index: 6;
+            left: 50%;
+            top: 48%;
+            width: 25px;
+            height: 30px;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle at 35% 30%, #ffd08d, #e88455 55%, #a53e50);
+            box-shadow: 0 0 20px #ffad7c77;
+        }
+
+        .stem {
+            position: absolute;
+            z-index: -1;
+            left: 50%;
+            top: 125px;
+            width: 5px;
+            height: 132px;
+            border-radius: 100%;
+            transform: translateX(-50%) rotate(2deg);
+            background: linear-gradient(90deg, #31694e, #76b88a 52%, #387252);
+            transform-origin: top;
+        }
+
+        .leaf {
+            position: absolute;
+            z-index: 0;
+            width: 58px;
+            height: 27px;
+            background: linear-gradient(145deg, #8ac49b, #418364 75%);
+            border-radius: 100% 0 100% 0;
+            box-shadow: inset 0 1px #d1f2c755;
+        }
+
+        .leaf::after {
+            content: "";
+            position: absolute;
+            left: 8px;
+            top: 14px;
+            width: 43px;
+            height: 1px;
+            background: #d7efbe88;
+            transform: rotate(-18deg);
+            transform-origin: left;
+        }
+
+        .leaf.left {
+            left: calc(50% - 54px);
+            top: 190px;
+            transform: rotate(14deg);
+        }
+
+        .leaf.right {
+            left: calc(50% - 3px);
+            top: 221px;
+            transform: scaleX(-1) rotate(20deg);
+        }
+
+        .ground {
+            position: absolute;
+            top: 254px;
+            left: 50%;
+            width: 134px;
+            height: 12px;
+            transform: translateX(-50%);
+            border-radius: 50%;
+            background: #0005;
+            filter: blur(5px);
+        }
+
+        .hint {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            color: #dfc9d6;
+            font-size: .9rem;
+            line-height: 1.4;
+            transition: opacity .3s;
+        }
+
+        .garden:hover .halo {
+            transform: scale(1.13);
+            opacity: .9;
+        }
+
+        .garden.bloomed .halo {
+            transform: scale(1.4);
+            opacity: .78;
+        }
+
+        .garden.bloomed .rose {
+            filter: drop-shadow(0 0 13px #ff8db9a8) drop-shadow(0 0 30px #ff6ea455);
+        }
+
+        .garden.bloomed .rose {
+            transform: translateX(-50%) translateY(-5px) scale(1.14);
+            animation: rose-lift 1.5s cubic-bezier(.2, .8, .2, 1) both;
+        }
+
+        .garden.bloomed .p1 {
+            transform: translate(-50%, -68%) rotate(0) scale(1.04, 1.12);
+            transition-delay: .04s;
+        }
+
+        .garden.bloomed .p2 {
+            transform: translate(-50%, -69%) rotate(48deg) scale(.94, 1.04);
+            transition-delay: .12s;
+        }
+
+        .garden.bloomed .p3 {
+            transform: translate(-50%, -69%) rotate(-48deg) scale(.94, 1.04);
+            transition-delay: .2s;
+        }
+
+        .garden.bloomed .p4 {
+            transform: translate(-50%, -62%) rotate(96deg) scale(.83, .91);
+            transition-delay: .28s;
+        }
+
+        .garden.bloomed .p5 {
+            transform: translate(-50%, -62%) rotate(-96deg) scale(.83, .91);
+            transition-delay: .36s;
+        }
+
+        .garden.bloomed .p6 {
+            transform: translate(-50%, -53%) rotate(145deg) scale(.75, .83);
+            transition-delay: .44s;
+        }
+
+        .garden.bloomed .p7 {
+            transform: translate(-50%, -53%) rotate(-145deg) scale(.75, .83);
+            transition-delay: .52s;
+        }
+
+        .garden.bloomed .hint {
+            opacity: 0;
+        }
+
+        .dedication {
+            min-height: 80px;
+            opacity: 0;
+            transform: translateY(9px);
+            transition: opacity .7s ease .35s, transform .7s ease .35s;
+        }
+
+        .dedication.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .dedication h2 {
+            margin: 0 0 8px;
+            color: #ffc1d5;
+            font: 500 1.1rem Georgia, serif;
+        }
+
+        .dedication p {
+            max-width: 490px;
+            margin: 0 auto;
+            color: #f0e2ea;
+            font: 1.12rem/1.65 Georgia, serif;
+        }
+
+        .reset {
+            margin-top: 14px;
+            min-height: 44px;
+            padding: 10px 18px;
+            border: 1px solid #d9e7d34a;
+            border-radius: 4px;
+            color: var(--ink);
+            background: #d9e7d30d;
+            font: inherit;
+            font-size: .9rem;
+            cursor: pointer;
+            transition: background .2s, border-color .2s, transform .2s;
+        }
+
+        .reset[hidden] {
+            display: none;
+        }
+
+        .reset:hover {
+            background: #d9e7d31c;
+            border-color: #d9e7d380;
+            transform: translateY(-1px);
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        .sparkle {
+            position: absolute;
+            left: 50%;
+            top: 47%;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #ffd7a0;
+            box-shadow: 0 0 12px 3px #ffb5d577;
+            pointer-events: none;
+            animation: drift 1.8s ease-out forwards;
+        }
+
+        .falling-petal {
+            position: absolute;
+            z-index: 3;
+            left: 50%;
+            top: 37%;
+            width: 13px;
+            height: 20px;
+            border-radius: 80% 8% 75% 12%;
+            background: linear-gradient(145deg, #ffb0ca, #dd4279 70%, #a91e55);
+            box-shadow: 0 0 9px #ff85ac55;
+            pointer-events: none;
+            animation: petal-fall var(--duration) cubic-bezier(.35, .05, .7, .35) var(--delay) forwards;
+        }
+
+        @keyframes rose-lift {
+            0% {
+                transform: translateX(-50%) translateY(9px) scale(.84);
+            }
+
+            62% {
+                transform: translateX(-50%) translateY(-13px) scale(1.18);
+            }
+
+            100% {
+                transform: translateX(-50%) translateY(-5px) scale(1.14);
+            }
+        }
+
+        @keyframes petal-fall {
+            0% {
+                opacity: 0;
+                transform: translate(0, 0) rotate(0deg) scale(.72);
+            }
+
+            12% {
+                opacity: .9;
+            }
+
+            42% {
+                opacity: .82;
+                transform: translate(calc(var(--drift) * .32), calc(var(--drop) * .35)) rotate(calc(var(--spin) * .38)) scale(1);
+            }
+
+            72% {
+                opacity: .68;
+                transform: translate(calc(var(--drift) * .72 + var(--sway)), calc(var(--drop) * .72)) rotate(calc(var(--spin) * .76)) scale(.82);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(calc(var(--drift) + var(--sway)), var(--drop)) rotate(var(--spin)) scale(.48);
+            }
+        }
+
+        @keyframes drift {
+            0% {
+                opacity: 0;
+                transform: translate(0, 0) scale(.3)
+            }
+
+            18% {
+                opacity: .9
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(var(--dx), var(--dy)) scale(0)
+            }
+        }
+
+        @media (max-width:520px) {
+            .card {
+                padding: 30px 19px 27px;
+                border-radius: 8px
+            }
+
+            h1 {
+                font-size: 2.3rem
+            }
+
+            .garden {
+                height: 286px
+            }
+
+            .rose-button {
+                transform: scale(.92)
+            }
+        }
+
+        @media (prefers-reduced-motion:reduce) {
+
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .01ms !important
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <section class="card" aria-labelledby="title">
+            <p class="eyebrow">Un pequeño detalle para ti</p>
+            <h1 id="title">Rosa Digital</h1>
+            <p class="intro">A veces, las palabras más bonitas florecen despacio.</p>
+            <div class="garden" id="garden">
+                <div class="halo" aria-hidden="true"></div>
+                <button class="rose-button" id="roseButton" type="button"
+                    aria-label="Abrir la rosa y revelar la dedicatoria" aria-expanded="false">
+                    <span class="rose" aria-hidden="true">
+                        <i class="petal p1"></i><i class="petal p2"></i><i class="petal p3"></i><i
+                            class="petal p4"></i><i class="petal p5"></i><i class="petal p6"></i><i
+                            class="petal p7"></i><i class="center"></i>
+                    </span>
+                    <span class="stem" aria-hidden="true"></span><span class="leaf left" aria-hidden="true"></span><span
+                        class="leaf right" aria-hidden="true"></span><span class="ground" aria-hidden="true"></span>
+                    <span class="hint">Toca la rosa para verla florecer</span>
+                </button>
+                <div class="sr-only" id="status" aria-live="polite"></div>
+            </div>
+            <div class="dedication" id="dedication" aria-hidden="true">
+                <h2 id="recipient">Para alguien especial</h2>
+                <p id="message">Que nunca te falten motivos para sonreír, ni personas que te recuerden lo mucho que
+                    iluminas el mundo.</p>
+            </div>
+            <button class="reset" id="resetButton" type="button" hidden>Volver a empezar</button>
+        </section>
+    </main>
+    <script>
+        // Personaliza aquí el nombre y la dedicatoria.
+        const recipientName = "alguien especial";
+        const dedicationMessage = "Que nunca te falten motivos para sonreír, ni personas que te recuerden lo mucho que iluminas el mundo.";
+
+        const garden = document.getElementById("garden");
+        const roseButton = document.getElementById("roseButton");
+        const resetButton = document.getElementById("resetButton");
+        const dedication = document.getElementById("dedication");
+        const recipient = document.getElementById("recipient");
+        const message = document.getElementById("message");
+        const status = document.getElementById("status");
+        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+        let revealTimer;
+        let petalTimer;
+
+        recipient.textContent = `Para ${recipientName}`;
+        message.textContent = dedicationMessage;
+
+        function bloom() {
+            if (garden.classList.contains("bloomed")) return;
+            garden.classList.add("bloomed");
+            roseButton.setAttribute("aria-expanded", "true");
+            resetButton.hidden = false;
+            status.textContent = "La rosa está floreciendo.";
+            if (!reduceMotion.matches) {
+                for (let i = 0; i < 16; i++) {
+                    const particle = document.createElement("span");
+                    particle.className = "sparkle";
+                    particle.setAttribute("aria-hidden", "true");
+                    particle.style.setProperty("--dx", `${Math.round(Math.random() * 220 - 110)}px`);
+                    particle.style.setProperty("--dy", `${Math.round(Math.random() * -150 - 20)}px`);
+                    particle.style.animationDelay = `${Math.random() * 350}ms`;
+                    garden.appendChild(particle);
+                    particle.addEventListener("animationend", () => particle.remove(), { once: true });
+                }
+            }
+            revealTimer = window.setTimeout(() => {
+                dedication.classList.add("visible");
+                dedication.setAttribute("aria-hidden", "false");
+                status.textContent = `Dedicatoria para ${recipientName}: ${dedicationMessage}`;
+                // Los pétalos empiezan a caer al terminar de abrirse la rosa.
+                if (reduceMotion.matches) return;
+                const dropPetal = () => {
+                    if (!garden.classList.contains("bloomed") || reduceMotion.matches) return;
+                    const petal = document.createElement("span");
+                    petal.className = "falling-petal";
+                    petal.setAttribute("aria-hidden", "true");
+                    petal.style.setProperty("--drift", `${Math.round(Math.random() * 220 - 110)}px`);
+                    petal.style.setProperty("--sway", `${Math.round(Math.random() * 54 - 27)}px`);
+                    petal.style.setProperty("--drop", `${Math.round(200 + Math.random() * 120)}px`);
+                    petal.style.setProperty("--spin", `${Math.round(Math.random() * 720 - 360)}deg`);
+                    petal.style.setProperty("--duration", `${(4 + Math.random() * 2).toFixed(1)}s`);
+                    petal.style.setProperty("--delay", `${(Math.random() * .25).toFixed(2)}s`);
+                    garden.appendChild(petal);
+                    petal.addEventListener("animationend", () => petal.remove(), { once: true });
+                    petalTimer = window.setTimeout(dropPetal, 280 + Math.random() * 420);
+                };
+                petalTimer = window.setTimeout(dropPetal, 180);
+            }, reduceMotion.matches ? 0 : 950);
+        }
+
+        function reset() {
+            window.clearTimeout(revealTimer);
+            window.clearTimeout(petalTimer);
+            garden.classList.remove("bloomed");
+            garden.querySelectorAll(".sparkle, .falling-petal").forEach((particle) => particle.remove());
+            dedication.classList.remove("visible");
+            dedication.setAttribute("aria-hidden", "true");
+            roseButton.setAttribute("aria-expanded", "false");
+            resetButton.hidden = true;
+            status.textContent = "La animación se reinició. La rosa está cerrada.";
+            roseButton.focus();
+        }
+
+        roseButton.addEventListener("click", bloom);
+        resetButton.addEventListener("click", reset);
+    </script>
+</body>
+
+</html>
