@@ -188,15 +188,64 @@ function pintar(cat) {
     const desc = Object.assign(document.createElement("p"), {
       textContent: p.descripcion,
     });
+    const actions = document.createElement("div");
+    actions.className = "card-actions";
+
     const a = Object.assign(document.createElement("a"), {
-      className: "btn primary",
+      className: "btn primary btn-open",
       href: p.ruta,
       target: "_blank",
       rel: "noopener",
       textContent: "Abrir proyecto",
     });
     a.setAttribute("aria-label", `Abrir ${p.titulo} en una pestaña nueva`);
-    body.append(tags, h3, desc, a);
+
+    const copyBtn = document.createElement("button");
+    copyBtn.type = "button";
+    copyBtn.className = "btn secondary btn-copy";
+    copyBtn.setAttribute("aria-label", `Copiar enlace directo de ${p.titulo}`);
+    copyBtn.innerHTML = `<span class="btn-icon" aria-hidden="true">🔗</span><span class="btn-text">Copiar link</span>`;
+
+    copyBtn.addEventListener("click", async (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const urlCompleta = new URL(p.ruta, window.location.href).href;
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(urlCompleta);
+        } else {
+          throw new Error("Clipboard API no disponible");
+        }
+      } catch (err) {
+        const temp = document.createElement("input");
+        temp.value = urlCompleta;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand("copy");
+        temp.remove();
+      }
+
+      if (window.SL_AUDIO) window.SL_AUDIO.play("reward");
+
+      copyBtn.classList.add("copied");
+      const textSpan = copyBtn.querySelector(".btn-text");
+      const iconSpan = copyBtn.querySelector(".btn-icon");
+      if (textSpan) textSpan.textContent = "¡Copiado!";
+      if (iconSpan) iconSpan.textContent = "✔";
+
+      if (window.SL_SYSTEM && window.SL_SYSTEM.toast) {
+        window.SL_SYSTEM.toast(`[ RECOMPENSA: ENLACE COPIADO ] ${p.titulo}`);
+      }
+
+      setTimeout(() => {
+        copyBtn.classList.remove("copied");
+        if (textSpan) textSpan.textContent = "Copiar link";
+        if (iconSpan) iconSpan.textContent = "🔗";
+      }, 2200);
+    });
+
+    actions.append(a, copyBtn);
+    body.append(tags, h3, desc, actions);
     card.append(img, body);
     grid.append(card);
     activarInclinacion(card);

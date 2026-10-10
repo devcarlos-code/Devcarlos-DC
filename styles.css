@@ -1,4 +1,4 @@
-﻿/* ============================================================
+/* ============================================================
    DevCarlos — Solo Leveling Theme
    Inspired by the System UI from Solo Leveling anime/manhwa
    ============================================================ */
@@ -2401,17 +2401,27 @@ h1 {
   text-shadow: var(--sl-glow-text);
 }
 
-/* 5 · Botón como fila de misión: texto + casilla ☐ */
-.grid .card .btn {
+/* 5 · Fila de acciones de la tarjeta: Abrir Proyecto + Copiar Enlace */
+.grid .card .card-actions {
   order: 5;
-  align-self: stretch;
-  justify-content: space-between;
-  padding: 11px 16px;
-  border-radius: 4px;
-  font: 700 1rem var(--f-hud);
-  letter-spacing: 0.16em;
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+  width: 100%;
 }
-.grid .card .btn::after {
+.grid .card .card-actions .btn {
+  order: unset;
+  align-self: auto;
+  min-height: 44px;
+}
+.grid .card .card-actions .btn-open {
+  flex: 1.35;
+  justify-content: space-between;
+  padding: 10px 14px;
+  font: 700 0.95rem var(--f-hud);
+  letter-spacing: 0.12em;
+}
+.grid .card .card-actions .btn-open::after {
   display: block;
   position: static;
   width: 14px;
@@ -2423,9 +2433,55 @@ h1 {
     background 0.25s,
     box-shadow 0.25s;
 }
-.grid .card .btn:hover::after {
+.grid .card .card-actions .btn-open:hover::after {
   background: var(--sl-cyan);
   box-shadow: 0 0 14px var(--sl-cyan);
+}
+.grid .card .card-actions .btn-copy {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 12px;
+  font: 700 0.88rem var(--f-hud);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: linear-gradient(
+    180deg,
+    rgba(8, 28, 64, 0.85),
+    rgba(2, 12, 32, 0.92)
+  );
+  border: 1px solid rgba(47, 208, 255, 0.5);
+  color: #aee4ff;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow: inset 0 0 10px rgba(0, 170, 255, 0.1);
+}
+.grid .card .card-actions .btn-copy:hover {
+  background: linear-gradient(
+    180deg,
+    rgba(14, 52, 115, 0.95),
+    rgba(5, 25, 62, 0.98)
+  );
+  border-color: #6fe3ff;
+  color: #ffffff;
+  box-shadow:
+    0 0 14px rgba(47, 208, 255, 0.45),
+    inset 0 0 12px rgba(47, 208, 255, 0.2);
+  transform: translateY(-1px);
+}
+.grid .card .card-actions .btn-copy.copied {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 140, 90, 0.65),
+    rgba(0, 60, 40, 0.85)
+  ) !important;
+  border-color: #00ffbb !important;
+  color: #a3ffe0 !important;
+  box-shadow: 0 0 18px rgba(0, 255, 187, 0.6) !important;
+  transform: scale(1.02);
 }
 
 /* Efectos que ya existían: se adaptan al nuevo marco */
@@ -2779,5 +2835,395 @@ dialog p {
   .links a,
   .foot button {
     transition: none;
+  }
+}
+
+/* ==========================================================================
+   SOLO LEVELING HD SYSTEM EXTENSIONS (HUD, SOUNDS, HUNTER PROFILE, MODAL)
+   ========================================================================== */
+
+/* ── Controles HUD en la Barra de Navegación ────────────────────────────── */
+.nav-hud-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+  margin-right: 14px;
+}
+.hud-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  font: 700 0.78rem var(--f-hud);
+  letter-spacing: 0.14em;
+  color: #aee4ff;
+  background: linear-gradient(
+    180deg,
+    rgba(8, 30, 70, 0.8),
+    rgba(2, 12, 32, 0.9)
+  );
+  border: 1px solid rgba(47, 208, 255, 0.55);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: inset 0 0 10px rgba(0, 170, 255, 0.15), 0 0 8px rgba(0, 170, 255, 0.2);
+}
+.hud-pill-btn:hover {
+  border-color: #6fe3ff;
+  color: #ffffff;
+  box-shadow: 0 0 14px rgba(47, 208, 255, 0.5), inset 0 0 12px rgba(47, 208, 255, 0.3);
+  transform: translateY(-1px);
+}
+.hud-pill-btn.muted {
+  border-color: rgba(255, 75, 100, 0.5);
+  color: #ff99aa;
+  background: rgba(30, 8, 16, 0.8);
+  box-shadow: none;
+}
+.hud-pill-btn.quest-btn {
+  border-color: #00e5ff;
+  background: linear-gradient(180deg, rgba(0, 80, 180, 0.6), rgba(0, 20, 60, 0.8));
+  animation: hud-pulse 3s infinite alternate;
+}
+@keyframes hud-pulse {
+  0% { box-shadow: 0 0 6px rgba(0, 229, 255, 0.3); }
+  100% { box-shadow: 0 0 16px rgba(0, 229, 255, 0.65); }
+}
+
+/* ── Hero: Perfil de Cazador (Hunter Profile & Status Window) ───────────── */
+.hunter-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  flex: none;
+}
+.avatar-frame {
+  position: relative;
+  display: inline-block;
+  padding: 6px;
+}
+.avatar-glow-ring {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    #00e5ff,
+    #7c3aed,
+    #00a2ff,
+    #ff0077,
+    #00e5ff
+  );
+  filter: blur(8px);
+  opacity: 0.7;
+  animation: avatar-ring-rotate 8s linear infinite;
+  z-index: 0;
+}
+@keyframes avatar-ring-rotate {
+  to { transform: rotate(360deg); }
+}
+.avatar-frame .avatar {
+  position: relative;
+  z-index: 1;
+}
+.rank-badge {
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  background: linear-gradient(90deg, #ff0055, #a855f7, #00d4ff);
+  color: #fff;
+  font: 900 0.76rem var(--f-hud);
+  letter-spacing: 0.18em;
+  padding: 3px 12px;
+  border-radius: 3px;
+  box-shadow: 0 0 14px rgba(0, 212, 255, 0.8), 0 0 24px rgba(255, 0, 85, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  white-space: nowrap;
+}
+.hunter-gauges {
+  width: 100%;
+  max-width: 170px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.gauge-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font: 700 0.74rem var(--f-hud);
+  letter-spacing: 0.08em;
+}
+.gauge-name {
+  width: 22px;
+  color: #6fe3ff;
+}
+.gauge-bar {
+  flex: 1;
+  height: 6px;
+  background: rgba(1, 14, 38, 0.85);
+  border: 1px solid rgba(47, 208, 255, 0.45);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+.gauge-bar span {
+  display: block;
+  height: 100%;
+  transition: width 0.5s ease;
+}
+.gauge-bar.hp span {
+  background: linear-gradient(90deg, #00d4ff, #5fe0ff);
+  box-shadow: 0 0 8px #00d4ff;
+}
+.gauge-bar.mp span {
+  background: linear-gradient(90deg, #7c3aed, #00e5ff);
+  box-shadow: 0 0 10px #7c3aed;
+}
+.gauge-val {
+  font-size: 0.68rem;
+  color: #aee4ff;
+  width: 32px;
+  text-align: right;
+}
+
+/* ── Status tag en Hero ─────────────────────────────────────────────────── */
+.system-status-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: 700 0.85rem var(--f-hud);
+  letter-spacing: 0.14em;
+  color: #6fe3ff;
+  margin-bottom: 12px;
+  text-shadow: 0 0 10px rgba(111, 227, 255, 0.6);
+}
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #00ffaa;
+  box-shadow: 0 0 10px #00ffaa, 0 0 20px #00ffaa;
+  animation: dot-pulse 1.8s infinite alternate;
+}
+@keyframes dot-pulse {
+  0% { transform: scale(0.85); opacity: 0.6; }
+  100% { transform: scale(1.15); opacity: 1; }
+}
+.btn.quest-trigger {
+  background: linear-gradient(
+    180deg,
+    rgba(14, 45, 95, 0.75),
+    rgba(4, 18, 48, 0.85)
+  );
+  border-color: #6fe3ff;
+  color: #eaf6ff;
+}
+.btn.quest-trigger:hover {
+  background: linear-gradient(
+    180deg,
+    rgba(24, 75, 145, 0.9),
+    rgba(8, 30, 80, 0.95)
+  );
+  box-shadow: 0 0 18px rgba(0, 229, 255, 0.6);
+  color: #fff;
+}
+
+/* ── Efecto de Láser Holográfico en Tarjetas ────────────────────────────── */
+.grid .card .card-img-wrap {
+  position: relative;
+  overflow: hidden;
+}
+.grid .card .card-img-wrap::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 229, 255, 0.25),
+    transparent
+  );
+  transform: skewX(-25deg);
+  pointer-events: none;
+  transition: none;
+}
+.grid .card:hover .card-img-wrap::after {
+  left: 200%;
+  transition: left 0.85s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* ── Ventana Holográfica del Sistema (Solo Leveling Modal) ──────────────── */
+.sl-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+.sl-modal.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+.sl-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 3, 10, 0.85);
+  backdrop-filter: blur(12px) saturate(140%);
+  -webkit-backdrop-filter: blur(12px) saturate(140%);
+}
+.sl-modal-window {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 560px;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(0, 140, 255, 0.28), transparent 72%),
+    radial-gradient(ellipse at 50% 100%, rgba(124, 58, 237, 0.18), transparent 60%),
+    linear-gradient(180deg, rgba(2, 10, 28, 0.98), rgba(0, 3, 12, 0.99));
+  border: 2px solid #5fe0ff;
+  clip-path: polygon(
+    16px 0,
+    calc(100% - 16px) 0,
+    100% 16px,
+    100% calc(100% - 16px),
+    calc(100% - 16px) 100%,
+    16px 100%,
+    0 calc(100% - 16px),
+    0 16px
+  );
+  box-shadow:
+    0 0 50px rgba(0, 170, 255, 0.5),
+    inset 0 0 35px rgba(0, 140, 255, 0.25);
+  padding: 34px 30px 30px;
+  transform: scale(0.92) translateY(24px);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.sl-modal.show .sl-modal-window {
+  transform: scale(1) translateY(0);
+}
+.sl-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 22px;
+  border-bottom: 1px solid rgba(80, 190, 255, 0.35);
+  padding-bottom: 14px;
+}
+.sl-modal-badge {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: 1.5px solid #6fe3ff;
+  border-radius: 50%;
+  color: #6fe3ff;
+  font: 700 1.1rem var(--f-hud);
+  box-shadow: 0 0 14px rgba(111, 227, 255, 0.7);
+  flex: none;
+}
+#sl-modal-title {
+  flex: 1;
+  font: 700 1.28rem var(--f-hud);
+  letter-spacing: 0.16em;
+  color: #eaf6ff;
+  text-shadow: 0 0 16px rgba(79, 195, 247, 0.9);
+}
+.sl-modal-close {
+  background: none;
+  border: none;
+  color: #7fa6c2;
+  font-size: 1.8rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.2s;
+  padding: 0 6px;
+}
+.sl-modal-close:hover {
+  color: #fff;
+  text-shadow: 0 0 10px #00e5ff;
+}
+.sl-alert-box {
+  background: rgba(0, 40, 95, 0.4);
+  border: 1px dashed rgba(80, 190, 255, 0.5);
+  padding: 16px 18px;
+  border-radius: 4px;
+  margin-bottom: 22px;
+}
+.sl-alert-title {
+  font: 700 1.02rem var(--f-hud);
+  color: #6fe3ff;
+  letter-spacing: 0.12em;
+  margin-bottom: 6px;
+  text-shadow: 0 0 10px rgba(111, 227, 255, 0.6);
+}
+.sl-alert-desc {
+  font: 500 0.98rem/1.5 var(--f);
+  color: #c8e8ff;
+}
+.sl-quest-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 26px;
+}
+.sl-quest-item {
+  background: rgba(2, 14, 38, 0.75);
+  border-left: 3px solid #00d4ff;
+  padding: 10px 14px;
+  border-radius: 0 3px 3px 0;
+}
+.sl-quest-label {
+  display: block;
+  font: 700 0.84rem var(--f-hud);
+  color: #6fe3ff;
+  letter-spacing: 0.14em;
+  margin-bottom: 2px;
+}
+.sl-quest-val {
+  font: 500 0.96rem var(--f);
+  color: #d8eeff;
+}
+.sl-modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.sl-modal-actions .btn {
+  flex: 1;
+  min-width: 200px;
+  justify-content: center;
+  font-size: 0.95rem;
+}
+@media (max-width: 600px) {
+  .nav-hud-controls {
+    margin-right: 8px;
+  }
+  .hud-pill-btn {
+    padding: 4px 8px;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+  }
+  .hunter-profile {
+    margin-bottom: 16px;
+  }
+  .grid .card .card-actions {
+    flex-direction: column;
+  }
+  .grid .card .card-actions .btn-open,
+  .grid .card .card-actions .btn-copy {
+    width: 100%;
   }
 }

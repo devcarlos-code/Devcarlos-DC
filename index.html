@@ -60,6 +60,16 @@
         <a class="brand" href="#inicio"
           ><span class="hex" aria-hidden="true">DC</span>DevCarlos</a
         >
+        <div class="nav-hud-controls" aria-label="Controles del sistema">
+          <button id="sfx-toggle" class="hud-pill-btn sfx-btn" type="button" aria-label="Activar o desactivar sonido del sistema" title="Sonido del Sistema Solo Leveling">
+            <span class="sfx-icon" aria-hidden="true">🔊</span>
+            <span class="sfx-label">SFX: ON</span>
+          </button>
+          <button id="system-quest-btn" class="hud-pill-btn quest-btn" type="button" aria-label="Abrir notificación del sistema" title="Ver notificación del sistema">
+            <span class="quest-icon" aria-hidden="true">⚡</span>
+            <span class="quest-label">SISTEMA</span>
+          </button>
+        </div>
         <button class="menu-btn" aria-expanded="false" aria-controls="links">
           Menú
         </button>
@@ -72,7 +82,7 @@
       </div>
       <div class="xp-bar-wrap" aria-hidden="true">
         <div class="xp-bar-meta">
-          <span class="xp-class">[ CLASE: WEB DEVELOPER ]</span>
+          <span class="xp-class">[ CLASE: SHADOW MONARCH / WEB DEV ]</span>
           <span class="xp-level" id="xp-level">LV. 1</span>
         </div>
         <div class="xp-track">
@@ -89,24 +99,50 @@
     <main id="main">
       <section id="inicio" class="hero" aria-labelledby="t-inicio">
         <div class="wrap">
-          <img
-            class="avatar"
-            src="assets/img/avatar.jpg"
-            alt="Foto de DevCarlos"
-            width="168"
-            height="168"
-          />
-          <div>
+          <div class="hunter-profile">
+            <div class="avatar-frame">
+              <div class="avatar-glow-ring"></div>
+              <img
+                class="avatar"
+                src="assets/img/avatar.jpg"
+                alt="Foto de DevCarlos"
+                width="168"
+                height="168"
+              />
+              <span class="rank-badge" title="Rango de Cazador">S-RANK</span>
+            </div>
+            <div class="hunter-gauges" aria-hidden="true">
+              <div class="gauge-row">
+                <span class="gauge-name">HP</span>
+                <div class="gauge-bar hp"><span style="width: 100%"></span></div>
+                <span class="gauge-val">100%</span>
+              </div>
+              <div class="gauge-row">
+                <span class="gauge-name">MP</span>
+                <div class="gauge-bar mp"><span style="width: 100%"></span></div>
+                <span class="gauge-val">MAX</span>
+              </div>
+            </div>
+          </div>
+          <div class="hero-content">
+            <div class="system-status-tag" aria-hidden="true">
+              <span class="status-dot"></span>
+              <span class="status-text">[ STATUS: CAZADOR ACTIVO ] · [ TÍTULO: MONARCA DEL CÓDIGO ]</span>
+            </div>
             <h1 id="t-inicio">
               Soy Carlos, desarrollo páginas web que se sienten vivas
             </h1>
             <p class="lead">
               Hago experiencias interactivas con HTML, CSS y JavaScript: desde
-              un sistema solar en 3D hasta cartas animadas.
+              un sistema solar en 3D hasta cartas animadas y mundos interactivos.
             </p>
             <div class="row">
               <a class="btn primary" href="#proyectos">Ver proyectos</a>
               <a class="btn" href="#contacto">Escríbeme</a>
+              <button type="button" class="btn quest-trigger" id="open-system-modal">
+                <span class="btn-icon" aria-hidden="true">📜</span>
+                <span class="btn-text">Misión del Sistema</span>
+              </button>
             </div>
           </div>
         </div>
@@ -247,6 +283,47 @@
       <button class="close" aria-label="Cerrar">×</button>
       <article id="legal-body"></article>
     </dialog>
+
+    <!-- Ventana de Notificación del Sistema (Solo Leveling HD) -->
+    <div id="sl-system-modal" class="sl-modal" aria-hidden="true" role="dialog" aria-labelledby="sl-modal-title">
+      <div class="sl-modal-backdrop" id="sl-modal-backdrop"></div>
+      <div class="sl-modal-window">
+        <div class="sl-modal-header">
+          <div class="sl-modal-badge" aria-hidden="true">!</div>
+          <h3 id="sl-modal-title">[ NOTIFICACIÓN DEL SISTEMA ]</h3>
+          <button class="sl-modal-close" id="close-system-modal" type="button" aria-label="Cerrar ventana del sistema">×</button>
+        </div>
+        <div class="sl-modal-body">
+          <div class="sl-alert-box">
+            <p class="sl-alert-title">¡HAS INGRESADO AL CALABOZO DE DEVCARLOS!</p>
+            <p class="sl-alert-desc">El Sistema ha detectado tu presencia como Cazador y te ha concedido acceso a todas las experiencias interactivas y proyectos web.</p>
+          </div>
+          <div class="sl-quest-details">
+            <div class="sl-quest-item">
+              <span class="sl-quest-label">[ MISIÓN DIARIA ]</span>
+              <span class="sl-quest-val">Explorar el catálogo de proyectos y probar sus efectos.</span>
+            </div>
+            <div class="sl-quest-item">
+              <span class="sl-quest-label">[ NUEVA FUNCIÓN ]</span>
+              <span class="sl-quest-val">Cada tarjeta incluye ahora un botón para <strong>Copiar Link</strong> directo al proyecto.</span>
+            </div>
+            <div class="sl-quest-item">
+              <span class="sl-quest-label">[ RECOMPENSA ]</span>
+              <span class="sl-quest-val">Efectos de sonido HD del Sistema, EXP de cazador y código libre.</span>
+            </div>
+          </div>
+          <div class="sl-modal-actions">
+            <button type="button" class="btn primary" id="accept-quest-btn">
+              <span>[ ACEPTAR DESAFÍO ]</span>
+            </button>
+            <button type="button" class="btn secondary" id="copy-portfolio-btn">
+              <span>🔗 Copiar Link del Portafolio</span>
+            </button>
+          </div>
+        </div>
+        <div class="sl-modal-glow" aria-hidden="true"></div>
+      </div>
+    </div>
 
     <script src="main.js?v=soft-hover-2"></script>
     <script src="sl-effects.js"></script>
