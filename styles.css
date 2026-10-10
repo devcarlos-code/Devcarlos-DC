@@ -3227,3 +3227,156 @@ dialog p {
     width: 100%;
   }
 }
+
+/* ==========================================================================
+   SOLO LEVELING 3D SCROLL & DUNGEON GATE SYSTEM
+   ========================================================================== */
+
+/* ── Portal de Mazmorra 3D en el fondo (Dungeon Gate) ───────────────────── */
+.sl-portal-gate {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: min(650px, 85vw);
+  height: min(650px, 85vw);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: -1;
+  perspective: 1200px;
+  opacity: 0.38;
+  transition: opacity 0.5s ease;
+}
+.portal-orbit {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transform:
+    rotateX(calc(55deg + var(--scroll-rot-x, 0deg)))
+    rotateY(var(--scroll-rot-y, 0deg))
+    rotateZ(var(--scroll-spin, 0deg))
+    scale(var(--scroll-scale, 1));
+  transition: transform 0.15s cubic-bezier(0.1, 0.9, 0.2, 1);
+}
+.portal-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px dashed rgba(0, 229, 255, 0.6);
+  box-shadow:
+    0 0 35px rgba(0, 229, 255, 0.4),
+    inset 0 0 25px rgba(124, 58, 237, 0.3);
+  animation: portal-spin-outer 25s linear infinite;
+}
+.portal-ring.ring-inner {
+  inset: 18%;
+  border: 1.5px solid rgba(124, 58, 237, 0.7);
+  box-shadow:
+    0 0 25px rgba(124, 58, 237, 0.5),
+    inset 0 0 20px rgba(0, 229, 255, 0.4);
+  animation: portal-spin-inner 18s linear infinite reverse;
+}
+.portal-core {
+  position: absolute;
+  inset: 35%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(0, 229, 255, 0.7) 0%,
+    rgba(124, 58, 237, 0.5) 45%,
+    transparent 75%
+  );
+  filter: blur(12px);
+  animation: portal-pulse-core 4s ease-in-out infinite alternate;
+}
+.portal-runes {
+  position: absolute;
+  inset: 6%;
+  border-radius: 50%;
+  border: 1px dotted rgba(79, 195, 247, 0.5);
+  box-shadow: 0 0 16px rgba(0, 229, 255, 0.25);
+  animation: portal-spin-outer 35s linear infinite;
+}
+
+@keyframes portal-spin-outer {
+  to { transform: rotateZ(360deg); }
+}
+@keyframes portal-spin-inner {
+  to { transform: rotateZ(-360deg); }
+}
+@keyframes portal-pulse-core {
+  0% { transform: scale(0.85); opacity: 0.45; }
+  100% { transform: scale(1.18); opacity: 0.85; filter: blur(16px); }
+}
+
+/* ── Profundidad 3D en la Cuadrícula y Tarjetas (Dungeon 3D Perspective) ─── */
+.grid {
+  perspective: 1400px;
+  perspective-origin: 50% 40%;
+}
+.grid .card {
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+  transition:
+    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.45s ease,
+    opacity 0.45s ease;
+}
+
+/* Scroll-driven animations nativas en el compositor (Chrome 115+, Safari 26+, Edge) */
+@supports ((animation-timeline: view()) and (animation-range: entry)) {
+  .grid .card {
+    view-timeline: --card-scroll block;
+    animation: sl-card-3d-entrance linear both;
+    animation-timeline: --card-scroll;
+    animation-range: entry 0% exit 100%;
+  }
+
+  @keyframes sl-card-3d-entrance {
+    0% {
+      opacity: 0.15;
+      transform: perspective(1200px) rotateX(15deg) translateZ(-80px) scale(0.92);
+      filter: brightness(0.65) drop-shadow(0 0 0px transparent);
+    }
+    30% {
+      opacity: 1;
+      transform: perspective(1200px) rotateX(0deg) translateZ(0) scale(1);
+      filter: brightness(1) drop-shadow(0 0 15px rgba(0, 229, 255, 0.25));
+    }
+    75% {
+      opacity: 1;
+      transform: perspective(1200px) rotateX(0deg) translateZ(0) scale(1);
+      filter: brightness(1);
+    }
+    100% {
+      opacity: 0.25;
+      transform: perspective(1200px) rotateX(-12deg) translateZ(-60px) scale(0.94);
+      filter: brightness(0.7);
+    }
+  }
+
+  .hunter-profile {
+    view-timeline: --hero-scroll block;
+    animation: sl-hero-parallax linear both;
+    animation-timeline: --hero-scroll;
+    animation-range: entry 100% exit 0%;
+  }
+  @keyframes sl-hero-parallax {
+    0% { transform: translateY(0) scale(1); }
+    100% { transform: translateY(-30px) scale(0.96); opacity: 0.7; }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portal-ring,
+  .portal-core,
+  .portal-runes {
+    animation: none;
+  }
+  .sl-portal-gate {
+    display: none;
+  }
+  .grid .card {
+    transform: none !important;
+  }
+}

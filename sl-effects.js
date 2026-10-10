@@ -876,4 +876,71 @@
     }
   } catch (e) {}
 
+  /* ============================================================
+     8. SOLO LEVELING 3D SCROLL & DUNGEON GATE CONTROLLER
+     ============================================================ */
+  const portalEl = document.getElementById("sl-portal");
+  let lastScrollY = window.scrollY;
+  let scrollVelocity = 0;
+  let ticking = false;
+
+  function onScroll3D() {
+    if (prefersReduced.matches) return;
+    const sy = window.scrollY;
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = maxScroll > 0 ? sy / maxScroll : 0;
+
+    // Calcular velocidad de scroll
+    scrollVelocity = Math.abs(sy - lastScrollY);
+    lastScrollY = sy;
+
+    // Actualizar rotación 3D del portal de la mazmorra
+    if (portalEl) {
+      const rotX = Math.sin(progress * Math.PI) * 18;
+      const rotY = Math.cos(progress * Math.PI * 2) * 12;
+      const spin = progress * 360;
+      const scale = 0.9 + Math.sin(progress * Math.PI) * 0.35 + Math.min(0.2, scrollVelocity * 0.003);
+
+      portalEl.style.setProperty("--scroll-rot-x", `${rotX}deg`);
+      portalEl.style.setProperty("--scroll-rot-y", `${rotY}deg`);
+      portalEl.style.setProperty("--scroll-spin", `${spin}deg`);
+      portalEl.style.setProperty("--scroll-scale", scale.toFixed(3));
+    }
+
+    // Fallback 3D para navegadores que no soportan CSS animation-timeline
+    if (!window.CSS || !CSS.supports("(animation-timeline: view()) and (animation-range: entry)")) {
+      const cards = document.querySelectorAll(".grid .card");
+      const vh = window.innerHeight;
+      cards.forEach((card) => {
+        const rect = card.getBoundingClientRect();
+        const center = rect.top + rect.height / 2;
+        const normalized = (center - vh / 2) / (vh / 2);
+        if (rect.bottom > 0 && rect.top < vh) {
+          const tiltX = Math.max(-14, Math.min(14, normalized * 12));
+          const tz = -Math.abs(normalized) * 45;
+          const bright = 1 - Math.abs(normalized) * 0.25;
+          card.style.transform = `perspective(1200px) rotateX(${tiltX}deg) translateZ(${tz}px)`;
+          card.style.filter = `brightness(${bright})`;
+        } else {
+          card.style.transform = "";
+          card.style.filter = "";
+        }
+      });
+    }
+
+    ticking = false;
+  }
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (!ticking) {
+        requestAnimationFrame(onScroll3D);
+        ticking = true;
+      }
+    },
+    { passive: true },
+  );
+  onScroll3D();
+
 })();
