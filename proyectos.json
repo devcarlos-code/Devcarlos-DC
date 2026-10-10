@@ -47,6 +47,16 @@
     ]
   },
   {
+    "titulo": "Carta entre estrellas",
+    "descripcion": "Experiencia interactiva con partículas en forma de corazón, frases dinámicas y carta para abrir.",
+    "imagen": "assets/img/particles.jpg",
+    "ruta": "proyectos-nuevos/cartav3/index.html",
+    "categorias": [
+      "Interactivos",
+      "Románticos"
+    ]
+  },
+  {
     "titulo": "Mi galaxia",
     "descripcion": "Galaxia interactiva en 3D con frases de cariño y música.",
     "imagen": "assets/img/mi-galaxia.svg",
@@ -61,6 +71,16 @@
     "descripcion": "Galaxia 3D animada para celebrar el Día de las Flores Amarillas.",
     "imagen": "assets/img/flores-amarillas.svg",
     "ruta": "proyectos-nuevos/universo-de-flores-amarillas/index.html",
+    "categorias": [
+      "Interactivos",
+      "Románticos"
+    ]
+  },
+  {
+    "titulo": "Flores moradas",
+    "descripcion": "Ramo de tulipanes morados animados bajo las estrellas con una carta y mensaje especial.",
+    "imagen": "assets/img/flores-moradas.jpg",
+    "ruta": "proyectos-nuevos/Flores moradas/index.html",
     "categorias": [
       "Interactivos",
       "Románticos"
