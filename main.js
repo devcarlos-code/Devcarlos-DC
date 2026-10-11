@@ -11,24 +11,36 @@ const LEGAL = {
     "Política de privacidad",
     [
       [
-        "Información general",
-        "Este sitio es el portafolio personal de DevCarlos y muestra proyectos de desarrollo web.",
+        "Quién administra este sitio",
+        "DevCarlos es un portafolio personal que presenta proyectos y experimentos de desarrollo web. Esta política describe qué información puede tratarse al visitar el sitio y cómo se utilizan sus funciones.",
       ],
       [
-        "Información que recopilamos",
-        "El sitio no pide datos personales para navegar. Si me escribes por correo, usaré tu mensaje solo para responderte.",
+        "Datos que envías voluntariamente",
+        "El sitio no contiene un formulario propio para recopilar datos personales. Si eliges escribirme mediante correo electrónico o una red social, la información que incluyas será recibida por el servicio que uses y podrá utilizarse para responderte y mantener esa conversación. Evita enviar información sensible que no sea necesaria.",
       ],
       [
-        "Servicios de terceros",
-        "El sitio carga la tipografía Poppins desde Google Fonts, por lo que Google puede recibir tu dirección IP al cargar la página.",
+        "Almacenamiento en tu dispositivo",
+        "El sitio usa localStorage para recordar temporalmente la posición de desplazamiento y el filtro de proyectos, y sessionStorage para gestionar la pantalla de bienvenida y guardar en caché durante un periodo breve el listado de proyectos. Estos datos se guardan en tu propio navegador; no son un sistema de cuentas ni se envían a una base de datos propia. Puedes borrarlos desde la configuración del navegador.",
       ],
       [
-        "Enlaces externos",
-        "Puede haber enlaces a otros sitios. DevCarlos no controla sus políticas de privacidad.",
+        "Servicios externos y solicitudes técnicas",
+        "El sitio carga tipografías desde Google Fonts y, en GitHub Pages, puede consultar la API de GitHub para descubrir proyectos. Esos proveedores reciben las solicitudes técnicas necesarias y pueden tratar datos como la dirección IP, información del navegador y datos de conexión conforme a sus propias políticas. El alojamiento también puede procesar registros técnicos para operar y proteger el servicio.",
       ],
       [
-        "Cambios",
-        "Esta política puede actualizarse cuando se añadan nuevas funciones.",
+        "Analítica y publicidad",
+        "En el código revisado no encontré integraciones explícitas de Google Analytics, píxeles publicitarios ni plataformas de analítica de terceros. Esta descripción puede cambiar si se añaden herramientas nuevas o si algún proveedor externo incorpora funciones propias.",
+      ],
+      [
+        "Finalidad y conservación",
+        "El almacenamiento del navegador se utiliza para recordar la experiencia de navegación y acelerar ciertas consultas. El elemento de bienvenida se gestiona por sesión; la caché del árbol de proyectos se considera válida durante aproximadamente un minuto. Los mensajes que envíes por servicios externos se conservan según el funcionamiento y la configuración de esos servicios y de tus propias cuentas.",
+      ],
+      [
+        "Tus opciones",
+        "Puedes dejar de utilizar el sitio, borrar los datos del navegador o contactar a DevCarlos mediante los canales publicados en el portafolio para plantear una consulta sobre privacidad. Las solicitudes relacionadas con datos que estén en plataformas externas deberán dirigirse también al proveedor que los gestione.",
+      ],
+      [
+        "Cambios en esta política",
+        "Esta política puede actualizarse si cambian las funciones, el código o los servicios utilizados. La fecha que aparece al inicio indica la última revisión publicada.",
       ],
     ],
   ],
@@ -36,41 +48,61 @@ const LEGAL = {
     "Términos de uso",
     [
       [
-        "Uso del sitio",
-        "El sitio presenta información, proyectos y trabajos realizados por DevCarlos.",
+        "Finalidad del sitio",
+        "Este es un portafolio personal creado para mostrar proyectos, prácticas y experimentos de desarrollo web. El contenido se ofrece con fines informativos y de demostración.",
+      ],
+      [
+        "Uso responsable",
+        "Puedes navegar por el sitio y probar sus funciones de forma normal. No intentes interferir con su funcionamiento, abusar de servicios externos, introducir código malicioso ni acceder sin autorización a sistemas o datos.",
       ],
       [
         "Propiedad intelectual",
-        "El código y diseño son de DevCarlos, salvo que se indique lo contrario. No los reutilices sin permiso.",
+        "El diseño, los textos y el código original de DevCarlos pertenecen a su autor salvo que se indique lo contrario. No se concede una licencia general para copiar, redistribuir o presentar ese material como propio. Si un proyecto incluye componentes, recursos o licencias de terceros, estos se rigen por sus respectivas condiciones.",
       ],
       [
-        "Responsabilidad",
-        "El contenido se ofrece tal cual, sin garantías de disponibilidad continua.",
+        "Proyectos y recursos de terceros",
+        "Algunos proyectos pueden enlazar a demos, repositorios, bibliotecas, tipografías, imágenes o servicios externos. Sus autores y proveedores conservan sus propios derechos y condiciones. La presencia de un enlace no implica patrocinio ni respaldo.",
       ],
       [
-        "Enlaces externos",
-        "Los enlaces a otros sitios son solo de referencia.",
+        "Disponibilidad y errores",
+        "Se procura mantener el portafolio funcionando, pero no se garantiza que esté siempre disponible, libre de errores o compatible con todos los dispositivos y navegadores. Los proyectos de demostración pueden cambiar o dejar de funcionar.",
       ],
       [
-        "Cambios",
-        "Estos términos pueden modificarse para reflejar cambios en el sitio.",
+        "Límites razonables",
+        "En la medida permitida por la normativa aplicable, el sitio se ofrece tal cual y no se garantiza que los ejemplos sean adecuados para un uso concreto. Esto no excluye responsabilidades que legalmente no puedan excluirse.",
+      ],
+      [
+        "Actualizaciones",
+        "El contenido y estos términos pueden cambiar para reflejar nuevas funciones, proyectos o requisitos aplicables.",
       ],
     ],
   ],
   cookies: [
-    "Política de cookies",
+    "Política de cookies y almacenamiento",
     [
       [
-        "¿Qué son las cookies?",
-        "Pequeños archivos que se guardan en tu dispositivo para recordar preferencias o habilitar funciones.",
+        "Cookies y almacenamiento no son lo mismo",
+        "Una cookie es un mecanismo del navegador; localStorage y sessionStorage son mecanismos distintos de almacenamiento web. La política distingue estos mecanismos para describir con mayor precisión lo que hace el código.",
       ],
       [
-        "Uso de cookies",
-        "DevCarlos no usa cookies publicitarias propias. El sitio guarda en tu navegador, solo durante la sesión, un aviso para no repetir la pantalla de carga.",
+        "Cookies propias",
+        "En el código revisado no encontré una instrucción explícita que cree cookies propias ni una herramienta de publicidad o analítica que las instale. El navegador o el alojamiento pueden gestionar aspectos técnicos que no dependen directamente del código de esta página.",
+      ],
+      [
+        "Almacenamiento local",
+        "localStorage recuerda la posición de desplazamiento y el filtro de proyectos para ayudar a restaurar la vista al volver. Permanece hasta que se borre desde el navegador o el sitio lo cambie.",
+      ],
+      [
+        "Almacenamiento de sesión",
+        "sessionStorage recuerda si se mostró la pantalla de bienvenida y conserva temporalmente un listado de proyectos consultado desde GitHub. Los datos de sesión se eliminan normalmente al finalizar la sesión de navegación, según el comportamiento del navegador.",
       ],
       [
         "Servicios de terceros",
-        "Servicios externos, como Google Fonts, podrían establecer sus propias cookies según sus políticas.",
+        "Google Fonts y la API de GitHub pueden recibir solicitudes cuando se carga la página o se consultan proyectos. Sus propios sitios y servicios se rigen por sus políticas y configuraciones; este portafolio no controla sus prácticas.",
+      ],
+      [
+        "Cómo borrar o limitar estos datos",
+        "Puedes borrar los datos del sitio desde los ajustes del navegador o usar controles de privacidad que este ofrezca. Si bloqueas almacenamiento o solicitudes externas, algunas funciones, tipografías o listados de proyectos podrían no funcionar como se espera.",
       ],
     ],
   ],
