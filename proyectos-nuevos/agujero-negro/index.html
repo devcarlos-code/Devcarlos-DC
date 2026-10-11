@@ -24,22 +24,63 @@
 const canvas=document.getElementById('scene'),gl=canvas.getContext('webgl2',{alpha:false,antialias:false,powerPreference:'high-performance'});
 const fail=()=>document.getElementById('nosupport').style.display='grid';if(!gl){fail();return;}
 const vertex='#version 300 es\nin vec2 position;out vec2 vUv;void main(){vUv=position*.5+.5;gl_Position=vec4(position,0.,1.);}';
-const fragment='#version 300 es\nprecision highp float;in vec2 vUv;out vec4 outColor;uniform vec2 resolution;uniform float time;uniform float yaw;uniform float pitch;uniform float zoom;uniform float diskOn;uniform float starsOn;\n'+
-'float hash(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+34.345);return fract(p.x*p.y);}\n'+
-'float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(hash(i),hash(i+vec2(1.,0.)),f.x),mix(hash(i+vec2(0.,1.)),hash(i+vec2(1.,1.)),f.x),f.y);}\n'+
-'vec3 stars(vec3 rd){vec2 p=rd.xy/(abs(rd.z)+.22);vec3 c=vec3(0.);for(int k=0;k<3;k++){float s=65.+float(k)*57.;vec2 q=p*s;vec2 id=floor(q),f=fract(q)-.5;float h=hash(id+float(k)*83.);float st=(1.-smoothstep(.008,.045,length(f)))*step(.992,h);float tw=.65+.35*sin(time*.8+h*45.);c+=vec3(.78,.82,.9)*st*tw*(.4+2.3*h);}return c;}\n'+
-'vec3 diskGlow(vec3 p,float t){float r=length(p.xz);float a=atan(p.z,p.x);float inner=smoothstep(.78,1.04,r);float outer=1.-smoothstep(3.5,5.8,r);float thick=exp(-abs(p.y)*12.0);float n=noise(vec2(a*5.0+t*.9,r*4.0-t*1.2));float fil=pow(max(0.,.5+.5*sin(a*29.-t*1.8+r*19.+n*5.)),7.);float hot=clamp(.38+n*.9+fil*.6,0.,1.6);float front=.42+.95*pow(max(0.,sin(a+1.1)),2.);vec3 c=mix(vec3(.22,.22,.22),vec3(1.),smoothstep(.35,1.15,hot));return c*inner*outer*thick*hot*front*3.0;}\n'+
-'void main(){vec2 q=(vUv-.5)*vec2(resolution.x/resolution.y,1.);q*=zoom;float cp=cos(pitch),sp=sin(pitch),cy=cos(yaw),sy=sin(yaw);vec3 ro=vec3(0.,0.,8.2);ro=vec3(ro.x*cy+ro.z*sy,ro.y, -ro.x*sy+ro.z*cy);ro.yz=mat2(cp,-sp,sp,cp)*ro.yz;vec3 target=vec3(0.);vec3 forward=normalize(target-ro);vec3 right=normalize(cross(forward,vec3(0.,1.,0.)));vec3 up=cross(right,forward);vec3 rd=normalize(forward+q.x*right*1.18+q.y*up*1.18);\n'+
-'vec3 col=vec3(.002,.002,.003)+stars(rd)*starsOn;float t=time;vec3 pos=ro;vec3 ray=rd;float traveled=0.;float minR=99.;float hitDisk=0.;vec3 emitted=vec3(0.);\n'+
-'for(int i=0;i<100;i++){float r=length(pos);minR=min(minR,r);if(r<.48){col=vec3(0.);break;}if(traveled>15.)break;float stepLen=.055+min(r*.018,.06);vec3 grav=-pos/(r*r*r+0.04);ray=normalize(ray+grav*stepLen*.48);vec3 nextPos=pos+ray*stepLen;\n'+
-'if(diskOn>.5 && pos.y*nextPos.y<=0. && length(pos.xz)>.72 && length(pos.xz)<5.6){vec3 mid=(pos+nextPos)*.5;float dr=length(mid.xz);float a=atan(mid.z,mid.x);float n=noise(vec2(a*4.+t*.8,dr*4.-t));float edge=smoothstep(.72,1.05,dr)*(1.-smoothstep(3.5,5.6,dr));float density=exp(-abs(mid.y)*20.)*edge;float fil=pow(max(0.,.5+.5*sin(a*24.-t*2.3+dr*15.+n*5.)),6.);float brightness=(.6+n*.8+fil*.8)*density;float dop=.45+.9*pow(max(0.,sin(a+1.1)),2.);vec3 plasma=mix(vec3(.25,.25,.25),vec3(1.),smoothstep(.35,1.1,brightness));emitted+=plasma*brightness*dop*.15;hitDisk+=density*.15;}\n'+
-'pos=nextPos;traveled+=stepLen;}\n'+
-'float r0=length(ro+rd*max(0.,dot(-ro,rd)));float photon=exp(-pow((minR-.53)/.045,2.));col+=vec3(.92,.92,.92)*photon*.9;col+=emitted*diskOn;\n'+
-'// Lensed luminous ring and an almost-black event horizon silhouette.\n'+
-'float b=length(q);float ring=exp(-pow((b-.102)/.009,2.));col+=vec3(.9,.9,.9)*ring*.48*diskOn;\n'+
-'// A secondary warped arc mimics light passing over and under the photon sphere.\n'+
-'float arc=exp(-pow((abs(q.y)-(.105+.025*cos(q.x*8.+yaw)))/.012,2.))*exp(-abs(q.x)*1.2);col+=vec3(.8,.8,.8)*arc*.12*diskOn;\n'+
-'float horizon=smoothstep(.091,.098,b);col*=horizon;col=col/(1.+col);col=pow(max(col,vec3(0.)),vec3(.82));float vign=1.-.72*smoothstep(.25,.9,length(q));col*=vign;outColor=vec4(col,1.);}\n';
+const fragment=`#version 300 es
+precision highp float;
+in vec2 vUv; out vec4 outColor;
+uniform vec2 resolution; uniform float time; uniform float yaw; uniform float pitch; uniform float zoom; uniform float diskOn; uniform float starsOn;
+float hash(vec2 p){p=fract(p*vec2(127.1,311.7));p+=dot(p,p+34.5);return fract(p.x*p.y);}
+float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(hash(i),hash(i+vec2(1,0)),f.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),f.x),f.y);}
+float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<5;i++){v+=noise(p)*a;p=p*2.03+vec2(17.1,9.2);a*=.5;}return v;}
+vec3 starfield(vec3 rd){vec3 c=vec3(0.);for(int i=0;i<3;i++){float s=42.+float(i)*39.;vec2 p=rd.xy/(abs(rd.z)+.28)*s;vec2 id=floor(p),f=fract(p)-.5;float h=hash(id+float(i)*43.);float star=(1.-smoothstep(.006,.028,length(f)))*step(.994,h);c+=vec3(.82)*star*(.45+.55*sin(time+h*40.));}return c;}
+void main(){
+ vec2 uv=(vUv-.5)*vec2(resolution.x/resolution.y,1.)*zoom;
+ float cy=cos(yaw),sy=sin(yaw),cp=cos(pitch),sp=sin(pitch);
+ vec3 ro=vec3(0.,.15,8.0); ro=vec3(ro.x*cy+ro.z*sy,ro.y,-ro.x*sy+ro.z*cy); ro.yz=mat2(cp,-sp,sp,cp)*ro.yz;
+ vec3 fw=normalize(-ro),right=normalize(cross(fw,vec3(0.,1.,0.))),up=normalize(cross(right,fw));
+ vec3 rd=normalize(fw+uv.x*right*1.15+uv.y*up*1.15);
+ vec3 col=vec3(.002,.002,.003)+starfield(rd)*starsOn;
+ vec3 p=ro, ray=rd; float travel=0.; float nearest=100.; float diskLight=0.; float haze=0.;
+ for(int i=0;i<150;i++){
+   float r=length(p); nearest=min(nearest,r);
+   if(r<.63){col=vec3(0.);break;}
+   if(travel>18.)break;
+   float ds=.035+min(r*.012,.045);
+   vec3 grav=-p/(r*r*r+.08);
+   ray=normalize(ray+grav*ds*.62);
+   vec3 pn=p+ray*ds;
+   if(diskOn>.5 && p.y*pn.y<=0. && length(p.xz)>.69 && length(p.xz)<4.9){
+     vec3 m=(p+pn)*.5; float rr=length(m.xz); float a=atan(m.z,m.x);
+     float n=fbm(vec2(a*3.7+time*.34,rr*5.4-time*.7));
+     float streak=pow(max(0.,.5+.5*sin(a*31.-time*1.7+rr*17.+n*8.)),9.);
+     float ridges=pow(max(0.,.5+.5*sin(a*13.+rr*32.-time*1.1)),5.);
+     float edge=smoothstep(.69,.91,rr)*(1.-smoothstep(3.6,4.9,rr));
+     float thickness=exp(-abs(m.y)*26.);
+     float density=edge*thickness*(.22+n*.9+streak*.85+ridges*.28);
+     float beaming=.45+1.35*pow(max(0.,sin(a+1.2)),3.);
+     diskLight+=density*beaming*.19;
+     haze+=density*.035;
+   }
+   p=pn; travel+=ds;
+ }
+ // Thin white photon ring surrounding a perfectly black event horizon.
+ float b=length(uv);
+ float ring=exp(-pow((b-.108)/.0065,2.));
+ float halo=exp(-pow((b-.112)/.025,2.));
+ col+=vec3(.94)*ring*.42*diskOn+vec3(.42)*halo*.13*diskOn;
+ col+=vec3(diskLight*1.8+haze*.8);
+ // Broad, irregular lensed light streaks crossing the frame like the reference clip.
+ float streakNoise=fbm(vec2(uv.x*5.5+time*.08,uv.y*13.));
+ float warp=uv.y-(.018*sin(uv.x*10.+time*.18)+.012*sin(uv.x*22.-time*.12)+.014*(streakNoise-.5));
+ float bands=exp(-abs(warp)*25.)*(.22+.7*fbm(vec2(uv.x*8.,uv.y*21.+time*.12)));
+ bands*=smoothstep(.12,.2,abs(uv.x))*(1.-smoothstep(.35,.62,abs(uv.x)));
+ col+=vec3(bands*.16)*diskOn;
+ // Keep the center absolute black; no colored/golden rim.
+ float horizon=smoothstep(.104,.111,b);
+ col*=horizon;
+ col=col/(1.+col*.38); col=pow(max(col,vec3(0.)),vec3(.78));
+ float vign=1.-.68*smoothstep(.34,.95,length(uv)); col*=vign;
+ outColor=vec4(col,1.);
+}`;
 function compile(type,src){const s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS)){console.error(gl.getShaderInfoLog(s));fail();return null;}return s;}
 const vs=compile(gl.VERTEX_SHADER,vertex),fs=compile(gl.FRAGMENT_SHADER,fragment);if(!vs||!fs)return;const prog=gl.createProgram();gl.attachShader(prog,vs);gl.attachShader(prog,fs);gl.linkProgram(prog);if(!gl.getProgramParameter(prog,gl.LINK_STATUS)){console.error(gl.getProgramInfoLog(prog));fail();return;}gl.useProgram(prog);
 const buf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,buf);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);const loc=gl.getAttribLocation(prog,'position');gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
