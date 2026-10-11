@@ -1,16 +1,17 @@
-# Agujero negro
+# Agujero Negro 360°
 
-Experiencia visual interactiva creada con HTML, CSS y WebGL2, sin videos, imágenes externas ni librerías.
+Experiencia monocromática interactiva creada con HTML, CSS y WebGL2, sin video ni imágenes externas.
 
-## Incluye
-- Horizonte de sucesos oscuro y anillo fotónico brillante.
-- Disco de acreción animado con plasma, turbulencia y variaciones de color.
-- Campo de estrellas con distorsión visual para sugerir lente gravitacional.
-- Controles de velocidad orbital, disco, estrellas, pausa y pantalla completa.
-- Interfaz adaptable a móvil y escritorio.
+## Características
+- Apariencia en blanco y negro inspirada en la referencia: horizonte oscuro y materia luminosa estirada.
+- Render procedural en tiempo real con aproximación visual de lente gravitacional.
+- Cámara orbital con rotación automática completa de 360°.
+- Arrastrar con ratón o deslizar en pantalla táctil para cambiar el ángulo.
+- Rueda del ratón o gesto de pellizco para acercar/alejar.
+- Controles para velocidad de giro, disco, estrellas, pausa y reinicio.
 
 ## Ejecutar
-Abre index.html en un navegador moderno con WebGL2 habilitado. La simulación se dibuja en tiempo real.
+Abre `index.html` en un navegador moderno con WebGL2 habilitado.
 
 ## Nota
-Es una recreación visual estilizada, no un modelo astrofísico de precisión.
+Es una simulación gráfica estilizada, no un cálculo científico exacto de relatividad general.
