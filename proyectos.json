@@ -150,13 +150,13 @@
     ]
   },
   {
-    "titulo": "DC Wallpapers",
-    "descripcion": "Wallpapers minimalistas en blanco y negro para iPhone, con una experiencia visual oscura y elegante.",
-    "imagen": "assets/img/wallpapers-bn.svg",
-    "ruta": "proyectos-nuevos/wallpapers-bn/index.html",
+    "titulo": "Agujero negro",
+    "descripcion": "Simulación visual interactiva con disco de acreción incandescente, lente gravitacional y estrellas, renderizada en tiempo real con WebGL.",
+    "imagen": "assets/img/agujero-negro.svg",
+    "ruta": "proyectos-nuevos/agujero-negro/index.html",
     "categorias": [
-      "Diseño",
-      "Videos"
+      "Interactivos",
+      "Espacio"
     ]
   }
 ]
