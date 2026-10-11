@@ -354,6 +354,59 @@
       </div>
     </div>
 
+
+    <!-- Navegación rápida lateral -->
+    <nav class="quick-nav" id="quick-nav" aria-label="Navegación rápida">
+      <span class="quick-nav-title">NAVEGACIÓN</span>
+      <a class="quick-nav-link is-active" href="#inicio" aria-label="Ir a Inicio" aria-current="location" title="Inicio"><span aria-hidden="true">⌂</span><small>Inicio</small></a>
+      <a class="quick-nav-link" href="#proyectos" aria-label="Ir a Proyectos" title="Proyectos"><span aria-hidden="true">▦</span><small>Proyectos</small></a>
+      <a class="quick-nav-link" href="#sobre-mi" aria-label="Ir a Sobre mí" title="Sobre mí"><span aria-hidden="true">◇</span><small>Sobre mí</small></a>
+      <a class="quick-nav-link" href="#contacto" aria-label="Ir a Contacto" title="Contacto"><span aria-hidden="true">✉</span><small>Contacto</small></a>
+      <div class="quick-nav-progress" aria-hidden="true"><span id="quick-nav-progress-fill"></span></div>
+      <span class="quick-nav-percent" id="quick-nav-percent" aria-live="off">0%</span>
+    </nav>
+    <script>
+      (() => {
+        const nav = document.getElementById("quick-nav");
+        if (!nav) return;
+        const links = [...nav.querySelectorAll(".quick-nav-link")];
+        const fill = document.getElementById("quick-nav-progress-fill");
+        const percent = document.getElementById("quick-nav-percent");
+        const sections = links.map(link => document.querySelector(link.getAttribute("href"))).filter(Boolean);
+        let ticking = false;
+        const update = () => {
+          const max = document.documentElement.scrollHeight - window.innerHeight;
+          const progress = max > 0 ? Math.min(100, Math.max(0, window.scrollY / max * 100)) : 0;
+          if (fill) fill.style.height = progress + "%";
+          if (percent) percent.textContent = Math.round(progress) + "%";
+          let current = sections[0];
+          for (const section of sections) {
+            if (section.getBoundingClientRect().top <= window.innerHeight * 0.38) current = section;
+          }
+          links.forEach(link => {
+            const active = current && link.getAttribute("href") === "#" + current.id;
+            link.classList.toggle("is-active", Boolean(active));
+            if (active) link.setAttribute("aria-current", "location");
+            else link.removeAttribute("aria-current");
+          });
+          ticking = false;
+        };
+        const onScroll = () => {
+          if (!ticking) {
+            window.requestAnimationFrame(update);
+            ticking = true;
+          }
+        };
+        window.addEventListener("scroll", onScroll, { passive: true });
+        window.addEventListener("resize", onScroll, { passive: true });
+        links.forEach(link => link.addEventListener("click", () => {
+          links.forEach(item => item.classList.remove("is-active"));
+          link.classList.add("is-active");
+        }));
+        update();
+      })();
+    </script>
+
     <script src="main.js?v=legal-policy-1"></script>
     <script src="sl-effects.js"></script>
   </body>
