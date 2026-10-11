@@ -158,5 +158,25 @@
       "Interactivos",
       "Espacio"
     ]
+  },
+  {
+    "titulo": "Órbita Solar",
+    "descripcion": "Video HD de un paisaje cósmico con planetas, polvo estelar y una nebulosa de tonos naranjas y violetas.",
+    "imagen": "assets/img/astronomy.jpg",
+    "ruta": "proyectos-nuevos/videos-hd/astronomy/index.html",
+    "categorias": [
+      "Videos",
+      "Espacio"
+    ]
+  },
+  {
+    "titulo": "Universo Carmesí",
+    "descripcion": "Video HD de galaxias luminosas y paisajes profundos del universo.",
+    "imagen": "assets/img/universe.jpg",
+    "ruta": "proyectos-nuevos/videos-hd/universe/index.html",
+    "categorias": [
+      "Videos",
+      "Espacio"
+    ]
   }
 ]
