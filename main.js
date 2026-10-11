@@ -5,7 +5,7 @@ let PROYECTOS = [];
 let errorCarga = false;
 
 // ---------- Textos legales (revísalos antes de publicar) ----------
-const FECHA = "15 de agosto de 2026";
+const FECHA = "11 de octubre de 2026";
 const LEGAL = {
   privacidad: [
     "Política de privacidad",
@@ -160,9 +160,10 @@ function pintar(cat) {
     );
     return;
   }
-  PROYECTOS.filter(
+  const visibles = PROYECTOS.filter(
     (p) => cat === "Todos" || p.categorias.includes(cat),
-  ).forEach((p) => {
+  );
+  visibles.forEach((p) => {
     const card = document.createElement("article");
     card.className = "card";
     const img = p.imagen
@@ -210,19 +211,31 @@ function pintar(cat) {
       e.preventDefault();
       e.stopPropagation();
       const urlCompleta = new URL(p.ruta, window.location.href).href;
+      let copiado = false;
       try {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
+        if (navigator.clipboard?.writeText) {
           await navigator.clipboard.writeText(urlCompleta);
+          copiado = true;
         } else {
-          throw new Error("Clipboard API no disponible");
+          const temp = document.createElement("textarea");
+          temp.value = urlCompleta;
+          temp.setAttribute("readonly", "");
+          temp.style.position = "fixed";
+          temp.style.opacity = "0";
+          document.body.appendChild(temp);
+          temp.select();
+          copiado = document.execCommand("copy");
+          temp.remove();
         }
       } catch (err) {
-        const temp = document.createElement("input");
-        temp.value = urlCompleta;
-        document.body.appendChild(temp);
-        temp.select();
-        document.execCommand("copy");
-        temp.remove();
+        copiado = false;
+      }
+
+      if (!copiado) {
+        if (window.SL_SYSTEM?.toast) {
+          window.SL_SYSTEM.toast("No se pudo copiar automáticamente. Abre el proyecto para copiar su dirección.");
+        }
+        return;
       }
 
       if (window.SL_AUDIO) window.SL_AUDIO.play("reward");
@@ -279,7 +292,7 @@ function armarFiltros() {
       b.addEventListener("click", () => {
         filtros
           .querySelectorAll("button")
-          .forEach((x) => x.setAttribute("aria-pressed", x === b));
+          .forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
         pintar(c);
       });
       filtros.append(b);
@@ -297,13 +310,14 @@ addEventListener("scroll", onScroll, { passive: true });
 
 const btn = $(".menu-btn"),
   links = $("#links");
-btn.addEventListener("click", () =>
-  btn.setAttribute("aria-expanded", links.classList.toggle("open")),
-);
+btn.addEventListener("click", () => {
+  const abierto = links.classList.toggle("open");
+  btn.setAttribute("aria-expanded", String(abierto));
+});
 links.addEventListener("click", (e) => {
   if (e.target.tagName === "A") {
     links.classList.remove("open");
-    btn.setAttribute("aria-expanded", false);
+    btn.setAttribute("aria-expanded", "false");
   }
 });
 
@@ -625,10 +639,22 @@ async function cargarProyectos() {
       ),
     ];
   }
-  PROYECTOS = base.map((p) => ({
-    ...p,
-    categorias: p.categorias?.length ? p.categorias : ["Proyectos"],
-  }));
+  PROYECTOS = base
+    .filter((p) =>
+      p &&
+      typeof p.titulo === "string" &&
+      p.titulo.trim() &&
+      typeof p.ruta === "string" &&
+      p.ruta.trim() &&
+      typeof p.descripcion === "string" &&
+      Array.isArray(p.categorias || []),
+    )
+    .map((p) => ({
+      ...p,
+      categorias: Array.isArray(p.categorias) && p.categorias.length
+        ? p.categorias.filter((c) => typeof c === "string" && c.trim())
+        : ["Proyectos"],
+    }));
 }
 cargarProyectos().finally(() => {
   armarFiltros();
