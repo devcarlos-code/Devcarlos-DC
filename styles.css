@@ -4506,3 +4506,34 @@ body::before {
   .hero-content h1 { font-size: 1.18rem; }
   .hero-content .lead { font-size: .78rem; }
 }
+
+
+/* ── Scrollbar personalizada: neón azul del Sistema ── */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #48cfff #08051a;
+  scroll-behavior: smooth;
+}
+html::-webkit-scrollbar {
+  width: 10px;
+}
+html::-webkit-scrollbar-track {
+  background: linear-gradient(180deg, #09051a, #100522 55%, #05020b);
+  border-left: 1px solid rgba(72, 207, 255, .16);
+}
+html::-webkit-scrollbar-thumb {
+  border: 2px solid #08051a;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #a5f3ff 0%, #48cfff 35%, #377bff 72%, #8c4dff 100%);
+  box-shadow: inset 0 0 5px rgba(255,255,255,.65), 0 0 12px rgba(72,207,255,.55);
+}
+html::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #e4fcff, #63ddff 38%, #6b8dff 75%, #c078ff);
+}
+@media (max-width: 760px) {
+  html::-webkit-scrollbar { width: 5px; }
+  html::-webkit-scrollbar-thumb { border-width: 1px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
