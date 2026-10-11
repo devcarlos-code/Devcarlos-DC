@@ -139,5 +139,14 @@
     "categorias": [
       "Videos"
     ]
+  },
+    {
+    "titulo": "Círculo Mágico",
+    "descripcion": "Círculo mágico 3D interactivo con espada de luz, rayos, modo oscuro y recorrido de cámara automático.",
+    "imagen": "assets/img/magico.jpg",
+    "ruta": "proyectos-nuevos/Círculo Mágico/index.html",
+    "categorias": [
+      "Interactivos"
+    ]
   }
 ]
