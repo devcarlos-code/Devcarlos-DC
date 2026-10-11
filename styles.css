@@ -3380,3 +3380,228 @@ dialog p {
     transform: none !important;
   }
 }
+
+/* ==========================================================================
+   RESPONSIVE HARDENING — reglas finales para resolver conflictos heredados
+   Mantiene el tema Solo Leveling y prioriza móviles estrechos y accesibilidad.
+   ========================================================================== */
+html {
+  scroll-padding-top: 105px;
+}
+
+.wrap {
+  width: min(1140px, 100%);
+  padding-inline: clamp(16px, 4vw, 24px);
+}
+
+.grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: clamp(16px, 3vw, 28px);
+  align-items: stretch;
+}
+
+.grid > .card {
+  width: 100%;
+  min-width: 0;
+  padding: clamp(18px, 3vw, 26px);
+}
+
+.grid .card h3,
+.grid .card .card-body > p:not(.tags),
+.grid .card .tags,
+.contact .btn {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+.grid .card .card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.grid .card .card-actions .btn {
+  flex: 1 1 145px;
+  min-width: 0;
+  min-height: 44px;
+  justify-content: center;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.filters {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+
+.filters button {
+  min-width: 0;
+  max-width: 100%;
+  min-height: 42px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  touch-action: manipulation;
+}
+
+button,
+.btn,
+.foot nav a,
+.foot nav button {
+  touch-action: manipulation;
+}
+
+.menu-btn,
+.btn,
+.foot nav button {
+  min-height: 44px;
+}
+
+.site-header,
+.site-header .nav,
+.hero,
+.hero .wrap,
+.about,
+.contact .row,
+.foot {
+  min-width: 0;
+}
+
+.sl-modal-window,
+dialog,
+.sl-modal-body,
+.sl-modal-actions {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.sl-modal-actions .btn {
+  min-width: min(100%, 200px);
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+@media (max-width: 600px) {
+  .grid .card {
+    transform-style: flat;
+    will-change: auto;
+  }
+
+  .card,
+  .panel,
+  .filters,
+  .links {
+    -webkit-backdrop-filter: blur(8px) saturate(110%);
+    backdrop-filter: blur(8px) saturate(110%);
+  }
+
+  .sl-portal-gate {
+    width: min(520px, 90vw);
+    height: min(520px, 90vw);
+    opacity: 0.24;
+  }
+
+  .sl-modal-window {
+    width: calc(100% - 24px);
+    max-height: calc(100dvh - 24px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+}
+
+@media (max-width: 380px) {
+  .wrap {
+    padding-inline: 16px;
+  }
+
+  .site-header .nav {
+    gap: 8px;
+  }
+
+  .brand {
+    font-size: 1rem;
+  }
+
+  .nav-hud-controls {
+    gap: 4px;
+    margin-right: 0;
+  }
+
+  .hud-pill-btn {
+    padding-inline: 6px;
+    letter-spacing: 0.02em;
+  }
+
+  .sfx-label,
+  .quest-label {
+    display: none;
+  }
+
+  .grid .card {
+    padding: 18px 16px;
+  }
+
+  .filters button {
+    flex: 1 1 calc(50% - 6px);
+    padding-inline: 8px;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+  }
+
+  .contact .row .btn {
+    width: 100%;
+  }
+}
+
+@media (hover: none) {
+  .grid .card:hover {
+    transform: none;
+  }
+
+  .filters button:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+/* Las animaciones ligadas al scroll competían con reveal/tilt y podían
+   atenuar tarjetas al salir de pantalla. Se conserva el movimiento al hover. */
+@supports ((animation-timeline: view()) and (animation-range: entry)) {
+  .grid .card,
+  .hunter-profile {
+    animation: none !important;
+    view-timeline-name: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal,
+  .reveal.in,
+  .grid .card {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+    animation: none !important;
+    will-change: auto;
+  }
+
+  .sl-portal-gate,
+  #sl-canvas {
+    display: none !important;
+  }
+}

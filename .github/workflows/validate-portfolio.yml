@@ -1,0 +1,69 @@
+name: Validar portafolio
+
+on:
+  push:
+    branches: [main, "improvements/**"]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+      - name: Preparar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Revisar sintaxis JavaScript
+        run: |
+          node --check main.js
+          node --check sl-effects.js
+      - name: Validar catálogo y rutas locales
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import path from 'node:path';
+
+          const projects = JSON.parse(fs.readFileSync('proyectos.json', 'utf8'));
+          if (!Array.isArray(projects)) throw new Error('proyectos.json debe contener una lista');
+
+          const errors = [];
+          const titles = new Set();
+
+          for (const [index, project] of projects.entries()) {
+            const label = project?.titulo || `Proyecto #${index + 1}`;
+            if (!project || typeof project.titulo !== 'string' || !project.titulo.trim()) {
+              errors.push(`${label}: falta un título válido`);
+            }
+            if (typeof project?.ruta !== 'string' || !project.ruta.trim()) {
+              errors.push(`${label}: falta la ruta`);
+            } else if (/^https?:\/\//i.test(project.ruta)) {
+              // Los enlaces externos son válidos.
+            } else if (!fs.existsSync(path.resolve(project.ruta))) {
+              errors.push(`${label}: no existe la ruta ${project.ruta}`);
+            }
+            if (project?.imagen && !/^https?:\/\//i.test(project.imagen) &&
+                !fs.existsSync(path.resolve(project.imagen))) {
+              errors.push(`${label}: no existe la imagen ${project.imagen}`);
+            }
+            if (Array.isArray(project?.categorias) && project.categorias.some(c => typeof c !== 'string')) {
+              errors.push(`${label}: las categorías deben ser texto`);
+            }
+            if (typeof project?.titulo === 'string') {
+              const key = project.titulo.trim().toLocaleLowerCase('es');
+              if (titles.has(key)) errors.push(`Título duplicado: ${project.titulo}`);
+              titles.add(key);
+            }
+          }
+
+          if (errors.length) {
+            console.error(errors.join('\n'));
+            process.exit(1);
+          }
+          console.log(`Catálogo válido: ${projects.length} proyectos y rutas/imágenes locales existentes.`);
+          NODE
