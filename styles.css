@@ -3804,3 +3804,43 @@ body {
     letter-spacing: 0.06em;
   }
 }
+
+/* Hotfix definitivo: impedir que reglas globales estiren las acciones de tarjeta. */
+.grid .card .card-actions {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr) !important;
+  align-items: center !important;
+  align-content: start !important;
+  grid-auto-rows: auto !important;
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+.grid .card .card-actions > .btn,
+.grid .card .card-actions > .btn-open,
+.grid .card .card-actions > .btn-copy {
+  display: inline-flex !important;
+  flex: 0 1 auto !important;
+  align-self: center !important;
+  height: auto !important;
+  min-height: 44px !important;
+  max-height: 56px !important;
+  margin: 0 !important;
+  padding: 10px 12px !important;
+  line-height: 1.2 !important;
+  font-size: clamp(0.7rem, 2.4vw, 0.84rem) !important;
+  letter-spacing: 0.045em !important;
+}
+
+@media (max-width: 380px) {
+  .grid .card .card-actions {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .grid .card .card-actions > .btn,
+  .grid .card .card-actions > .btn-open,
+  .grid .card .card-actions > .btn-copy {
+    width: 100% !important;
+    max-height: none !important;
+  }
+}
