@@ -150,8 +150,8 @@
     ]
   },
   {
-    "titulo": "Agujero negro",
-    "descripcion": "Simulación visual interactiva con disco de acreción incandescente, lente gravitacional y estrellas, renderizada en tiempo real con WebGL.",
+    "titulo": "Agujero Negro 360°",
+    "descripcion": "Recreación monocromática interactiva inspirada en la referencia, con luz deformada, horizonte oscuro y cámara orbital 360°.",
     "imagen": "assets/img/agujero-negro.svg",
     "ruta": "proyectos-nuevos/agujero-negro/index.html",
     "categorias": [
