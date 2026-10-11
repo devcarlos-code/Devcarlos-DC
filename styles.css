@@ -4188,3 +4188,71 @@ body::before {
 .btn.primary:hover { background: linear-gradient(135deg, #9639e8, #d45aff 58%, #ffadfa); }
 .filters button[aria-pressed="true"] { background: linear-gradient(135deg, rgba(117,35,195,.9), rgba(204,75,255,.72)); }
 ::selection { background: #c45aff; color: #12051d; }
+
+
+/* ── Ajustes de presentación profesional: hero y sección Sobre mí ── */
+.hero-content { max-width: 760px; }
+.hero-content h1 {
+  max-width: 19ch;
+  font-size: clamp(2.15rem, 5vw, 3.55rem);
+  line-height: 1.12;
+}
+.hero-content .lead {
+  max-width: 58ch;
+  font-size: clamp(1rem, 1.4vw, 1.08rem);
+}
+.hero .system-status-tag .status-text { letter-spacing: .07em; }
+.about-intro { font-size: 1.05rem; }
+.about-focus-title {
+  margin-top: 26px;
+  margin-bottom: 12px;
+  color: var(--neon-bright);
+  font: 700 .78rem var(--f-hud);
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+.about-highlights {
+  display: grid;
+  gap: 10px;
+  margin-top: 14px;
+  list-style: none;
+}
+.about-highlights li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 13px 15px;
+  border: 1px solid var(--border-dim);
+  background: linear-gradient(110deg, rgba(184, 77, 255, .08), rgba(184, 77, 255, .02));
+  border-radius: 4px;
+}
+.about-highlights li > span:first-child {
+  color: var(--neon-bright);
+  font-size: 1.1rem;
+  line-height: 1.35;
+}
+.about-highlights li strong,
+.about-highlights li small { display: block; }
+.about-highlights li strong {
+  color: var(--text-bright);
+  font: 600 .78rem var(--f-hud);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+.about-highlights li small {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: .85rem;
+  line-height: 1.5;
+}
+.about-highlights li:hover {
+  border-color: var(--border);
+  background: rgba(184, 77, 255, .09);
+}
+@media (max-width: 640px) {
+  .hero-content h1 {
+    max-width: 16ch;
+    font-size: clamp(1.8rem, 8vw, 2.5rem);
+  }
+  .about-focus-title { margin-top: 22px; }
+}
