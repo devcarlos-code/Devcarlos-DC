@@ -4056,7 +4056,7 @@ body {
   height: 100%;
   background: linear-gradient(90deg, #0875d1, #69efff, #0875d1);
   box-shadow: 0 0 12px #00aaff;
-  animation: loader-progress 1.35s cubic-bezier(.4,0,.2,1) forwards;
+  animation: loader-progress 2.6s cubic-bezier(.4,0,.2,1) forwards;
 }
 @keyframes loader-progress { to { width: 100%; } }
 .loader-status {
