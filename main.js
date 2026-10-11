@@ -123,7 +123,7 @@ const quitarLoader = () => {
   setTimeout(() => loader.remove(), 700);
 };
 if (visto || volver) loader.remove();
-else window.addEventListener("load", () => setTimeout(quitarLoader, 1000));
+else window.addEventListener("load", () => setTimeout(quitarLoader, 2800));
 
 // ---------- Aparición al hacer scroll ----------
 const io =
