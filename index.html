@@ -8,7 +8,14 @@
       name="description"
       content="Portafolio de DevCarlos: proyectos web interactivos hechos con HTML, CSS y JavaScript."
     />
-    <meta name="theme-color" content="#03000a" />
+    <meta name="theme-color" content="#10051d" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="DevCarlos" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" href="assets/img/app-icon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="assets/img/app-icon.svg" />
     <meta name="color-scheme" content="dark" />
     <meta property="og:site_name" content="DevCarlos" />
     <meta property="og:locale" content="es_PA" />
@@ -146,6 +153,7 @@
             </p>
             <div class="row">
               <a class="btn primary" href="#proyectos">Ver proyectos</a>
+              <button type="button" class="btn install-app-btn" id="install-app-btn" hidden>⬇ Instalar app</button>
               <a class="btn" href="#contacto">Escríbeme</a>
               <button type="button" class="btn quest-trigger" id="open-system-modal">
                 <span class="btn-icon" aria-hidden="true">📜</span>
@@ -393,6 +401,31 @@
       })();
     </script>
 
+    <script>
+      (() => {
+        if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+          window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(() => {}));
+        }
+        let installPrompt = null;
+        const installButton = document.getElementById("install-app-btn");
+        window.addEventListener("beforeinstallprompt", (event) => {
+          event.preventDefault();
+          installPrompt = event;
+          if (installButton) installButton.hidden = false;
+        });
+        installButton?.addEventListener("click", async () => {
+          if (!installPrompt) return;
+          installPrompt.prompt();
+          await installPrompt.userChoice;
+          installPrompt = null;
+          installButton.hidden = true;
+        });
+        window.addEventListener("appinstalled", () => {
+          installPrompt = null;
+          if (installButton) installButton.hidden = true;
+        });
+      })();
+    </script>
     <script src="main.js?v=legal-policy-1"></script>
     <script src="sl-effects.js?v=no-xp-no-toasts-1"></script>
   </body>
