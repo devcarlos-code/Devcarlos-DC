@@ -17,11 +17,11 @@ const fragment=`#version 300 es
 precision highp float;in vec2 vUv;out vec4 outColor;uniform vec2 resolution;uniform float time;uniform float speed;uniform float diskOn;uniform float starsOn;
 float hash21(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}
 float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(hash21(i),hash21(i+vec2(1.,0.)),f.x),mix(hash21(i+vec2(0.,1.)),hash21(i+vec2(1.,1.)),f.x),f.y);}
-vec3 starfield(vec2 p){vec3 c=vec3(0.);for(int i=0;i<3;i++){float scale=95.+float(i)*83.;vec2 q=p*scale,id=floor(q),f=fract(q)-.5;float h=hash21(id+float(i)*71.);float d=length(f);float s=smoothstep(.045,.002,d)*step(.991,h);float tw=.65+.35*sin(time*(.7+h*2.)+h*40.);vec3 tint=mix(vec3(.58,.68,1.),vec3(1.,.77,.58),hash21(id+3.1));c+=tint*s*tw*(.4+2.8*h);}return c;}
+vec3 starfield(vec2 p){vec3 c=vec3(0.);for(int i=0;i<3;i++){float scale=95.+float(i)*83.;vec2 q=p*scale,id=floor(q),f=fract(q)-.5;float h=hash21(id+float(i)*71.);float d=length(f);float s=(1.-smoothstep(.002,.045,d))*step(.991,h);float tw=.65+.35*sin(time*(.7+h*2.)+h*40.);vec3 tint=mix(vec3(.58,.68,1.),vec3(1.,.77,.58),hash21(id+3.1));c+=tint*s*tw*(.4+2.8*h);}return c;}
 void main(){vec2 uv=(vUv-.5)*vec2(resolution.x/resolution.y,1.);uv.y+=.025;float t=time*speed;float r=length(uv),a=atan(uv.y,uv.x);
 float bend=1.+.055/(r+.025)+.004/(r*r+.012);vec2 warped=uv*bend;
 vec3 col=vec3(.003,.004,.012)+starfield(warped)*starsOn;
-float haze=noise(warped*5.+vec2(0.,t*.006))*noise(warped*11.);col+=vec3(.055,.035,.105)*haze*smoothstep(.9,.1,abs(uv.y+.15));
+float haze=noise(warped*5.+vec2(0.,t*.006))*noise(warped*11.);col+=vec3(.055,.035,.105)*haze*(1.-smoothstep(.1,.9,abs(uv.y+.15)));
 float dr=length(vec2(uv.x,uv.y/.255)),da=atan(uv.y/.255,uv.x);float turb=noise(vec2(da*5.5+cos(dr*17.-t*1.7)*.8,dr*20.-t*2.4));float fil=pow(max(0.,.5+.5*sin(da*23.-t*2.4+dr*44.+turb*4.)),7.);
 float band=smoothstep(.135,.18,dr)*(1.-smoothstep(.48,.69,dr));float thick=exp(-abs(uv.y)*37.)*.28+exp(-abs(uv.y)*13.)*.10;float flow=clamp(.38+turb*.9+fil*.55,0.,1.7);float dop=.42+.9*pow(max(0.,cos(da-2.25)),2.);
 vec3 plasma=mix(vec3(1.,.20,.035),vec3(1.,.82,.53),smoothstep(.2,.9,flow));plasma=mix(plasma,vec3(.54,.68,1.),smoothstep(.95,1.35,flow)*.3);col+=plasma*band*thick*flow*dop*2.2*diskOn;
