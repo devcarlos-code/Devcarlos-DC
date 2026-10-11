@@ -4537,3 +4537,8 @@ html::-webkit-scrollbar-thumb:hover {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 }
+
+
+/* ── Botón de instalación PWA ── */
+.install-app-btn:not([hidden]) { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-color: rgba(72,207,255,.65); color: #eafaff; background: linear-gradient(135deg, rgba(31,111,180,.22), rgba(184,77,255,.16)); box-shadow: 0 0 18px rgba(72,207,255,.12), inset 0 0 14px rgba(72,207,255,.05); }
+.install-app-btn:not([hidden]):hover { border-color: #a5f3ff; box-shadow: 0 0 22px rgba(72,207,255,.24); }
