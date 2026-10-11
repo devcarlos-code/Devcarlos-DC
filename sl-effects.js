@@ -790,19 +790,30 @@
   const acceptQuestBtn = document.getElementById("accept-quest-btn");
   const copyPortfolioBtn = document.getElementById("copy-portfolio-btn");
 
+  let modalReturnFocus = null;
+  const modalFocusable = () =>
+    systemModal?.querySelectorAll(
+      'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])',
+    ) || [];
+
   const SL_SYSTEM = {
     open: () => {
       if (!systemModal) return;
+      modalReturnFocus = document.activeElement;
       systemModal.classList.add("show");
       systemModal.setAttribute("aria-hidden", "false");
-      SL_AUDIO.play("alert");
       document.body.style.overflow = "hidden";
+      requestAnimationFrame(() => closeModalBtn?.focus());
+      SL_AUDIO.play("alert");
     },
     close: () => {
-      if (!systemModal) return;
+      if (!systemModal || !systemModal.classList.contains("show")) return;
       systemModal.classList.remove("show");
       systemModal.setAttribute("aria-hidden", "true");
       document.body.style.overflow = "";
+      if (modalReturnFocus && typeof modalReturnFocus.focus === "function") {
+        modalReturnFocus.focus();
+      }
       SL_AUDIO.play("click");
     },
     toast: (msg) => {
@@ -824,6 +835,29 @@
   if (closeModalBtn) closeModalBtn.addEventListener("click", SL_SYSTEM.close);
   if (modalBackdrop) modalBackdrop.addEventListener("click", SL_SYSTEM.close);
 
+  if (systemModal) {
+    systemModal.addEventListener("keydown", (event) => {
+      if (event.key === "Tab") {
+        const items = Array.from(modalFocusable()).filter(
+          (el) => el.getClientRects().length > 0,
+        );
+        if (!items.length) {
+          event.preventDefault();
+          return;
+        }
+        const first = items[0];
+        const last = items[items.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
+    });
+  }
+
   if (acceptQuestBtn) {
     acceptQuestBtn.addEventListener("click", () => {
       SL_SYSTEM.close();
@@ -835,15 +869,28 @@
   if (copyPortfolioBtn) {
     copyPortfolioBtn.addEventListener("click", async () => {
       const url = window.location.origin + window.location.pathname;
+      let copiado = false;
       try {
-        await navigator.clipboard.writeText(url);
+        if (navigator.clipboard?.writeText) {
+          await navigator.clipboard.writeText(url);
+          copiado = true;
+        } else {
+          const temp = document.createElement("textarea");
+          temp.value = url;
+          temp.setAttribute("readonly", "");
+          temp.style.position = "fixed";
+          temp.style.opacity = "0";
+          document.body.appendChild(temp);
+          temp.select();
+          copiado = document.execCommand("copy");
+          temp.remove();
+        }
       } catch (e) {
-        const temp = document.createElement("input");
-        temp.value = url;
-        document.body.appendChild(temp);
-        temp.select();
-        document.execCommand("copy");
-        temp.remove();
+        copiado = false;
+      }
+      if (!copiado) {
+        SL_SYSTEM.toast("[ NO SE PUDO COPIAR EL ENLACE ]");
+        return;
       }
       SL_AUDIO.play("reward");
       copyPortfolioBtn.classList.add("copied");
