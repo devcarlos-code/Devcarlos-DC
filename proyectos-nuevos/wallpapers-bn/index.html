@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080808">
+  <meta name="description" content="Colección estética de wallpapers minimalistas en blanco y negro para iPhone.">
+  <title>DC Wallpapers — DevCarlos</title>
+  <style>
+    :root{color-scheme:dark;--bg:#080808;--panel:#121212;--line:#292929;--muted:#a5a5a5;--white:#f7f7f7}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% 0%,#242424 0,transparent 48%),var(--bg);color:var(--white);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh}
+    header{display:flex;justify-content:space-between;align-items:center;padding:22px clamp(18px,5vw,64px);border-bottom:1px solid #ffffff12}
+    .brand{display:flex;gap:10px;align-items:center;font-size:.78rem;letter-spacing:.2em;font-weight:800}.mark{display:grid;place-items:center;width:36px;height:36px;border:1px solid #666;border-radius:50%;font-size:.75rem;letter-spacing:0}
+    a{color:inherit;text-decoration:none}.back{color:#bbb;font-size:.9rem}.back:hover{color:white}
+    main{width:min(980px,calc(100% - 36px));margin:0 auto;padding:64px 0 48px}
+    .eyebrow{color:#aaa;text-transform:uppercase;letter-spacing:.28em;font-size:.72rem}.hero{text-align:center;margin-bottom:38px}
+    h1{font-size:clamp(2.5rem,8vw,5.8rem);line-height:.95;letter-spacing:-.075em;margin:18px 0}
+    h1 span{color:#777}.intro{color:#b7b7b7;max-width:570px;margin:0 auto;line-height:1.75}
+    .frame{padding:10px;border:1px solid #333;border-radius:26px;background:linear-gradient(145deg,#1c1c1c,#090909);box-shadow:0 30px 100px #0009}
+    video{display:block;width:100%;max-height:72vh;aspect-ratio:9/16;object-fit:contain;background:#050505;border-radius:18px}
+    .missing{display:none;padding:26px;text-align:center;color:#bbb;line-height:1.6}.missing strong{color:white}
+    .controls{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;padding:18px 4px 4px}
+    .note{font-size:.85rem;color:#999}.download{display:inline-flex;align-items:center;justify-content:center;padding:12px 18px;border:1px solid #eee;border-radius:999px;color:#111;background:#f5f5f5;font-weight:750;font-size:.88rem;transition:transform .2s,background .2s}
+    .download:hover{transform:translateY(-2px);background:white}.features{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:24px}
+    .feature{padding:18px;border:1px solid var(--line);border-radius:16px;background:#ffffff04}.feature b{display:block;font-size:.88rem;margin-bottom:7px}.feature span{font-size:.8rem;color:#999;line-height:1.5}
+    footer{text-align:center;color:#777;font-size:.78rem;padding:20px;border-top:1px solid #ffffff10}
+    @media(max-width:600px){main{padding-top:42px}.features{grid-template-columns:1fr}.feature{padding:15px}.controls{align-items:flex-start;flex-direction:column}.download{width:100%}header{padding:16px 18px}}
+  </style>
+</head>
+<body>
+  <header><a class="brand" href="../../../index.html#proyectos"><span class="mark">DC</span><span>DEVCARLOS</span></a><a class="back" href="../../../index.html#proyectos">← Volver al portafolio</a></header>
+  <main>
+    <section class="hero"><p class="eyebrow">MONOCHROME COLLECTION · DC</p><h1>Less color.<br><span>More character.</span></h1><p class="intro">Wallpapers minimalistas en blanco y negro para darle a tu iPhone una estética limpia, oscura y atemporal.</p></section>
+    <section class="frame" aria-label="Vista previa de wallpapers">
+      <video id="wallpaper-video" controls playsinline loop preload="metadata" poster="../../../../assets/img/wallpapers-bn.svg">
+        <source src="wallpapers.mp4" type="video/mp4">
+        Tu navegador no admite video HTML5.
+      </video>
+      <div class="missing" id="missing"><strong>El video está listo para integrarse.</strong><br>Coloca el archivo original en esta carpeta con el nombre <code>wallpapers.mp4</code> para activar la reproducción.</div>
+      <div class="controls"><span class="note">Vista vertical · Blanco y negro · Estilo minimalista</span><a class="download" href="wallpapers.mp4" download>↓ Descargar video</a></div>
+    </section>
+    <section class="features" aria-label="Características"><div class="feature"><b>01 / Monocromático</b><span>Contraste clásico y estética limpia.</span></div><div class="feature"><b>02 / Formato móvil</b><span>Diseñado para una experiencia vertical.</span></div><div class="feature"><b>03 / Sin distracciones</b><span>Una presentación simple y centrada en el fondo.</span></div></section>
+  </main>
+  <footer>DC WALLPAPERS · Un proyecto de DevCarlos</footer>
+  <script>
+    const video=document.getElementById('wallpaper-video');
+    video.addEventListener('error',()=>{video.style.display='none';document.getElementById('missing').style.display='block';});
+  </script>
+</body>
+</html>
