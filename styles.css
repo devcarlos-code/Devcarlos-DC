@@ -3605,3 +3605,128 @@ dialog,
     display: none !important;
   }
 }
+
+/* FIX: modal del Sistema dentro del viewport real en móviles.
+   El ancho del diálogo no debe sumarse al padding del contenedor fixed. */
+html,
+body {
+  max-width: 100%;
+}
+
+.sl-modal {
+  width: 100%;
+  max-width: 100vw;
+  padding: 12px;
+  overflow: hidden;
+}
+
+.sl-modal-window {
+  width: min(100%, 560px);
+  min-width: 0;
+  max-width: 100%;
+  max-height: calc(100vh - 24px);
+  max-height: calc(100dvh - 24px);
+  overflow-x: clip;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  padding: clamp(18px, 4vw, 30px);
+}
+
+.sl-modal-header,
+.sl-modal-actions,
+.sl-quest-item,
+.sl-alert-box {
+  min-width: 0;
+  max-width: 100%;
+}
+
+#sl-modal-title,
+.sl-alert-title,
+.sl-alert-desc,
+.sl-quest-val,
+.sl-modal-actions .btn {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.sl-modal-actions .btn {
+  flex: 1 1 200px;
+  max-width: 100%;
+  white-space: normal;
+}
+
+@media (max-width: 600px) {
+  .sl-modal {
+    padding: 12px;
+    align-items: center;
+  }
+
+  .sl-modal-window {
+    width: 100%;
+    max-width: 560px;
+    max-height: calc(100vh - 24px);
+    max-height: calc(100dvh - 24px);
+    padding: 20px 18px;
+  }
+
+  .sl-modal-header {
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  #sl-modal-title {
+    font-size: clamp(0.9rem, 4vw, 1.15rem);
+    letter-spacing: 0.1em;
+  }
+
+  .sl-alert-box {
+    padding: 14px;
+    margin-bottom: 16px;
+  }
+
+  .sl-quest-details {
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .sl-modal-actions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .sl-modal-actions .btn {
+    flex: 0 1 auto;
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+    padding-inline: 12px;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+  }
+}
+
+@media (max-width: 380px) {
+  .sl-modal-window {
+    padding: 18px 14px;
+  }
+
+  .sl-modal-badge {
+    width: 28px;
+    height: 28px;
+  }
+
+  #sl-modal-title {
+    font-size: 0.86rem;
+    letter-spacing: 0.06em;
+  }
+
+  .sl-alert-title {
+    font-size: 0.88rem;
+    letter-spacing: 0.08em;
+  }
+
+  .sl-quest-label {
+    font-size: 0.75rem;
+  }
+}
