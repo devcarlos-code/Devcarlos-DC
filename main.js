@@ -195,9 +195,19 @@ function pintar(cat) {
   const visibles = PROYECTOS.filter(
     (p) => cat === "Todos" || p.categorias.includes(cat),
   );
-  visibles.forEach((p) => {
+  visibles.forEach((p, index) => {
     const card = document.createElement("article");
     card.className = "card";
+    card.dataset.projectIndex = String(index + 1).padStart(2, "0");
+    const media = document.createElement("div");
+    media.className = "card-media";
+    const indexBadge = Object.assign(document.createElement("span"), {
+      className: "card-index",
+      textContent: `PROYECTO ${String(index + 1).padStart(2, "0")}`,
+    });
+    const scanline = document.createElement("span");
+    scanline.className = "card-scanline";
+    scanline.setAttribute("aria-hidden", "true");
     const img = p.imagen
       ? Object.assign(document.createElement("img"), {
           src: p.imagen,
@@ -291,7 +301,8 @@ function pintar(cat) {
 
     actions.append(a, copyBtn);
     body.append(tags, h3, desc, actions);
-    card.append(img, body);
+    media.append(img, indexBadge, scanline);
+    card.append(media, body);
     grid.append(card);
     activarInclinacion(card);
     reveal(card);
