@@ -1,13 +1,15 @@
 # DC Wallpapers
 
-Página minimalista para presentar wallpapers estéticos en blanco y negro para iPhone.
+Creador de fondos de pantalla minimalistas en blanco y negro. Proyecto realizado íntegramente con HTML, CSS y JavaScript, sin videos, bibliotecas ni imágenes externas.
 
-## Archivos
-- `index.html`: página responsive con reproductor vertical.
-- `wallpapers.mp4`: video fuente esperado en esta carpeta.
-- `assets/img/wallpapers-bn.svg`: imagen de portada de la tarjeta del portafolio.
+## Funciones
+- Cuatro estilos visuales seleccionables.
+- Vista previa vertical adaptable a móviles.
+- Reloj y fecha en pantalla.
+- Generación y descarga local de wallpapers PNG de 1080 × 1920 píxeles mediante Canvas.
+- Diseño responsive y accesible.
 
-## Activar el video
-Copia el video original a esta carpeta y renómbralo como `wallpapers.mp4`. La página y el enlace de descarga ya apuntan a ese nombre.
+## Ejecutar
+Abre `index.html` en un navegador moderno. No requiere instalación, servidor ni dependencias.
 
-Proyecto del portafolio DevCarlos.
+La imagen de portada de la tarjeta está en `assets/img/wallpapers-bn.svg`.
