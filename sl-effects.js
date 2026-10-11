@@ -546,73 +546,6 @@
   });
 
   /* ============================================================
-     3. XP BAR & LEVEL SYSTEM — SCROLL BASED PROGRESSION
-     ============================================================ */
-  const xpFill = document.getElementById("xp-fill");
-  const xpPct = document.getElementById("xp-pct");
-  const xpLevel = document.getElementById("xp-level");
-
-  const LEVELS = [
-    { min: 0, lv: 1, label: "LV. 1  [ APRENDIZ ]" },
-    { min: 18, lv: 2, label: "LV. 2  [ DESARROLLADOR ]" },
-    { min: 36, lv: 3, label: "LV. 3  [ EXPERTO WEB ]" },
-    { min: 55, lv: 4, label: "LV. 4  [ HUNTER DE CÓDIGO ]" },
-    { min: 74, lv: 5, label: "LV. 5  [ SHADOW MONARCH ]" },
-    { min: 95, lv: 6, label: "LV. MAX [ ARISE ]" },
-  ];
-
-  let currentLv = 1;
-
-  function showLevelUpToast(label) {
-    let toast = document.querySelector(".sl-levelup-toast");
-    if (!toast) {
-      toast = document.createElement("div");
-      toast.className = "sl-levelup-toast";
-      document.body.appendChild(toast);
-    }
-    toast.textContent = `⬆ LEVEL UP! ${label}`;
-    toast.classList.add("show");
-    SL_AUDIO.play("levelup");
-    setTimeout(() => toast.classList.remove("show"), 3000);
-  }
-
-  function updateXP() {
-    const scrolled = window.scrollY;
-    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-    if (maxScroll <= 0) return;
-
-    const pct = Math.min(100, Math.round((scrolled / maxScroll) * 100));
-    const display = pct + "%";
-
-    if (xpFill) xpFill.style.width = display;
-    if (xpPct) xpPct.textContent = display;
-
-    let newLv = LEVELS[0];
-    for (const L of LEVELS) {
-      if (pct >= L.min) newLv = L;
-    }
-
-    if (newLv.lv !== currentLv) {
-      currentLv = newLv.lv;
-      if (xpLevel) {
-        xpLevel.textContent = newLv.label;
-        xpLevel.classList.remove("levelup");
-        void xpLevel.offsetWidth; // reflow
-        xpLevel.classList.add("levelup");
-        if (!prefersReduced.matches) showLevelUpToast(newLv.label);
-      }
-    }
-
-    if (xpPct) {
-      xpPct.style.color =
-        pct >= 95 ? "#fff" : pct >= 55 ? "var(--neon-bright)" : "var(--muted)";
-    }
-  }
-
-  window.addEventListener("scroll", updateXP, { passive: true });
-  updateXP();
-
-  /* ============================================================
      4. EPIC CARD UPGRADES (HD SCANLINES + ENERGY PULSE)
      ============================================================ */
   function upgradeCard(card) {
@@ -816,17 +749,8 @@
       }
       SL_AUDIO.play("click");
     },
-    toast: (msg) => {
-      let toast = document.querySelector(".sl-levelup-toast");
-      if (!toast) {
-        toast = document.createElement("div");
-        toast.className = "sl-levelup-toast";
-        document.body.appendChild(toast);
-      }
-      toast.textContent = msg;
-      toast.classList.add("show");
-      setTimeout(() => toast.classList.remove("show"), 3200);
-    },
+    // Notificaciones emergentes desactivadas.
+    toast: () => {},
   };
   window.SL_SYSTEM = SL_SYSTEM;
 
@@ -910,18 +834,6 @@
       SL_SYSTEM.close();
     }
   });
-
-  // Mostrar automáticamente al primer acceso
-  try {
-    if (!sessionStorage.getItem("sl-system-welcomed")) {
-      sessionStorage.setItem("sl-system-welcomed", "1");
-      setTimeout(() => {
-        if (!prefersReduced.matches) {
-          SL_SYSTEM.open();
-        }
-      }, 2400);
-    }
-  } catch (e) {}
 
   /* ============================================================
      8. SOLO LEVELING 3D SCROLL & DUNGEON GATE CONTROLLER
