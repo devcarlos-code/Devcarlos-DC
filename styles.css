@@ -4386,3 +4386,123 @@ body::before {
 @media (prefers-reduced-motion: reduce) {
   .quick-nav-link, .quick-nav-link small, .quick-nav-progress span { transition: none; }
 }
+
+
+/* ============================================================
+   COMPACT HERO — LESS VERTICAL SPACE
+   ============================================================ */
+.hero {
+  padding-top: clamp(28px, 4vw, 52px);
+  padding-bottom: clamp(28px, 4vw, 48px);
+}
+.hero .wrap {
+  gap: clamp(24px, 3.5vw, 42px);
+  padding: clamp(24px, 3.5vw, 38px) clamp(24px, 3.5vw, 42px);
+}
+.hero-content h1 {
+  max-width: 21ch;
+  font-size: clamp(2rem, 4.2vw, 3.05rem);
+  line-height: 1.08;
+  margin-block: 10px 14px;
+}
+.hero-content .lead {
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+.hero .row {
+  margin-top: 18px;
+  gap: 10px;
+}
+.hunter-profile { gap: 11px; }
+.avatar { width: 142px; height: 142px; }
+.hunter-gauges { max-width: 150px; }
+.hero-eyebrow { margin-bottom: 8px; }
+.system-status-tag {
+  margin-bottom: 6px;
+  padding: 6px 9px;
+  font-size: .72rem;
+}
+@media (max-width: 760px) {
+  .hero {
+    padding-top: 20px;
+    padding-bottom: 24px;
+  }
+  .hero .wrap {
+    display: grid;
+    grid-template-columns: 76px minmax(0, 1fr);
+    align-items: start;
+    gap: 12px;
+    padding: 18px 14px 16px;
+    text-align: left;
+  }
+  .hunter-profile {
+    grid-column: 1;
+    grid-row: 1;
+    gap: 0;
+    width: 76px;
+    align-items: center;
+  }
+  .avatar-frame { padding: 4px; }
+  .avatar { width: 68px; height: 68px; }
+  .avatar-glow-ring { filter: blur(5px); }
+  .rank-badge {
+    font-size: .52rem;
+    letter-spacing: .1em;
+    padding: 2px 6px;
+  }
+  .hunter-gauges { display: none; }
+  .hero-content {
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+    max-width: none;
+    text-align: left;
+  }
+  .hero-eyebrow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    font-size: .48rem;
+    letter-spacing: .07em;
+    line-height: 1.4;
+  }
+  .hero-eyebrow-line { width: 13px; }
+  .hero-eyebrow-code { margin-left: 0; }
+  .system-status-tag {
+    display: none;
+  }
+  .hero-content h1 {
+    max-width: none;
+    font-size: clamp(1.22rem, 5.3vw, 1.65rem);
+    line-height: 1.12;
+    letter-spacing: -.035em;
+    margin: 7px 0 9px;
+    overflow-wrap: anywhere;
+  }
+  .hero-content .lead {
+    font-size: .82rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+  .hero .row {
+    grid-column: 1 / -1;
+    justify-content: flex-start;
+    gap: 8px;
+    margin-top: 2px;
+  }
+  .hero .row .btn {
+    min-height: 38px;
+    padding: 9px 11px;
+    font-size: .76rem;
+  }
+  .hero .row .quest-trigger {
+    flex-basis: 100%;
+  }
+}
+@media (max-width: 380px) {
+  .hero .wrap { grid-template-columns: 62px minmax(0, 1fr); gap: 10px; }
+  .hunter-profile { width: 62px; }
+  .avatar { width: 56px; height: 56px; }
+  .hero-content h1 { font-size: 1.18rem; }
+  .hero-content .lead { font-size: .78rem; }
+}
