@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Un viaje visual por el espacio, con una atmósfera cósmica y escenas astronómicas." />
+    <meta name="theme-color" content="#080b12" />
+    <title>Órbita Solar — Video HD | DevCarlos</title>
+    <link rel="stylesheet" href="../video-pages.css?v=quest-frame-1" />
+  </head>
+  <body data-theme="astronomy">
+    <header class="site-header">
+      <a class="brand" href="../../../index.html#proyectos" aria-label="DevCarlos, volver a proyectos">
+        <span class="brand-mark" aria-hidden="true">DC</span>
+        <span>DEVCARLOS</span>
+      </a>
+      <a class="back-link" href="../../../index.html#proyectos">Volver al portafolio</a>
+    </header>
+    <main>
+      <section class="welcome" id="welcome" aria-labelledby="page-title">
+        <p class="eyebrow">QUEST INFO</p>
+        <p class="quest-intro">[ Explora una nueva perspectiva del universo. ]</p>
+        <div class="goal-block">
+          <p class="section-label">OBJETIVO</p>
+          <h1 id="page-title">Órbita Solar</h1>
+          <p class="description">Un viaje visual por el espacio, con una atmósfera cósmica y escenas astronómicas.</p>
+        </div>
+        <p class="quest-warning">
+          <strong>AVISO:</strong> El video se reproducirá con su audio original. Usa los controles para pausar o ajustar el volumen.
+        </p>
+        <div class="welcome-footer">
+          <button class="play-button" id="play-video" type="button">
+            <span class="play-icon" aria-hidden="true">▶</span>
+            <span>Ver video</span>
+          </button>
+          <span class="hint">Activa el sonido y disfruta el clip.</span>
+        </div>
+      </section>
+      <section class="player-panel" id="player-panel" aria-label="Reproductor de Órbita Solar" hidden>
+        <div class="player-topline">
+          <h2 class="player-title">Órbita Solar</h2>
+          <span class="live-label" id="playback-label">Listo para reproducir</span>
+        </div>
+        <video id="video" controls playsinline preload="metadata" loop>
+          <source src="video.mp4" type="video/mp4" />
+          Tu navegador no admite la reproducción de video HTML5.
+        </video>
+        <p class="playback-status" id="playback-status" role="status" aria-live="polite"></p>
+      </section>
+    </main>
+    <script src="../video-player.js?v=quest-frame-1" defer></script>
+  </body>
+</html>
