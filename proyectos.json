@@ -152,7 +152,7 @@
   {
     "titulo": "Agujero Negro 360°",
     "descripcion": "Recreación monocromática interactiva inspirada en la referencia, con luz deformada, horizonte oscuro y cámara orbital 360°.",
-    "imagen": "assets/img/agujero-negro.svg",
+    "imagen": "assets/img/black-hole.jpg",
     "ruta": "proyectos-nuevos/agujero-negro/index.html",
     "categorias": [
       "Interactivos",
