@@ -5,7 +5,8 @@
     "imagen": "assets/img/3.jpg",
     "ruta": "proyectos-nuevos/sistema-solar/index.html",
     "categorias": [
-      "Interactivos"
+      "Interactivos",
+      "Proyectos"
     ]
   },
   {
@@ -146,7 +147,8 @@
     "imagen": "assets/magico.jpg",
     "ruta": "proyectos-nuevos/Círculo Mágico/index.html",
     "categorias": [
-      "Interactivos"
+      "Interactivos",
+      "Proyectos"
     ]
   },
   {
@@ -156,7 +158,8 @@
     "ruta": "proyectos-nuevos/agujero-negro/index.html",
     "categorias": [
       "Interactivos",
-      "Espacio"
+      "Espacio",
+      "Proyectos"
     ]
   },
   {
@@ -185,7 +188,7 @@
       "imagen": "assets/img/negro.jpg",
       "ruta": "proyectos-nuevos/Abismo/index.html",
       "categorias": [
-        "Interactivos"
+        "Proyectos"
       ]
   }
 ]
