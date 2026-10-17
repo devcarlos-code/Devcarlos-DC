@@ -178,5 +178,14 @@
       "Videos",
       "Espacio"
     ]
+  },
+  {
+      "titulo": "Abismo",
+      "descripcion": "Animación interactiva de un agujero negro con partículas, destellos y música.",
+      "imagen": "assets/img/negro.jpg",
+      "ruta": "proyectos-nuevos/abismo/index.html",
+      "categorias": [
+        "Interactivos"
+      ]
   }
 ]
